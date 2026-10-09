@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="用積木學寫程式：帶機器人小方在 3D 方塊世界挖寶石，並對照 JavaScript 與 Python 程式碼。">
-<title>方塊礦工程式課</title>
+<meta name="description" content="方碼工坊：用積木學寫程式的 3D 方塊世界課程，15 關加上自由建造，可切換中英文。Cubewright Code Lab: a block coding course in a 3D block world, in Chinese and English.">
+<title>方碼工坊</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700;900&family=Silkscreen:wght@400;700&display=swap">
 <style>
@@ -15,7 +15,7 @@
   --frame:#1E2721; --frame-line:#34413A;
   --code-bg:#18211C; --code-fg:#DCE6DE; --code-dim:#6E8275; --c-kw:#E59BD8; --c-fn:#8CC8FF; --c-num:#F6C177; --c-const:#7FE0B5; --c-var:#DCE6DE;
   --dot:#C9D6C5;
-  --b-move:#2F6FD6; --b-turn:#6A55C9; --b-loop:#1E8F54; --b-build:#C26A1A; --b-logic:#0F7E86;
+  --b-move:#2F6FD6; --b-turn:#6A55C9; --b-loop:#1E8F54; --b-build:#C26A1A; --b-logic:#0F7E86; --b-var:#B8387E;
   --f-display:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
   --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --f-pixel:"Silkscreen","Courier New",monospace;
@@ -44,12 +44,18 @@ button{cursor:pointer}
 .brand canvas{width:40px;height:40px;image-rendering:pixelated}
 .brand h1{font-family:var(--f-display);font-weight:900;font-size:1.45rem;margin:0;line-height:1.2;letter-spacing:.02em}
 .brand p{margin:0;color:var(--muted);font-size:.85rem}
-.levels{display:flex;flex-wrap:wrap;gap:6px}
-.lv{width:46px;height:50px;border:2px solid var(--line);background:var(--surface);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0}
+.levels{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.ch-gap{width:6px}
+.lv{width:40px;height:48px;border:2px solid var(--line);background:var(--surface);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0}
 .lv b{font-family:var(--f-pixel);font-size:1.05rem;line-height:1}
 .lv i{font-style:normal;font-size:.62rem;letter-spacing:-1px;color:var(--gold);min-height:.9em;line-height:1}
 .lv.cur{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
-@media (max-width:440px){.levels{gap:4px}.lv{width:calc((100vw - 32px - 24px)/7);height:44px}}
+.lv.wide{width:auto;padding:0 12px}
+.lv .bn{font-family:var(--f-body);font-size:.9rem;font-weight:900}
+.examples{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:700;font-size:.9rem}
+.ex-btn{padding:4px 12px;font-size:.85rem}
+.ex-btn.warn{border-color:var(--warn);color:var(--warn)}
+@media (max-width:440px){.levels{gap:4px}.ch-gap{width:4px}.lv{width:38px;height:44px}}
 .lv.cur i{color:var(--accent-ink)}
 
 .layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
@@ -100,6 +106,7 @@ details.hint p{margin:6px 0 0;max-width:62ch}
 .btn.primary.stop{background:var(--warn);border-color:var(--warn);color:#fff}
 .btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
 .toolbar .spacer{flex:1}
+.lang-btn{padding:5px 12px;font-size:.85rem;margin-left:6px;align-self:center;white-space:nowrap;flex:none}
 .count{font-size:.85rem;color:var(--muted)}
 .count b{color:var(--ink);font-variant-numeric:tabular-nums}
 
@@ -117,7 +124,7 @@ details.hint p{margin:6px 0 0;max-width:62ch}
 /* blocks */
 .blk{position:relative;color:#fff;font-weight:700;font-size:.88rem;border-radius:4px;padding:7px 10px 7px 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;line-height:1.3;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
 .blk::after{content:"";position:absolute;left:14px;bottom:-5px;width:16px;height:6px;background:inherit;border-radius:0 0 3px 3px;z-index:1}
-.c-move{background:var(--b-move)} .c-turn{background:var(--b-turn)} .c-loop{background:var(--b-loop)} .c-build{background:var(--b-build)} .c-logic{background:var(--b-logic)}
+.c-move{background:var(--b-move)} .c-turn{background:var(--b-turn)} .c-loop{background:var(--b-loop)} .c-build{background:var(--b-build)} .c-logic{background:var(--b-logic)} .c-var{background:var(--b-var)}
 .blk select{background:rgba(255,255,255,.95);color:#17231B;border:0;border-radius:10px;padding:1px 6px;font-weight:700;font-size:.85rem}
 .blk .ico{font-family:var(--f-pixel);opacity:.9}
 
@@ -169,11 +176,12 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
     <div class="brand">
       <canvas id="logo" width="16" height="16" aria-hidden="true"></canvas>
       <div>
-        <h1>方塊礦工程式課</h1>
-        <p>拼積木、看程式碼，帶機器人「小方」挖寶石</p>
+        <h1 data-i18n="title">方碼工坊</h1>
+        <p data-i18n="subtitle">拼積木、看程式碼，帶機器人「比維」挖寶石、蓋房子</p>
       </div>
+      <button class="btn lang-btn" id="langBtn" lang="en">English</button>
     </div>
-    <nav class="levels" id="levels" aria-label="關卡"></nav>
+    <nav class="levels" id="levels" aria-label="關卡" data-i18n-aria="levelsAria"></nav>
   </header>
 
   <main class="layout">
@@ -181,34 +189,35 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
       <article class="lesson" id="lesson"></article>
       <div class="world">
         <div class="canvas-box" id="canvasBox">
-          <canvas id="world" aria-label="3D 方塊世界地圖"></canvas>
-          <div class="view-ctl"><button id="rotL" aria-label="向左旋轉視角">↺</button><button id="rotR" aria-label="向右旋轉視角">↻</button></div>
-          <span class="drag-tip">左右拖曳可旋轉視角</span>
+          <canvas id="world" aria-label="3D 方塊世界地圖" data-i18n-aria="worldAria"></canvas>
+          <div class="view-ctl"><button id="rotL" aria-label="向左旋轉視角" data-i18n-aria="rotL">↺</button><button id="rotR" aria-label="向右旋轉視角" data-i18n-aria="rotR">↻</button><button id="zoomIn" aria-label="放大" data-i18n-aria="zoomIn">＋</button><button id="zoomOut" aria-label="縮小" data-i18n-aria="zoomOut">－</button></div>
+          <span class="drag-tip" data-i18n="dragTip">左右拖曳可旋轉視角</span>
           <div class="result" id="result" hidden></div>
         </div>
         <div class="hud">
-          <span>寶石 <b id="hGem">0/0</b></span>
-          <span>步數 <b id="hStep">0</b></span>
-          <span>木頭 <b id="hWood">0</b></span>
+          <span><span data-i18n="gems" id="hGemLbl">寶石</span> <b id="hGem">0/0</b></span>
+          <span><span data-i18n="steps">步數</span> <b id="hStep">0</b></span>
+          <span><span data-i18n="wood" id="hWoodLbl">木頭</span> <b id="hWood">0</b></span>
+          <span id="hVars" hidden><span data-i18n="vars">變數</span> <b id="hVarVal"></b></span>
         </div>
         <div class="status" id="status" aria-live="polite"></div>
       </div>
     </section>
 
-    <section class="bench" aria-label="程式工作台">
+    <section class="bench" aria-label="程式工作台" data-i18n-aria="benchAria">
       <div class="toolbar">
         <button class="btn primary" id="runBtn">▶ 執行</button>
-        <button class="btn" id="resetBtn">重設地圖</button>
-        <button class="btn" id="clearBtn">清空積木</button>
-        <button class="btn" id="speedBtn" aria-pressed="false">快轉 ×2</button>
+        <button class="btn" id="resetBtn" data-i18n="reset">重設地圖</button>
+        <button class="btn" id="clearBtn" data-i18n="clear">清空積木</button>
+        <button class="btn" id="speedBtn" aria-pressed="false">速度：一般</button>
         <span class="spacer"></span>
-        <span class="count">積木 <b id="bCount">0</b> 塊</span>
+        <span class="count"><span data-i18n="blocksPre">積木</span> <b id="bCount">0</b> <span data-i18n="blocksPost">塊</span></span>
       </div>
       <div class="bench-grid">
         <div class="palette" id="palette"></div>
         <div class="program-area">
           <div class="prog-head">
-            <p class="prog-title">我的程式</p>
+            <p class="prog-title" data-i18n="myProgram">我的程式</p>
             <span class="challenge" id="challenge"></span>
           </div>
           <div id="program"></div>
@@ -218,96 +227,338 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
         <div class="tabs" role="tablist">
           <button class="tab" role="tab" id="tab-js" aria-selected="true">JavaScript</button>
           <button class="tab" role="tab" id="tab-py" aria-selected="false">Python</button>
-          <span class="note">積木會自動翻成程式碼</span>
+          <span class="note" data-i18n="codeNote">積木會自動翻成程式碼</span>
         </div>
         <pre class="src" id="src"></pre>
       </div>
     </section>
   </main>
-  <p class="foot-note">點左側「積木箱」把積木加入程式；虛線框標示新積木會放在哪裡。進度只存在這台裝置的瀏覽器裡。</p>
+  <p class="foot-note" data-i18n="footNote">點左側「積木箱」把積木加入程式；虛線框標示新積木會放在哪裡。進度只存在這台裝置的瀏覽器裡。</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (()=>{
 /* ---------- levels ---------- */
+const PB=["forward","left","right","up","down","build","digAt","repeat","setVar","changeVar","forwardV"];
+const BUILD_MAP=Array.from({length:14},(_,y)=>Array.from({length:14},(_,x)=>x===4&&y===4?"R":".").join(""));
+const P1=["forward"],P2=[...P1,"left","right"],P3=[...P2,"repeat"],P4=[...P3,"place"],P5=[...P4,"dig"],P6=[...P5,"if"],P7=[...P6,"setVar","changeVar","forwardV"];
 const LEVELS=[
- {name:"第一步",concept:"序列",palette:["forward"],dir:1,optimal:3,
+ {ch:"基礎",name:"第一步",concept:"序列",palette:P1,dir:1,optimal:3,
   map:["TTTTTTT","T.....T","TR..G.T","T.....T","TTTTTTT"],
-  goal:"讓小方走到寶石上",
-  explain:"程式是一串照順序執行的指令。小方會從最上面的積木開始，一塊一塊往下做。",
+  goal:"讓比維走到寶石上",
+  explain:"程式是一串照順序執行的指令。比維會從最上面的積木開始，一塊一塊往下做。",
   hint:"寶石在正前方 3 格。放 3 塊「前進 1 格」就到了。",
   code:"每一塊積木都對應一行程式，例如「前進」就是 robot.forward()。"},
- {name:"轉個彎",concept:"方向",palette:["forward","left","right"],dir:1,optimal:7,
+ {ch:"基礎",name:"轉個彎",concept:"方向",palette:P2,dir:1,optimal:8,
   map:["TTTTTTT","TR..TTT","TTT.TTT","TTT..GT","TTTTTTT"],
   goal:"沿著小路轉彎，拿到寶石",
-  explain:"轉向只會改變小方面對的方向，不會移動位置。看清楚小方的眼睛朝哪邊，再決定往左或往右。",
+  explain:"轉向只會改變比維面對的方向，不會移動位置。看清楚比維的眼睛朝哪邊，再決定往左或往右。",
   hint:"前進 2、右轉、前進 2、左轉、前進 2。",
   code:"轉向用 robot.turn(LEFT) 或 robot.turn(RIGHT)，括號裡的值叫做「參數」。"},
- {name:"長長的走廊",concept:"迴圈",palette:["forward","left","right","repeat"],dir:1,optimal:2,
+ {ch:"基礎",name:"之字山路",concept:"方向",palette:P2,dir:1,optimal:9,
+  map:["TTTTTT","TR.TTT","TT.GTT","TTT.GT","TTTTTT"],
+  goal:"左右交替轉彎，拿到 2 顆寶石",
+  explain:"這條路一下往右、一下往左。轉向之前先想：比維現在面向哪裡？轉完之後會面向哪裡？",
+  hint:"前進、右轉、前進、左轉，這四步重複兩次，最後再前進一格。",
+  code:"記下你用了幾塊積木。下一章學會迴圈後，可以用更少的積木走類似的路。"},
+ {ch:"迴圈",name:"長長的走廊",concept:"迴圈",palette:P3,dir:1,optimal:2,
   map:["WWWWWWWWWW","TTTTTTTTTT","TR......GT","TTTTTTTTTT","WWWWWWWWWW"],
   goal:"走過 7 格長的走廊",challenge:"挑戰：只用 2 塊積木",
   explain:"同一件事要做很多次時，用「重複」積木把它包起來，就不用一直複製貼上。這就是迴圈。",
   hint:"先加入「重複」，再點它裡面的虛線框，放進「前進」，次數改成 7。",
   code:"JavaScript 用 for 迴圈，Python 用 for i in range(7)，意思都是做 7 次。"},
- {name:"搭一座橋",concept:"建造",palette:["forward","left","right","repeat","place"],dir:1,optimal:5,
+ {ch:"迴圈",name:"樓梯小徑",concept:"迴圈",palette:P3,dir:1,optimal:5,
+  map:["TTTTTTTT","TR.TTTTT","TT.GTTTT","TTT..TTT","TTTT.GTT","TTTTTGTT","TTTTTTTT"],
+  goal:"走下長長的階梯，收集 3 顆寶石",challenge:"挑戰：5 塊積木內完成",
+  explain:"這段路跟「之字山路」很像，只是更長。找出一直重複的那一小段動作，把它放進迴圈。",
+  hint:"重複 4 次：前進、右轉、前進、左轉。",
+  code:"迴圈裡可以放好幾塊積木，它們會照順序一起被重複。"},
+ {ch:"建造與挖掘",name:"搭一座橋",concept:"建造",palette:P4,dir:1,optimal:5,
   map:["WWWWWWWWW","WR.WWWWGW","WWWWWWWWW"],
   goal:"在水面上鋪路，走到對岸",challenge:"挑戰：5 塊積木內完成",
-  explain:"小方不會游泳。「放方塊」會在正前方的水面鋪一塊木板，鋪好才能走過去。",
+  explain:"比維不會游泳。「放方塊」會在正前方的水面鋪一塊木板，鋪好才能走過去。",
   hint:"先前進 1 格，然後重複 4 次「放方塊 → 前進」，最後再前進 1 格。",
-  code:"robot.place(FORWARD) 會在前方放下方塊。迴圈裡可以放好幾行程式。"},
- {name:"清出小路",concept:"挖掘",palette:["forward","left","right","repeat","place","dig"],dir:1,optimal:4,
+  code:"robot.place(FORWARD) 會在前方放下方塊。"},
+ {ch:"建造與挖掘",name:"岩漿河",concept:"建造",palette:P4,dir:1,optimal:5,
+  map:["LLLLL","LRL.L","LLLLL","LLLGL","LLLLL"],
+  goal:"鋪路越過兩段岩漿，拿到寶石",challenge:"挑戰：5 塊積木內完成",
+  explain:"方塊也能鋪在岩漿上。注意：如果對著草地放方塊，會變成一顆擋路的石頭。",
+  hint:"重複 2 次：放方塊、前進、前進、向右轉。",
+  code:"同一段程式碰到不同地點也能用，前提是每次的情況都一樣。"},
+ {ch:"建造與挖掘",name:"清出小路",concept:"挖掘",palette:P5,dir:1,optimal:4,
   map:["WWWWWWWWW","WR.T.T.GW","WWWWWWWWW"],
   goal:"把擋路的樹挖掉，拿到寶石",challenge:"挑戰：4 塊積木內完成",
   explain:"樹木會擋住去路。「挖掘」會把正前方的方塊挖掉並收集起來；前面是空地時，挖掘不會有任何效果。",
   hint:"找出重複的規律：前進、挖掘、前進。把這三塊放進「重複 3 次」。",
   code:"robot.dig(FORWARD) 挖前方。找出規律再用迴圈，是寫程式最重要的習慣之一。"},
- {name:"看情況做事",concept:"條件",palette:["forward","left","right","repeat","place","dig","if"],dir:1,optimal:6,
+ {ch:"建造與挖掘",name:"石頭礦坑",concept:"挖掘",palette:P5,dir:1,optimal:7,
+  map:["SSSSSSS","SRSSSSS","SSSSSSS","SSSSSSS","SSSSGSS","SSSSSSS"],
+  goal:"一路挖穿石頭，找到藏在深處的寶石",challenge:"挑戰：7 塊積木內完成（高手可試 5 塊）",
+  explain:"比維被石頭包圍了，每走一步都得先挖。先往東挖 3 格，再往南挖 3 格。",
+  hint:"重複 3 次「挖掘、前進」，向右轉，再重複 3 次「挖掘、前進」。",
+  code:"兩段一模一樣的迴圈，其實還能再包進另一個迴圈裡。第 12 關會正式學到。"},
+ {ch:"條件與巢狀",name:"看情況做事",concept:"條件",palette:P6,dir:1,optimal:6,
   map:["WWWWWWWWWWWW","WR.TW.TWW.GW","WWWWWWWWWWWW"],
-  goal:"路上有樹也有水，讓小方自己判斷",challenge:"挑戰：6 塊積木內完成",
-  explain:"「如果」積木會先檢查前方是什麼，條件成立才執行裡面的積木。搭配迴圈，小方就能應付不同的路況。",
+  goal:"路上有樹也有水，讓比維自己判斷",challenge:"挑戰：6 塊積木內完成",
+  explain:"「如果」積木會先檢查前方是什麼，條件成立才執行裡面的積木。搭配迴圈，比維就能應付不同的路況。",
   hint:"重複 9 次：如果前方是樹木就挖掘、如果前方是水就放方塊、然後前進。",
   code:"if 是條件判斷。== 用來比較兩個值是否相等，和 = 的「指定」意思不同。"},
- {name:"繞場一圈",concept:"巢狀迴圈",palette:["forward","left","right","repeat","place","dig","if"],dir:1,optimal:4,
+ {ch:"條件與巢狀",name:"沿著牆走",concept:"條件",palette:P6,dir:1,optimal:4,
+  map:["TTTTTTT","TR.G..T","TTTTT.T","TG.G..T","TTTTTTT"],
+  goal:"走到路的盡頭，收集 3 顆寶石",challenge:"挑戰：4 塊積木內完成",
+  explain:"這次不用自己數哪裡轉彎。讓比維每走一步前先看看：前面被擋住就右轉。",
+  hint:"重複 10 次：如果前方是障礙物就向右轉，然後前進。",
+  code:"robot.blocked(FORWARD) 會回傳 true 或 false，這種只有「是／否」的值叫做布林值。"},
+ {ch:"條件與巢狀",name:"繞場一圈",concept:"巢狀迴圈",palette:P6,dir:1,optimal:4,
   map:["TTTTTT","TR.G.T","TGTT.T","T.TTGT","T.G..T","TTTTTT"],
   goal:"沿著外圈走，收集 4 顆寶石",challenge:"挑戰：4 塊積木內完成",
   explain:"迴圈裡面還可以再放迴圈。外層迴圈管「四個邊」，內層迴圈管「每一邊走幾步」。",
   hint:"重複 4 次 { 重複 3 次 { 前進 }、向右轉 }。",
-  code:"兩層迴圈要用不同的變數名稱，所以外層用 i、內層用 j。"}
+  code:"兩層迴圈要用不同的變數名稱，所以外層用 i、內層用 j。"},
+ {ch:"變數",name:"認識變數",concept:"變數",palette:P7,dir:1,optimal:4,vars:true,
+  map:["WWWWWWW","WR...GW","WWWWW.W","WWWWW.W","WWWWW.W","WWWWWGW","WWWWWWW"],
+  goal:"用同一個變數決定兩段路的長度",challenge:"挑戰：4 塊積木內完成",
+  explain:"變數就像一個貼了名字的盒子，裡面可以放數字。先把「步數」設成 4，之後「前進 步數 格」就會走 4 格。想改距離時，只要改一個地方。",
+  hint:"設定 步數 為 4 → 前進 步數 格 → 向右轉 → 前進 步數 格。",
+  code:"let steps = 4 建立一個叫 steps 的變數並放入 4。之後寫 steps，就會拿出裡面的值。"},
+ {ch:"變數",name:"越走越遠",concept:"變數",palette:P7,dir:1,optimal:5,vars:true,
+  map:["TTTTTTTT","T.....GT","T.TTTTTT","TGTR.TTT","T.TT.TTT","T...GTTT","TTTTTTTT"],
+  goal:"沿著向外打開的螺旋，收集 3 顆寶石",challenge:"挑戰：5 塊積木內完成",
+  explain:"螺旋每一邊都比上一邊多 1 格。變數的值可以在程式執行時改變，正好用來記錄「這一邊要走幾格」。",
+  hint:"設定 步數 為 1，然後重複 5 次：前進 步數 格、向右轉、把 步數 增加 1。",
+  code:"steps += 1 是 steps = steps + 1 的簡寫：拿出舊的值、加 1、再放回去。"},
+ {ch:"變數",name:"螺旋寶庫",concept:"變數＋巢狀",palette:P7,dir:1,optimal:6,vars:true,
+  map:["TTTTTTT","TR...GT","TTG.G.T","TT.G..T","TT.GG.T","TTG..GT","TTTTTTT"],
+  goal:"由外往內繞螺旋，收集全部 8 顆寶石",challenge:"挑戰：6 塊積木內完成",
+  explain:"這次螺旋越來越小：每轉兩個彎，邊長就少 1 格。把變數、巢狀迴圈和「增加負數」組合起來。",
+  hint:"設定 步數 為 4。重複 4 次 { 重複 2 次 { 前進 步數 格、向右轉 }、把 步數 增加 -1 }。",
+  code:"steps -= 1 讓變數變小。變數也可以拿來當迴圈的次數，例如 for i in range(steps)。"},
+ {ch:"創意建造",name:"自由建造",concept:"創作",palette:PB,dir:1,optimal:0,vars:true,build:true,map:BUILD_MAP,
+  goal:"用程式從空地蓋出房屋或城堡",
+  explain:"這裡沒有寶石，只有一大片空地和 9 種材質。比維可以往上飛，用「在下方放方塊」一邊走一邊鋪，一層一層往上蓋。先載入範例看看程式怎麼寫，再改成你自己的設計。",
+  hint:"蓋一圈牆的寫法：重複 4 次 { 重複 4 次 { 在下方放木板、前進 }、向右轉 }。蓋完一圈後「往上移動」，再蓋下一圈。",
+  code:"robot.place(DOWN, PLANK) 的第二個參數決定材質。把同一段程式包進迴圈，就能蓋出好幾層。"}
 ];
 
 const BLOCKS={
   forward:{cat:"move",label:"前進 1 格",ico:"▲"},
+  forwardV:{cat:"move",label:"前進 _ 格",ico:"▲"},
   left:{cat:"turn",label:"向左轉",ico:"↺"},
   right:{cat:"turn",label:"向右轉",ico:"↻"},
   place:{cat:"build",label:"在前方放方塊",ico:"■"},
   dig:{cat:"build",label:"挖掉前方方塊",ico:"⛏"},
   repeat:{cat:"loop",label:"重複 _ 次",ico:"⟳"},
-  if:{cat:"logic",label:"如果前方是 _",ico:"?"}
+  if:{cat:"logic",label:"如果前方是 _",ico:"?"},
+  setVar:{cat:"var",label:"設定變數",ico:"="},
+  changeVar:{cat:"var",label:"改變變數",ico:"±"},
+  up:{cat:"move",ico:"⤒"},down:{cat:"move",ico:"⤓"},
+  build:{cat:"build",ico:"■"},digAt:{cat:"build",ico:"⛏"}
 };
+const MATS=["plank","stone","brick","plaster","glass","roof","log","leaves","gold"];
+const MATCODE={plank:"PLANK",stone:"STONE_BRICK",brick:"BRICK",plaster:"PLASTER",glass:"GLASS",roof:"ROOF_TILE",log:"LOG",leaves:"LEAVES",gold:"GOLD"};
 const CONDS={tree:"樹木",water:"水",blocked:"障礙物"};
+const VARNAMES={steps:"步數",count:"次數"};
+
+/* ---------- language ---------- */
+const STR={
+ zh:{title:"方碼工坊",subtitle:"拼積木、看程式碼，帶機器人「比維」挖寶石、蓋房子",levelsAria:"關卡",worldAria:"3D 方塊世界地圖",
+  rotL:"向左旋轉視角",rotR:"向右旋轉視角",dragTip:"左右拖曳可旋轉視角",gems:"寶石",steps:"步數",wood:"木頭",vars:"變數",
+  benchAria:"程式工作台",run:"▶ 執行",stop:"■ 停止",reset:"重設地圖",clear:"清空積木",speed:"快轉 ×2",blocksPre:"積木",blocksPost:"塊",
+  myProgram:"我的程式",toolbox:"積木箱",codeNote:"積木會自動翻成程式碼",
+  footNote:"點左側「積木箱」把積木加入程式；虛線框標示新積木會放在哪裡。進度只存在這台裝置的瀏覽器裡。",
+  langBtn:"English",
+  tooMany:"步數太多了，檢查一下迴圈次數吧",splash:"撲通！比維掉進水裡了。試試先放方塊鋪路。",lava:"比維踩到岩漿了！",
+  blocked:t=>`前面有${t}擋住，比維撞到了。`,tile_T:"樹",tile_S:"石頭",tile_W:"水",tile_L:"岩漿",tile_wall:"牆",
+  repeatTooMany:n=>`重複 ${n} 次太多了，檢查一下變數的值。`,negative:(v,n)=>`${v} 現在是 ${n}，不能前進負數格。`,
+  stopped:"已停止",addFirst:"先從積木箱加入積木吧。",running:"執行中…",error:"程式出錯了",
+  leftGems:n=>`程式跑完了，但還有 ${n} 顆寶石沒拿到。`,done:n=>`完成！用了 ${n} 塊積木。`,
+  best:"積木數量達到最佳解，太厲害了！",tryBest:n=>`最佳解只要 ${n} 塊積木，再挑戰看看？`,
+  allDone:"全部關卡完成！",passed:"過關！",again:"再玩一次",next:"下一關 →",passAria:"過關",starsAria:n=>`${n} 顆星`,
+  lvTitle:(ch,i,name)=>`${ch}・第 ${i} 關：${name}`,goal:"目標：",hint:"需要提示？",codeTip:"程式碼小知識：",
+  repeatAria:"重複次數",condAria:"條件",varAria:"變數",valAria:"數值",
+  repeatLbl:x=>`重複 ${x} 次`,ifLbl:x=>`如果前方是 ${x} 就`,setLbl:(v,n)=>`設定 ${v} 為 ${n}`,changeLbl:(v,n)=>`把 ${v} 增加 ${n}`,fwdV:v=>`前進 ${v} 格`,varPh:"變數",
+  b_forward:"前進 1 格",b_left:"向左轉",b_right:"向右轉",b_place:"在前方放方塊",b_dig:"挖掉前方方塊",
+  slotOn:"▸ 新積木會放在這裡",slotOff:"＋ 放到這裡",up:"往上移",del:"刪除",startCap:"當 ▶ 按下",
+  emptyTip:"點左邊的積木，它會接到「當 ▶ 按下」下面。",
+  codeHead:(i,name)=>`第 ${i} 關：${name}`,codeEmpty:"加入積木後，程式碼會出現在這裡",
+  mapReset:"地圖已重設。",cleared:"積木已清空。",no3d:"這台裝置無法顯示 3D 畫面，請改用較新的瀏覽器。",
+  example:"範例：程式裡已經有 1 塊「前進」，再加 2 塊然後按 ▶ 執行。",
+  cond_tree:"樹木",cond_water:"水",cond_blocked:"障礙物",var_steps:"步數",var_count:"次數",
+  placed:"方塊",height:"高度",edge:"前面是場地邊界，比維不能出去。",tooHigh:"太高了！比維最多只能飛到 12 格高。",
+  blockedUp:"上方有方塊擋住了。",blockedDown:"下方有方塊，不能往下。",onGround:"比維已經在地面上了。",
+  noRoomBelow:"比維站在地面上，下方沒有空間。先往上移動一格。",tile_block:"方塊",
+  buildDone:n=>`建造完成！場上共有 ${n} 個方塊。拖曳畫面，從不同角度看看吧。`,
+  b_up:"往上移動",b_down:"往下移動",buildLbl:(d,m)=>`在 ${d} 放 ${m}`,digAtLbl:d=>`挖掉 ${d} 的方塊`,dirAria:"方向",matAria:"材質",
+  dir_down:"下方",dir_forward:"前方",mat_stone:"石磚",mat_plank:"木板",mat_brick:"紅磚",mat_plaster:"白牆",mat_glass:"玻璃",
+  mat_roof:"屋瓦",mat_log:"原木",mat_leaves:"樹葉",mat_gold:"金塊",
+  examplesLbl:"載入範例：",ex_cabin:"小木屋",ex_tower:"城堡塔樓",ex_pyramid:"階梯金字塔",ex_blank:"空白開始",
+  confirmReplace:"再按一次確認取代",exLoaded:n=>`已載入「${n}」，按 ▶ 執行看它蓋起來。`,buildNav:"建造",
+  speed_0:"速度：一般",speed_1:"速度：快",speed_2:"速度：超快",zoomIn:"放大",zoomOut:"縮小",
+  buildEach:"每次執行都會從空地重新開始蓋。程式會自動存在這個瀏覽器裡。"},
+ en:{title:"Cubewright Code Lab",subtitle:"Snap blocks, read real code, and help Bitwick the robot find gems and build",levelsAria:"Levels",worldAria:"3D block world",
+  rotL:"Rotate view left",rotR:"Rotate view right",dragTip:"Drag sideways to rotate",gems:"Gems",steps:"Steps",wood:"Wood",vars:"Variables",
+  benchAria:"Coding workbench",run:"▶ Run",stop:"■ Stop",reset:"Reset map",clear:"Clear blocks",speed:"Speed ×2",blocksPre:"Blocks:",blocksPost:"",
+  myProgram:"My program",toolbox:"Toolbox",codeNote:"Blocks turn into code automatically",
+  footNote:"Tap a block in the Toolbox to add it. The dashed box shows where the next block goes. Progress is saved only in this browser.",
+  langBtn:"中文",
+  tooMany:"Too many steps. Check how many times your loops repeat.",splash:"Splash! Bitwick fell into the water. Try placing a block to build a path first.",lava:"Ouch! Bitwick stepped into lava!",
+  blocked:t=>`A ${t} is in the way, so Bitwick bumped into it.`,tile_T:"tree",tile_S:"stone",tile_W:"water",tile_L:"lava",tile_wall:"wall",
+  repeatTooMany:n=>`Repeating ${n} times is too many. Check your variable's value.`,negative:(v,n)=>`${v} is ${n} right now. Bitwick can't move a negative number of steps.`,
+  stopped:"Stopped.",addFirst:"Add some blocks from the Toolbox first.",running:"Running…",error:"Something went wrong in the program.",
+  leftGems:n=>`The program finished, but ${n} gem${n>1?"s are":" is"} still left.`,done:n=>`Done! You used ${n} block${n>1?"s":""}.`,
+  best:"You matched the best solution. Brilliant!",tryBest:n=>`The best solution uses only ${n} blocks. Want to try again?`,
+  allDone:"All levels complete!",passed:"Level complete!",again:"Play again",next:"Next level →",passAria:"Level complete",starsAria:n=>`${n} star${n>1?"s":""}`,
+  lvTitle:(ch,i,name)=>`${ch} · Level ${i}: ${name}`,goal:"Goal: ",hint:"Need a hint?",codeTip:"Code tip: ",
+  repeatAria:"Repeat count",condAria:"Condition",varAria:"Variable",valAria:"Value",
+  repeatLbl:x=>`repeat ${x} times`,ifLbl:x=>`if ${x} ahead`,setLbl:(v,n)=>`set ${v} to ${n}`,changeLbl:(v,n)=>`change ${v} by ${n}`,fwdV:v=>`move ${v} steps`,varPh:"variable",
+  b_forward:"move 1 step",b_left:"turn left",b_right:"turn right",b_place:"place block ahead",b_dig:"dig block ahead",
+  slotOn:"▸ New blocks go here",slotOff:"＋ Put here",up:"Move up",del:"Delete",startCap:"when ▶ clicked",
+  emptyTip:"Tap a block on the left. It snaps under “when ▶ clicked”.",
+  codeHead:(i,name)=>`Level ${i}: ${name}`,codeEmpty:"Add blocks and the code shows up here",
+  mapReset:"Map reset.",cleared:"Blocks cleared.",no3d:"This device can't show 3D graphics. Please try a newer browser.",
+  example:"Example: one “move” block is already there. Add 2 more, then press ▶ Run.",
+  cond_tree:"tree",cond_water:"water",cond_blocked:"obstacle",var_steps:"steps",var_count:"count",
+  placed:"Blocks",height:"Height",edge:"That's the edge of the field. Bitwick can't leave it.",tooHigh:"Too high! Bitwick can fly up to 12 blocks.",
+  blockedUp:"A block is in the way above.",blockedDown:"There's a block below, so Bitwick can't go down.",onGround:"Bitwick is already on the ground.",
+  noRoomBelow:"Bitwick is on the ground, so there's no room below. Move up one block first.",tile_block:"block",
+  buildDone:n=>`Build complete! There are ${n} blocks on the field. Drag the view to see it from every side.`,
+  b_up:"move up",b_down:"move down",buildLbl:(d,m)=>`place ${m} ${d}`,digAtLbl:d=>`dig block ${d}`,dirAria:"Direction",matAria:"Material",
+  dir_down:"below",dir_forward:"ahead",mat_stone:"stone brick",mat_plank:"plank",mat_brick:"red brick",mat_plaster:"white plaster",mat_glass:"glass",
+  mat_roof:"roof tile",mat_log:"log",mat_leaves:"leaves",mat_gold:"gold",
+  examplesLbl:"Load an example:",ex_cabin:"Cabin",ex_tower:"Castle tower",ex_pyramid:"Step pyramid",ex_blank:"Start blank",
+  confirmReplace:"Tap again to replace",exLoaded:n=>`Loaded “${n}”. Press ▶ Run to watch it build.`,buildNav:"Build",
+  speed_0:"Speed: normal",speed_1:"Speed: fast",speed_2:"Speed: turbo",zoomIn:"Zoom in",zoomOut:"Zoom out",
+  buildEach:"Each run starts again from an empty field. Your program is saved in this browser."}
+};
+const LEVELS_EN=[
+ {ch:"Basics",name:"First Steps",concept:"Sequence",goal:"Walk Bitwick onto the gem",
+  explain:"A program is a list of instructions that run in order. Bitwick starts at the top block and works down, one block at a time.",
+  hint:"The gem is 3 steps straight ahead. Use 3 “move 1 step” blocks.",
+  code:"Every block matches one line of code. “move 1 step” is robot.forward()."},
+ {ch:"Basics",name:"Round the Bend",concept:"Direction",goal:"Follow the path around the corners to the gem",
+  explain:"Turning only changes which way Bitwick faces. It doesn't move Bitwick. Check which way Bitwick's eyes point before you pick left or right.",
+  hint:"Move 2, turn right, move 2, turn left, move 2.",
+  code:"Turns are robot.turn(LEFT) and robot.turn(RIGHT). The value inside the brackets is called an argument."},
+ {ch:"Basics",name:"Zigzag Trail",concept:"Direction",goal:"Alternate left and right turns to collect 2 gems",
+  explain:"This trail switches between right and left. Before each turn, ask: which way is Bitwick facing now, and which way after the turn?",
+  hint:"Move, turn right, move, turn left. Do that twice, then move once more.",
+  code:"Count how many blocks you used. Once you learn loops, you can walk paths like this with far fewer."},
+ {ch:"Loops",name:"Long Hallway",concept:"Loops",goal:"Walk to the end of a 7-step hallway",challenge:"Challenge: use only 2 blocks",
+  explain:"When you need to do the same thing many times, wrap it in a “repeat” block instead of copying it over and over. That's a loop.",
+  hint:"Add “repeat”, tap the dashed box inside it, add “move 1 step”, then set the count to 7.",
+  code:"JavaScript uses a for loop and Python uses for i in range(7). Both mean “do this 7 times”."},
+ {ch:"Loops",name:"Staircase Path",concept:"Loops",goal:"Walk down the long staircase and collect 3 gems",challenge:"Challenge: finish in 5 blocks",
+  explain:"This is like the Zigzag Trail, only longer. Find the small set of moves that keeps repeating and put it inside a loop.",
+  hint:"Repeat 4 times: move, turn right, move, turn left.",
+  code:"A loop can hold several blocks. They repeat together, in order."},
+ {ch:"Build & Dig",name:"Build a Bridge",concept:"Building",goal:"Lay a path across the water to the far bank",challenge:"Challenge: finish in 5 blocks",
+  explain:"Bitwick can't swim. “place block ahead” lays a plank on the water in front of Bitwick so it can walk across.",
+  hint:"Move 1 step, then repeat 4 times “place block, move”, then move 1 more step.",
+  code:"robot.place(FORWARD) places a block in front of the robot."},
+ {ch:"Build & Dig",name:"Lava River",concept:"Building",goal:"Bridge two stretches of lava to reach the gem",challenge:"Challenge: finish in 5 blocks",
+  explain:"You can place blocks on lava too. Careful: placing a block on grass makes a stone that blocks the way.",
+  hint:"Repeat 2 times: place block, move, move, turn right.",
+  code:"The same code works in different places, as long as each situation looks the same."},
+ {ch:"Build & Dig",name:"Clear the Path",concept:"Digging",goal:"Dig away the trees blocking the path",challenge:"Challenge: finish in 4 blocks",
+  explain:"Trees block the way. “dig block ahead” removes the block in front of Bitwick and collects it. Digging empty ground does nothing.",
+  hint:"Spot the pattern: move, dig, move. Put those three inside “repeat 3 times”.",
+  code:"robot.dig(FORWARD) digs ahead. Finding a pattern and turning it into a loop is one of the most useful coding habits."},
+ {ch:"Build & Dig",name:"Stone Mine",concept:"Digging",goal:"Tunnel through the stone to the hidden gem",challenge:"Challenge: finish in 7 blocks (experts: try 5)",
+  explain:"Bitwick is surrounded by stone and has to dig before every step. Dig 3 blocks east, then 3 blocks south.",
+  hint:"Repeat 3 times “dig, move”, turn right, then repeat 3 times “dig, move” again.",
+  code:"Two identical loops can go inside another loop. You'll learn how in Level 12."},
+ {ch:"Logic & Nesting",name:"It Depends",concept:"Conditions",goal:"Trees and water are in the way. Let Bitwick decide what to do",challenge:"Challenge: finish in 6 blocks",
+  explain:"An “if” block checks what's ahead and runs the blocks inside only when the condition is true. Combined with a loop, Bitwick can handle any mix of obstacles.",
+  hint:"Repeat 9 times: if tree ahead, dig; if water ahead, place block; then move.",
+  code:"if checks a condition. == compares two values. It's different from =, which stores a value."},
+ {ch:"Logic & Nesting",name:"Follow the Wall",concept:"Conditions",goal:"Reach the end of the path and collect 3 gems",challenge:"Challenge: finish in 4 blocks",
+  explain:"This time you don't need to count where the corners are. Before each step, Bitwick looks ahead and turns right if the way is blocked.",
+  hint:"Repeat 10 times: if obstacle ahead, turn right; then move.",
+  code:"robot.blocked(FORWARD) gives back true or false. A yes-or-no value like this is called a Boolean."},
+ {ch:"Logic & Nesting",name:"Lap the Field",concept:"Nested loops",goal:"Walk around the outer ring and collect 4 gems",challenge:"Challenge: finish in 4 blocks",
+  explain:"You can put a loop inside another loop. The outer loop handles the four sides; the inner loop handles the steps along each side.",
+  hint:"Repeat 4 times { repeat 3 times { move }, turn right }.",
+  code:"Nested loops need different counter names, so the outer loop uses i and the inner loop uses j."},
+ {ch:"Variables",name:"Meet Variables",concept:"Variables",goal:"Use one variable to set the length of two paths",challenge:"Challenge: finish in 4 blocks",
+  explain:"A variable is like a labeled box that holds a number. Set “steps” to 4, and “move steps steps” walks 4 steps. To change the distance, you only change one place.",
+  hint:"set steps to 4 → move steps steps → turn right → move steps steps.",
+  code:"let steps = 4 creates a variable called steps and stores 4 in it. Writing steps later reads that value."},
+ {ch:"Variables",name:"Wider and Wider",concept:"Variables",goal:"Follow the outward spiral and collect 3 gems",challenge:"Challenge: finish in 5 blocks",
+  explain:"Each side of the spiral is one step longer than the last. A variable's value can change while the program runs, which makes it perfect for tracking how far to walk.",
+  hint:"Set steps to 1, then repeat 5 times: move steps steps, turn right, change steps by 1.",
+  code:"steps += 1 is short for steps = steps + 1: read the old value, add 1, and store it back."},
+ {ch:"Variables",name:"Spiral Vault",concept:"Variables + nesting",goal:"Spiral inward and collect all 8 gems",challenge:"Challenge: finish in 6 blocks",
+  explain:"This spiral gets smaller: after every two turns, each side is one step shorter. Combine a variable, nested loops, and changing by a negative number.",
+  hint:"Set steps to 4. Repeat 4 times { repeat 2 times { move steps steps, turn right }, change steps by -1 }.",
+  code:"steps -= 1 makes a variable smaller. Variables can also set a loop's count, like for i in range(steps)."},
+ {ch:"Creative Build",name:"Free Build",concept:"Create",goal:"Use code to build a house or a castle from an empty field",
+  explain:"No gems here, just an open field and 9 materials. Bitwick can fly up, so use “place … below” while moving to lay blocks, then build up one layer at a time. Load an example to see how the code works, then turn it into your own design.",
+  hint:"To build one ring of wall: repeat 4 times { repeat 4 times { place plank below, move }, turn right }. After each ring, move up and build the next.",
+  code:"In robot.place(DOWN, PLANK), the second argument picks the material. Wrap the same code in a loop to build many layers."}
+];
+let LANG="zh";
+try{const v=localStorage.getItem("block-miner-lang");if(v==="en"||v==="zh")LANG=v;else if(location.hash==="#en")LANG="en";else if(!/^zh/i.test(navigator.language||"zh"))LANG="en"}catch(e){}
+if(location.hash==="#en")LANG="en";if(location.hash==="#zh")LANG="zh";
+function t(k,...a){const v=STR[LANG][k];return typeof v==="function"?v(...a):v}
+const tr=(...a)=>t(...a);
+function LT(i){return Object.assign({},LEVELS[i],LANG==="en"?LEVELS_EN[i]:{})}
+const vn=k=>t("var_"+k);
+function applyStatic(){
+  document.documentElement.lang=LANG==="en"?"en":"zh-Hant-TW";
+  document.title=t("title");
+  document.querySelectorAll("[data-i18n]").forEach(e=>e.textContent=t(e.dataset.i18n));
+  document.querySelectorAll("[data-i18n-aria]").forEach(e=>e.setAttribute("aria-label",t(e.dataset.i18nAria)));
+  const lb=document.getElementById("langBtn");lb.textContent=t("langBtn");lb.lang=LANG==="en"?"zh-Hant":"en";
+}
+
 const TILE_NAME={T:"樹",S:"石頭",W:"水",L:"岩漿"};
 
 /* ---------- storage ---------- */
-const KEY="block-miner-progress-v1";
+const KEY="block-miner-progress-v2";
 let progress={};
 try{progress=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){progress={}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(progress))}catch(e){}}
 
 /* ---------- state ---------- */
 let uid=1;
-const S={lv:0,progs:LEVELS.map(()=>[]),target:null,running:false,fast:false,tab:"js"};
+const S={lv:0,progs:LEVELS.map(()=>[]),target:null,running:false,speed:0,tab:"js"};
 let W=null; // world
 let gen=null,timer=null,curId=null;
 
-function mk(type){const b={id:uid++,type};if(type==="repeat"){b.n=3;b.body=[]}if(type==="if"){b.cond="tree";b.body=[]}return b}
+function mk(type){const b={id:uid++,type};if(type==="repeat"){b.n=3;b.body=[]}if(type==="if"){b.cond="tree";b.body=[]}if(type==="setVar"){b.v="steps";b.n=1}if(type==="changeVar"){b.v="steps";b.n=1}if(type==="forwardV"){b.v="steps"}if(type==="build"){b.dir="down";b.mat="plank"}if(type==="digAt"){b.dir="forward"}return b}
 const prog=()=>S.progs[S.lv];
 function find(list,id){for(const b of list){if(b.id===id)return b;if(b.body){const r=find(b.body,id);if(r)return r}}return null}
 function parentOf(list,id){for(const b of list){if(b.id===id)return list;if(b.body){const r=parentOf(b.body,id);if(r)return r}}return null}
 function count(list){return list.reduce((s,b)=>s+1+(b.body?count(b.body):0),0)}
 
+/* ---------- build examples ---------- */
+const E=(type,o={},body)=>Object.assign({type},o,body?{body}:{});
+const ring=(m,side=4)=>E("repeat",{n:4},[E("repeat",{n:side},[E("build",{dir:"down",mat:m}),E("forward")]),E("right")]);
+const EXAMPLES={
+  cabin:[E("up"),ring("plank"),E("up"),ring("glass"),E("up"),ring("plank"),E("up"),
+    E("setVar",{v:"steps",n:4}),
+    E("repeat",{n:2},[E("repeat",{n:4},[E("repeat",{n:"steps"},[E("build",{dir:"down",mat:"roof"}),E("forward")]),E("right")]),
+      E("up"),E("forward"),E("right"),E("forward"),E("left"),E("changeVar",{v:"steps",n:-2})]),
+    E("down"),E("build",{dir:"down",mat:"roof"})],
+  tower:[E("up"),E("repeat",{n:6},[ring("stone"),E("up")]),
+    E("repeat",{n:4},[E("repeat",{n:2},[E("build",{dir:"down",mat:"stone"}),E("forward"),E("forward")]),E("right")]),
+    E("forward"),E("forward"),E("right"),E("forward"),E("forward"),E("left"),E("down"),
+    E("repeat",{n:3},[E("build",{dir:"down",mat:"log"}),E("up")]),E("build",{dir:"down",mat:"gold"})],
+  pyramid:[E("up"),E("setVar",{v:"steps",n:8}),
+    E("repeat",{n:4},[E("repeat",{n:4},[E("repeat",{n:"steps"},[E("build",{dir:"down",mat:"plaster"}),E("forward")]),E("right")]),
+      E("up"),E("forward"),E("right"),E("forward"),E("left"),E("changeVar",{v:"steps",n:-2})]),
+    E("down"),E("build",{dir:"down",mat:"gold"})]
+};
+function fromSpec(list){return list.map(o=>{const b=mk(o.type);for(const k of["n","v","cond","dir","mat"])if(o[k]!==undefined)b[k]=o[k];if(o.body)b.body=fromSpec(o.body);return b})}
+function toSpec(list){return list.map(b=>{const o={};for(const k of["type","n","v","cond","dir","mat"])if(b[k]!==undefined)o[k]=b[k];if(b.body)o.body=toSpec(b.body);return o})}
+const BUILD_LV=LEVELS.findIndex(L=>L.build);
+try{const sv=JSON.parse(localStorage.getItem("block-miner-build")||"null");S.progs[BUILD_LV]=sv?fromSpec(sv):[]}catch(e){}
+function saveBuild(){if(S.lv!==BUILD_LV)return;try{localStorage.setItem("block-miner-build",JSON.stringify(toSpec(prog())))}catch(e){}}
+
 /* ---------- seed level 1 with an example ---------- */
 S.progs[0]=[mk("forward")];
+if(!S.progs[BUILD_LV].length)S.progs[BUILD_LV]=fromSpec(EXAMPLES.cabin);
 
 /* ---------- world ---------- */
 const DX=[0,1,0,-1],DY=[-1,0,1,0];
@@ -319,8 +570,8 @@ function loadWorld(){
     if(c==="G"){gems.add(x+","+y);row[x]="."}
     if(c==="R"){rx=x;ry=y;row[x]="."}
   }));
-  W={grid,gems,total:gems.size,got:0,steps:0,wood:0,
-     r:{x:rx,y:ry,dir:L.dir},disp:{x:rx,y:ry,a:L.dir*90},ta:L.dir*90,fail:false,shake:0,sparks:[]};
+  W={grid,gems,total:gems.size,got:0,steps:0,wood:0,vars:{steps:0,count:0},build:!!L.build,vox:new Map(),maxH:0,
+     r:{x:rx,y:ry,dir:L.dir,h:0},disp:{x:rx,y:ry,a:L.dir*90,h:0},ta:L.dir*90,fail:false,shake:0,sparks:[]};
   hud();if(R3)buildScene();
 }
 function tileAt(x,y){return (W.grid[y]&&W.grid[y][x])||"#"}
@@ -328,13 +579,42 @@ function front(){return{x:W.r.x+DX[W.r.dir],y:W.r.y+DY[W.r.dir]}}
 function walkable(c){return c==="."||c==="B"}
 function failWith(msg){W.fail=true;W.shake=1;throw{msg}}
 
-function act(type){
-  W.steps++; if(W.steps>400) throw{msg:"步數太多了，檢查一下迴圈次數吧"};
+const won=()=>!W.build&&W.got===W.total;
+const vkey=(x,h,z)=>x+","+h+","+z;
+function voxSet(k,mat){
+  if(mat)W.vox.set(k,mat);else W.vox.delete(k);
+  if(mat)W.maxH=Math.max(W.maxH,+k.split(",")[1]+1);
+  if(!R3)return;
+  const old=R3.voxMeshes.get(k);if(old){R3.voxels.remove(old);R3.voxMeshes.delete(k)}
+  if(mat){const[x,h,z]=k.split(",").map(Number);const m=add(R3.voxels,R3.G.box,R3.M.mats[mat],x,h+.5,z,mat!=="glass");R3.voxMeshes.set(k,m)}
+}
+function actBuild(type,b){
+  W.steps++;if(W.steps>6000)throw{msg:t("tooMany")};
+  const n=W.grid.length,inB=(x,z)=>x>=0&&z>=0&&x<n&&z<n,f=front(),h=W.r.h,x=W.r.x,z=W.r.y;
+  if(type==="forward"){
+    if(!inB(f.x,f.y))failWith(t("edge"));
+    if(W.vox.has(vkey(f.x,h,f.y)))failWith(t("blocked",t("tile_block")));
+    W.r.x=f.x;W.r.y=f.y;
+  }else if(type==="left"){W.r.dir=(W.r.dir+3)%4;W.ta-=90}
+  else if(type==="right"){W.r.dir=(W.r.dir+1)%4;W.ta+=90}
+  else if(type==="up"){if(h>=12)failWith(t("tooHigh"));if(W.vox.has(vkey(x,h+1,z)))failWith(t("blockedUp"));W.r.h++}
+  else if(type==="down"){if(h===0)failWith(t("onGround"));if(W.vox.has(vkey(x,h-1,z)))failWith(t("blockedDown"));W.r.h--}
+  else if(type==="build"||type==="digAt"){
+    let k;
+    if(b.dir==="down"){if(h===0)failWith(t("noRoomBelow"));k=vkey(x,h-1,z)}
+    else{if(!inB(f.x,f.y))failWith(t("edge"));k=vkey(f.x,h,f.y)}
+    voxSet(k,type==="build"?b.mat:null);
+  }
+  hud();
+}
+function act(type,b){
+  if(W.build)return actBuild(type,b);
+  W.steps++; if(W.steps>400) throw{msg:t("tooMany")};
   const f=front(),c=tileAt(f.x,f.y);
   if(type==="forward"){
-    if(c==="W") {W.r.x=f.x;W.r.y=f.y;failWith("撲通！小方掉進水裡了。試試先放方塊鋪路。")}
-    if(c==="L") {W.r.x=f.x;W.r.y=f.y;failWith("小方踩到岩漿了！")}
-    if(!walkable(c)) failWith(`前面有${TILE_NAME[c]||"牆"}擋住，小方撞到了。`);
+    if(c==="W") {W.r.x=f.x;W.r.y=f.y;failWith(t("splash"))}
+    if(c==="L") {W.r.x=f.x;W.r.y=f.y;failWith(t("lava"))}
+    if(!walkable(c)) failWith(t("blocked",t("tile_"+(TILE_NAME[c]?c:"wall"))));
     W.r.x=f.x;W.r.y=f.y;
     const k=f.x+","+f.y;
     if(W.gems.has(k)){W.gems.delete(k);W.got++;burst(f.x,f.y);W.dirty=true}
@@ -355,39 +635,49 @@ function check(cond){
   if(cond==="water") return c==="W";
   return !walkable(c);
 }
+function val(x){return typeof x==="string"?W.vars[x]:x}
 function* exec(list){
   for(const b of list){
-    if(W.got===W.total) return;
-    if(b.type==="repeat"){for(let i=0;i<b.n;i++){yield {id:b.id,silent:true};yield* exec(b.body);if(W.got===W.total)return}}
+    if(won()) return;
+    if(b.type==="repeat"){const n=val(b.n);if(n>60)throw{msg:t("repeatTooMany",n)};for(let i=0;i<n;i++){yield {id:b.id,silent:true};yield* exec(b.body);if(won())return}}
+    else if(b.type==="setVar"){W.vars[b.v]=b.n;hud();yield {id:b.id}}
+    else if(b.type==="changeVar"){W.vars[b.v]+=b.n;hud();yield {id:b.id}}
+    else if(b.type==="forwardV"){const n=W.vars[b.v];
+      if(n<0)throw{msg:t("negative",vn(b.v),n)};
+      if(n===0){yield {id:b.id}}
+      for(let i=0;i<n;i++){act("forward");yield {id:b.id};if(won())return}}
     else if(b.type==="if"){const ok=check(b.cond);yield {id:b.id};if(ok) yield* exec(b.body)}
-    else {act(b.type);yield {id:b.id}}
+    else {act(b.type,b);yield {id:b.id}}
   }
 }
 
 /* ---------- running ---------- */
 const $=id=>document.getElementById(id);
 function status(t,cls){const s=$("status");s.textContent=t;s.className="status"+(cls?" "+cls:"")}
-function hud(){$("hGem").textContent=W.got+"/"+W.total;$("hStep").textContent=W.steps;$("hWood").textContent=W.wood}
+function hud(){
+  $("hGemLbl").textContent=W.build?t("placed"):t("gems");$("hWoodLbl").textContent=W.build?t("height"):t("wood");
+  $("hGem").textContent=W.build?W.vox.size:W.got+"/"+W.total;$("hStep").textContent=W.steps;$("hWood").textContent=W.build?W.r.h:W.wood;
+  const v=!!LEVELS[S.lv].vars;$("hVars").hidden=!v;if(v)$("hVarVal").textContent=Object.keys(VARNAMES).map(k=>vn(k)+" = "+W.vars[k]).join("　")}
 
 function run(){
-  if(S.running){stop("已停止");return}
-  if(!prog().length){status("先從積木箱加入積木吧。","bad");return}
+  if(S.running){stop(t("stopped"));return}
+  if(!prog().length){status(t("addFirst"),"bad");return}
   loadWorld();$("result").hidden=true;
-  S.running=true;gen=exec(prog());setRunUI();status("執行中…");
+  S.running=true;gen=exec(prog());setRunUI();status(t("running"));
   tick();
 }
 function tick(){
   let r;
-  try{r=gen.next()}catch(e){highlight(curId);return end(false,e.msg||"程式出錯了")}
+  try{r=gen.next()}catch(e){highlight(curId);return end(false,e.msg||t("error"))}
   if(r.done){
     highlight(null);
-    if(W.got===W.total) return end(true);
+    if(W.build||won()) return end(true);
     const left=W.total-W.got;
-    return end(false,`程式跑完了，但還有 ${left} 顆寶石沒拿到。`);
+    return end(false,t("leftGems",left));
   }
   curId=r.value.id;highlight(curId);
-  if(W.got===W.total){timer=setTimeout(()=>end(true),S.fast?200:420);return}
-  const delay=r.value.silent?(S.fast?60:140):(S.fast?190:420);
+  if(won()){timer=setTimeout(()=>end(true),[420,200,120][S.speed]);return}
+  const delay=r.value.silent?[140,60,0][S.speed]:[420,190,22][S.speed];
   timer=setTimeout(tick,delay);
 }
 function stop(msg){clearTimeout(timer);S.running=false;gen=null;highlight(null);setRunUI();if(msg)status(msg)}
@@ -395,24 +685,26 @@ function end(win,msg){
   clearTimeout(timer);S.running=false;gen=null;setRunUI();
   if(!win){status(msg,"bad");return}
   highlight(null);
+  if(W.build){status(t("buildDone",W.vox.size),"good");return}
   const L=LEVELS[S.lv],n=count(prog());
   const stars=n<=L.optimal?3:n<=L.optimal+3?2:1;
   progress[S.lv]=Math.max(progress[S.lv]||0,stars);save();renderLevels();
-  status(`完成！用了 ${n} 塊積木。`,"good");
-  const last=S.lv===LEVELS.length-1;
+  status(t("done",n),"good");
+  const last=S.lv>=BUILD_LV-1;
   const st="★".repeat(stars)+`<span class="off">${"★".repeat(3-stars)}</span>`;
-  const tip=stars===3?"積木數量達到最佳解，太厲害了！":`最佳解只要 ${L.optimal} 塊積木，再挑戰看看？`;
-  $("result").innerHTML=`<div class="result-card" role="dialog" aria-label="過關">
-    <div class="stars" aria-label="${stars} 顆星">${st}</div>
-    <h3>${last?"全部關卡完成！":"過關！"}</h3><p>${tip}</p>
-    <div class="row"><button class="btn" id="again">再玩一次</button>${last?"":'<button class="btn primary" id="next">下一關 →</button>'}</div></div>`;
+  const tip=stars===3?t("best"):t("tryBest",L.optimal);
+  $("result").innerHTML=`<div class="result-card" role="dialog" aria-label="${t("passAria")}">
+    <div class="stars" aria-label="${t("starsAria",stars)}">${st}</div>
+    <h3>${last?t("allDone"):t("passed")}</h3><p>${tip}</p>
+    <div class="row"><button class="btn" id="again">${t("again")}</button>${S.lv+1<LEVELS.length?`<button class="btn primary" id="next">${t("next")}</button>`:""}</div></div>`;
   $("result").hidden=false;
   $("again").onclick=()=>{loadWorld();$("result").hidden=true;status("")};
-  if(!last)$("next").onclick=()=>goLevel(S.lv+1);
+  if($("next"))$("next").onclick=()=>goLevel(S.lv+1);
 }
 function setRunUI(){
-  const b=$("runBtn");b.textContent=S.running?"■ 停止":"▶ 執行";b.classList.toggle("stop",S.running);
+  const b=$("runBtn");b.textContent=S.running?t("stop"):t("run");b.classList.toggle("stop",S.running);
   $("program").classList.toggle("locked",S.running);
+  const sb=$("speedBtn");sb.textContent=t("speed_"+S.speed);sb.setAttribute("aria-pressed",S.speed>0);
   document.querySelectorAll(".palette .blk").forEach(x=>x.disabled=S.running);
 }
 function highlight(id){
@@ -425,17 +717,19 @@ function highlight(id){
 
 /* ---------- UI: levels & lesson ---------- */
 function renderLevels(){
-  $("levels").innerHTML=LEVELS.map((L,i)=>{
+  $("levels").innerHTML=LEVELS.map((_,i)=>{const L=LT(i);
     const s=progress[i]||0;
-    return `<button class="lv${i===S.lv?" cur":""}" data-lv="${i}" title="第 ${i+1} 關：${L.name}" aria-current="${i===S.lv}"><b>${i+1}</b><i>${"★".repeat(s)}</i></button>`}).join("");
+    const head=i===0||LEVELS[i-1].ch!==L.ch;
+    return `${head&&i?'<span class="ch-gap" aria-hidden="true"></span>':""}<button class="lv${i===S.lv?" cur":""}${L.build?" wide":""}" data-lv="${i}" title="${L.build?L.name:t("lvTitle",L.ch,i+1,L.name)}" aria-current="${i===S.lv}">${L.build?`<b class="bn">${t("buildNav")}</b><i></i>`:`<b>${i+1}</b><i>${"★".repeat(s)}</i>`}</button>`}).join("");
 }
 function renderLesson(){
-  const L=LEVELS[S.lv];
-  $("lesson").innerHTML=`<div class="chips"><span class="chip concept">${L.concept}</span><span class="chip">LEVEL ${S.lv+1}/${LEVELS.length}</span></div>
+  const L=LT(S.lv);
+  $("lesson").innerHTML=`<div class="chips"><span class="chip concept">${L.concept}</span><span class="chip">${L.ch}</span>${L.build?"":`<span class="chip">LEVEL ${S.lv+1}/${LEVELS.length-1}</span>`}</div>
    <h2>${L.name}</h2>
-   <p class="goal">目標：<span>${L.goal}</span></p>
+   <p class="goal">${t("goal")}<span>${L.goal}</span></p>
    <p class="explain">${L.explain}</p>
-   <details class="hint"><summary>需要提示？</summary><p>${L.hint}</p><p style="color:var(--muted)">程式碼小知識：${L.code}</p></details>`;
+   ${L.build?`<div class="examples"><span>${t("examplesLbl")}</span>${["cabin","tower","pyramid","blank"].map(k=>`<button class="btn ex-btn${S.pendingEx===k?" warn":""}" data-example="${k}">${S.pendingEx===k?t("confirmReplace"):t("ex_"+k)}</button>`).join("")}</div><p class="explain">${t("buildEach")}</p>`:""}
+   <details class="hint"><summary>${t("hint")}</summary><p>${L.hint}</p><p style="color:var(--muted)">${t("codeTip")}${L.code}</p></details>`;
   $("challenge").textContent=L.challenge||"";
 }
 function goLevel(i){
@@ -449,23 +743,33 @@ function goLevel(i){
 function blockInner(type,b){
   const d=BLOCKS[type];
   if(type==="repeat"){
-    const sel=b?`<select aria-label="重複次數" data-n="${b.id}">${Array.from({length:10},(_,k)=>`<option${b.n===k+1?" selected":""}>${k+1}</option>`).join("")}</select>`:"<b>N</b>";
-    return `<span class="ico">${d.ico}</span>重複 ${sel} 次`;
+    const vs=LEVELS[S.lv].vars?Object.keys(VARNAMES):[];
+    const sel=b?`<select aria-label="${t("repeatAria")}" data-n="${b.id}">${Array.from({length:10},(_,k)=>`<option${b.n===k+1?" selected":""}>${k+1}</option>`).join("")}${vs.map(k=>`<option value="${k}"${b.n===k?" selected":""}>${vn(k)}</option>`).join("")}</select>`:"<b>N</b>";
+    return `<span class="ico">${d.ico}</span>${t("repeatLbl",sel)}`;
   }
   if(type==="if"){
-    const sel=b?`<select aria-label="條件" data-c="${b.id}">${Object.entries(CONDS).map(([k,v])=>`<option value="${k}"${b.cond===k?" selected":""}>${v}</option>`).join("")}</select>`:"<b>…</b>";
-    return `<span class="ico">${d.ico}</span>如果前方是 ${sel} 就`;
+    const sel=b?`<select aria-label="${t("condAria")}" data-c="${b.id}">${Object.keys(CONDS).map(k=>`<option value="${k}"${b.cond===k?" selected":""}>${t("cond_"+k)}</option>`).join("")}</select>`:"<b>…</b>";
+    return `<span class="ico">${d.ico}</span>${t("ifLbl",sel)}`;
   }
-  return `<span class="ico">${d.ico}</span>${d.label}`;
+  const vsel=b?`<select aria-label="${t("varAria")}" data-set="${b.id}" data-field="v">${Object.keys(VARNAMES).map(k=>`<option value="${k}"${b.v===k?" selected":""}>${vn(k)}</option>`).join("")}</select>`:`<b>${t("varPh")}</b>`;
+  const nsel=(lo,hi)=>b?`<select aria-label="${t("valAria")}" data-set="${b.id}" data-field="n">${Array.from({length:hi-lo+1},(_,k)=>lo+k).filter(x=>type!=="changeVar"||x!==0).map(x=>`<option value="${x}"${b.n===x?" selected":""}>${x}</option>`).join("")}</select>`:"<b>N</b>";
+  if(type==="setVar")return `<span class="ico">${d.ico}</span>${t("setLbl",vsel,nsel(0,10))}`;
+  if(type==="changeVar")return `<span class="ico">${d.ico}</span>${t("changeLbl",vsel,nsel(-3,5))}`;
+  if(type==="forwardV")return `<span class="ico">${d.ico}</span>${t("fwdV",vsel)}`;
+  const dsel=b?`<select aria-label="${t("dirAria")}" data-set="${b.id}" data-field="dir">${["down","forward"].map(k=>`<option value="${k}"${b.dir===k?" selected":""}>${t("dir_"+k)}</option>`).join("")}</select>`:`<b>${t(type==="build"?"dir_down":"dir_forward")}</b>`;
+  const msel=b?`<select aria-label="${t("matAria")}" data-set="${b.id}" data-field="mat">${MATS.map(k=>`<option value="${k}"${b.mat===k?" selected":""}>${t("mat_"+k)}</option>`).join("")}</select>`:`<b>${t("mat_plank")}</b>`;
+  if(type==="build")return `<span class="ico">${d.ico}</span>${t("buildLbl",dsel,msel)}`;
+  if(type==="digAt")return `<span class="ico">${d.ico}</span>${t("digAtLbl",dsel)}`;
+  return `<span class="ico">${d.ico}</span>${t("b_"+type)}`;
 }
 function renderPalette(){
   const L=LEVELS[S.lv];
-  $("palette").innerHTML=`<p class="pal-title">積木箱</p>`+L.palette.map(t=>`<button class="blk c-${BLOCKS[t].cat}" data-add="${t}">${blockInner(t)}</button>`).join("");
+  $("palette").innerHTML=`<p class="pal-title">${t("toolbox")}</p>`+L.palette.map(t=>`<button class="blk c-${BLOCKS[t].cat}" data-add="${t}">${blockInner(t)}</button>`).join("");
 }
 
 /* ---------- UI: program ---------- */
-function slot(id){const on=(S.target===id);return `<button class="slot${on?" on":""}" data-slot="${id===null?"main":id}">${on?"▸ 新積木會放在這裡":"＋ 放到這裡"}</button>`}
-function tools(b){return `<span class="tools"><button data-up="${b.id}" aria-label="往上移" title="往上移">↑</button><button data-del="${b.id}" aria-label="刪除" title="刪除">✕</button></span>`}
+function slot(id){const on=(S.target===id);return `<button class="slot${on?" on":""}" data-slot="${id===null?"main":id}">${on?t("slotOn"):t("slotOff")}</button>`}
+function tools(b){return `<span class="tools"><button data-up="${b.id}" aria-label="${t("up")}" title="${t("up")}">↑</button><button data-del="${b.id}" aria-label="${t("del")}" title="${t("del")}">✕</button></span>`}
 function renderList(list){
   return list.map(b=>{
     const cat=BLOCKS[b.type].cat;
@@ -480,8 +784,8 @@ function renderList(list){
 function renderProgram(){
   if(S.target!==null&&!find(prog(),S.target))S.target=null;
   const p=prog();
-  $("program").innerHTML=`<div class="list"><div class="start-cap">當 ▶ 按下</div>${renderList(p)}${slot(null)}</div>`+
-    (p.length?"":`<p class="empty-tip">點左邊的積木，它會接到「當 ▶ 按下」下面。</p>`);
+  $("program").innerHTML=`<div class="list"><div class="start-cap">${t("startCap")}</div>${renderList(p)}${slot(null)}</div>`+
+    (p.length?"":`<p class="empty-tip">${t("emptyTip")}</p>`);
   $("bCount").textContent=count(p);
   renderCode();
 }
@@ -496,7 +800,17 @@ function stmt(b,lang){
   if(b.type==="right")return call("turn","RIGHT");
   if(b.type==="place")return call("place","FORWARD");
   if(b.type==="dig")return call("dig","FORWARD");
+  if(b.type==="forwardV")return `robot.${sp("fn","forward")}(${b.v})`;
+  if(b.type==="setVar")return `${b.v} = ${sp("num",b.n)}`;
+  if(b.type==="changeVar")return `${b.v} ${b.n<0?"-=":"+="} ${sp("num",Math.abs(b.n))}`;
+  if(b.type==="up")return call("up");
+  if(b.type==="down")return call("down");
+  if(b.type==="build")return `robot.${sp("fn","place")}(${sp("const",b.dir==="down"?"DOWN":"FORWARD")}, ${sp("const",MATCODE[b.mat])})`;
+  if(b.type==="digAt")return call("dig",b.dir==="down"?"DOWN":"FORWARD");
 }
+function usedVars(list,set=new Set()){for(const b of list){if(b.v)set.add(b.v);if(b.type==="repeat"&&typeof b.n==="string")set.add(b.n);if(b.body)usedVars(b.body,set)}return set}
+let DECL=new Set();
+const numOrVar=n=>typeof n==="string"?n:sp("num",n);
 function condExpr(c){
   if(c==="blocked")return call("blocked","FORWARD");
   return `${call("inspect","FORWARD")} == ${sp("const",c==="tree"?"TREE":"WATER")}`;
@@ -506,8 +820,8 @@ function emit(list,lang,ind,depth,out){
   for(const b of list){
     if(b.type==="repeat"){
       const v=VARS[depth]||("i"+depth);
-      if(lang==="js")out.push([b.id,`${pad}${sp("kw","for")} (${sp("kw","let")} ${v} = ${sp("num",0)}; ${v} < ${sp("num",b.n)}; ${v}++) {`]);
-      else out.push([b.id,`${pad}${sp("kw","for")} ${v} ${sp("kw","in")} ${sp("fn","range")}(${sp("num",b.n)}):`]);
+      if(lang==="js")out.push([b.id,`${pad}${sp("kw","for")} (${sp("kw","let")} ${v} = ${sp("num",0)}; ${v} < ${numOrVar(b.n)}; ${v}++) {`]);
+      else out.push([b.id,`${pad}${sp("kw","for")} ${v} ${sp("kw","in")} ${sp("fn","range")}(${numOrVar(b.n)}):`]);
       emit(b.body,lang,ind+1,depth+1,out);
       if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
       if(lang==="js")out.push([null,`${pad}}`]);
@@ -518,24 +832,35 @@ function emit(list,lang,ind,depth,out){
       if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
       if(lang==="js")out.push([null,`${pad}}`]);
     }else{
-      out.push([b.id,pad+stmt(b,lang)+(lang==="js"?";":"")]);
+      out.push([b.id,pad+(lang==="js"&&DECL.has(b.id)?sp("kw","let")+" ":"")+stmt(b,lang)+(lang==="js"?";":"")]);
     }
   }
 }
 function renderCode(){
-  const L=LEVELS[S.lv],lang=S.tab,c=lang==="js"?"//":"#";
-  const out=[[null,sp("com",`${c} 第 ${S.lv+1} 關：${L.name}`)]];
-  if(!prog().length)out.push([null,sp("com",`${c} 加入積木後，程式碼會出現在這裡`)]);
+  const L=LT(S.lv),lang=S.tab,c=lang==="js"?"//":"#";
+  const out=[[null,sp("com",`${c} ${L.build?L.name:t("codeHead",S.lv+1,L.name)}`)]];
+  if(!prog().length)out.push([null,sp("com",`${c} ${t("codeEmpty")}`)]);
+  // a variable whose first use is a top-level "set" is declared right there; others start at 0
+  const first={};(function walk(list,top){for(const b of list){for(const v of usedVars([{...b,body:null}]))if(!(v in first))first[v]=top&&b.type==="setVar"?b.id:null;if(b.body)walk(b.body,false)}})(prog(),true);
+  DECL=new Set(Object.values(first).filter(x=>x!=null));
+  Object.keys(first).filter(v=>first[v]==null).forEach(v=>out.push([null,lang==="js"?`${sp("kw","let")} ${v} = ${sp("num",0)};`:`${v} = ${sp("num",0)}`]));
   emit(prog(),lang,0,0,out);
   $("src").innerHTML=out.map(([id,h])=>`<span class="ln"${id!=null?` data-id="${id}"`:""}>${h||" "}</span>`).join("");
   $("tab-js").setAttribute("aria-selected",lang==="js");$("tab-py").setAttribute("aria-selected",lang==="py");
   if(S.running&&curId!=null)highlight(curId);
+  saveBuild();
 }
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{
   const t=e.target.closest("button");if(!t)return;
   if(t.dataset.lv!=null){goLevel(+t.dataset.lv);return}
+  if(t.dataset.example){
+    const k=t.dataset.example;
+    if(S.running)stop();
+    if(prog().length&&S.pendingEx!==k){S.pendingEx=k;renderLesson();return}
+    S.pendingEx=null;S.progs[S.lv]=k==="blank"?[]:fromSpec(EXAMPLES[k]);S.target=null;
+    renderLesson();renderProgram();loadWorld();status(k==="blank"?tr("cleared"):tr("exLoaded",tr("ex_"+k)));return}
   if(S.running&&!t.matches("#runBtn,#speedBtn,.tab"))return;
   if(t.dataset.add){
     const b=mk(t.dataset.add);
@@ -550,13 +875,14 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("change",e=>{
   const t=e.target;
-  if(t.dataset.n){find(prog(),+t.dataset.n).n=+t.value;renderCode()}
+  if(t.dataset.n){find(prog(),+t.dataset.n).n=isNaN(+t.value)?t.value:+t.value;renderCode()}
+  if(t.dataset.set){const b=find(prog(),+t.dataset.set);b[t.dataset.field]=t.dataset.field==="n"?+t.value:t.value;renderCode()}
   if(t.dataset.c){find(prog(),+t.dataset.c).cond=t.value;renderCode()}
 });
 $("runBtn").onclick=run;
-$("resetBtn").onclick=()=>{stop();loadWorld();$("result").hidden=true;status("地圖已重設。")};
-$("clearBtn").onclick=()=>{stop();S.progs[S.lv]=[];S.target=null;renderProgram();loadWorld();$("result").hidden=true;status("積木已清空。")};
-$("speedBtn").onclick=()=>{S.fast=!S.fast;$("speedBtn").setAttribute("aria-pressed",S.fast)};
+$("resetBtn").onclick=()=>{stop();loadWorld();$("result").hidden=true;status(t("mapReset"))};
+$("clearBtn").onclick=()=>{stop();S.progs[S.lv]=[];S.target=null;renderProgram();loadWorld();$("result").hidden=true;status(t("cleared"))};
+$("speedBtn").onclick=()=>{S.speed=(S.speed+1)%3;setRunUI()};
 $("tab-js").onclick=()=>{S.tab="js";renderCode()};
 $("tab-py").onclick=()=>{S.tab="py";renderCode()};
 
@@ -565,7 +891,7 @@ const cv=$("world");
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 function hsh(x,y,i){let n=(x*374761393+y*668265263+i*974634)|0;n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295}
 let R3=null;
-const view={az:.45,taz:.45,el:1.02};
+const view={az:.45,taz:.45,el:1.02,zoom:1,tzoom:1};
 
 function tex(draw){
   const c=document.createElement("canvas");c.width=c.height=16;const g=c.getContext("2d");draw(g);
@@ -589,8 +915,10 @@ function initThree(){
   scene.add(sun);scene.add(sun.target);
 
   const grassTop=tex(g=>speckle(g,"#5BA04A",[[0,.16,"#4B8B3C"],[.9,1,"#71BC5B"]],1));
-  const grassSide=tex(g=>{speckle(g,"#8A5F37",[[0,.18,"#6E4A2A"],[.88,1,"#A27247"]],2);speckle(g,"#5BA04A",[[0,.2,"#4B8B3C"]],3,0,4);
-    for(let x=0;x<16;x++)if(hsh(x,9,5)<.5){g.fillStyle="#5BA04A";g.fillRect(x,4,1,1)}});
+  const grassSide=tex(g=>{g.fillStyle="#9A6E42";g.fillRect(0,0,16,16);
+    [["#B5864F",5],["#8C6038",8],["#A87A47",11],["#7E5532",14]].forEach(([c,y])=>{g.fillStyle=c;g.fillRect(0,y,16,2)});
+    speckle(g,"rgba(0,0,0,0)",[[0,.06,"#6B4A2C"],[.95,1,"#C99C63"]],2,4,16);
+    g.fillStyle="#5BA04A";g.fillRect(0,0,16,3);g.fillStyle="#3F7A33";g.fillRect(0,3,16,1)});
   const dirt=tex(g=>speckle(g,"#8A5F37",[[0,.18,"#6E4A2A"],[.88,1,"#A27247"]],4));
   const stone=tex(g=>speckle(g,"#8E949A",[[0,.2,"#737981"],[.85,1,"#ADB2B7"]],6));
   const logSide=tex(g=>{g.fillStyle="#6A4524";g.fillRect(0,0,16,16);g.fillStyle="#4E321A";for(let x=1;x<16;x+=4)g.fillRect(x,0,1,16);speckle(g,"rgba(0,0,0,0)",[[0,.08,"#82582F"]],7)});
@@ -601,6 +929,16 @@ function initThree(){
   const water=tex(g=>speckle(g,"#2D72C4",[[0,.07,"#245EA3"],[.86,1,"#5B9DE6"]],9));water.wrapS=water.wrapT=THREE.RepeatWrapping;
   const lava=tex(g=>speckle(g,"#D9471A",[[0,.15,"#A8320F"],[.7,1,"#F6A23A"]],10));lava.wrapS=lava.wrapT=THREE.RepeatWrapping;
 
+  const stoneBrick=tex(g=>{speckle(g,"#8D9298",[[0,.15,"#7A8086"],[.88,1,"#A3A8AD"]],11);g.fillStyle="#62676D";
+    for(let r=0;r<4;r++){g.fillRect(0,r*4+3,16,1);const o=r%2?4:0;for(let x=o;x<16;x+=8)g.fillRect(x,r*4,1,3)}});
+  const brick=tex(g=>{speckle(g,"#A9452F",[[0,.18,"#8E3624"],[.9,1,"#C05A40"]],12);g.fillStyle="#D9CBB6";
+    for(let r=0;r<4;r++){g.fillRect(0,r*4+3,16,1);const o=r%2?4:0;for(let x=o;x<16;x+=8)g.fillRect(x,r*4,1,3)}});
+  const plaster=tex(g=>{speckle(g,"#E7E1D3",[[0,.14,"#D5CEBE"],[.93,1,"#F4F0E6"]],13);g.fillStyle="#C9C1AE";g.fillRect(0,15,16,1)});
+  const glass=tex(g=>{g.fillStyle="rgba(190,230,250,.28)";g.fillRect(0,0,16,16);g.fillStyle="#DDF3FF";g.fillRect(0,0,16,1);g.fillRect(0,15,16,1);g.fillRect(0,0,1,16);g.fillRect(15,0,1,16);
+    g.fillStyle="rgba(255,255,255,.75)";for(let i=0;i<4;i++){g.fillRect(3+i,9-i,1,1);g.fillRect(9+i,12-i,1,1)}});
+  const roof=tex(g=>{speckle(g,"#3F6E8C",[[0,.16,"#33596F"],[.9,1,"#5A8AA6"]],14);g.fillStyle="#284A5E";
+    for(let r=0;r<4;r++){g.fillRect(0,r*4+3,16,1);const o=r%2?2:6;for(let x=o;x<16;x+=8)g.fillRect(x,r*4,1,3)}});
+  const gold=tex(g=>{speckle(g,"#E5B42A",[[0,.15,"#C99A1D"],[.85,1,"#F6D86A"]],15);g.fillStyle="#FFF0B0";g.fillRect(2,2,4,1);g.fillRect(2,2,1,4);g.fillStyle="#A97E14";g.fillRect(0,15,16,1);g.fillRect(15,0,1,16)});
   const L=m=>new THREE.MeshLambertMaterial({map:m});
   const sideM=L(grassSide),logS=L(logSide),logT=L(logTop);
   const M={
@@ -612,6 +950,8 @@ function initThree(){
     gem:new THREE.MeshLambertMaterial({color:"#4CD9E3",emissive:"#0B6A73"}),
     spark:new THREE.MeshBasicMaterial({color:"#C8FBFF",transparent:true})
   };
+  M.mats={plank:M.plank,stone:L(stoneBrick),brick:L(brick),plaster:L(plaster),roof:L(roof),gold:L(gold),log:M.log,leaves:M.leaves,
+    glass:new THREE.MeshLambertMaterial({map:glass,transparent:true,depthWrite:false})};
   const G={box:new THREE.BoxGeometry(1,1,1),liquid:new THREE.BoxGeometry(1,.82,1),slab:new THREE.BoxGeometry(1,.2,1),
     trunk:new THREE.BoxGeometry(.34,.8,.34),leaf:new THREE.BoxGeometry(.92,.8,.92),gem:new THREE.OctahedronGeometry(.27),
     spark:new THREE.BoxGeometry(.07,.07,.07)};
@@ -632,20 +972,21 @@ function initThree(){
   part(new THREE.BoxGeometry(.1,.1,.1),C("#F2B33D"),0,.94,.12);
   scene.add(robot);
 
-  const terrain=new THREE.Group(),gems=new THREE.Group();scene.add(terrain,gems);
+  const terrain=new THREE.Group(),gems=new THREE.Group(),voxels=new THREE.Group();scene.add(terrain,gems,voxels);
 
   // drag to orbit (horizontal drags only, so the page still scrolls on phones)
-  let dragX=null;
-  cv.addEventListener("pointerdown",e=>{dragX=e.clientX;cv.setPointerCapture(e.pointerId)});
-  cv.addEventListener("pointermove",e=>{if(dragX==null)return;const dx=e.clientX-dragX;dragX=e.clientX;view.taz-=dx*.01;if(reduce)view.az=view.taz});
+  let dragX=null,dragY=null;
+  cv.addEventListener("pointerdown",e=>{dragX=e.clientX;dragY=e.clientY;cv.setPointerCapture(e.pointerId)});
+  cv.addEventListener("pointermove",e=>{if(dragX==null)return;const dx=e.clientX-dragX,dy=e.clientY-dragY;dragX=e.clientX;dragY=e.clientY;view.taz-=dx*.01;if(reduce)view.az=view.taz;
+    if(e.pointerType==="mouse")view.el=Math.min(1.4,Math.max(.32,view.el+dy*.006))});
   const up=()=>{dragX=null};cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
 
-  R3={renderer,scene,camera,sun,M,G,robot,body,eyeMat,terrain,gems,water,lava,sparks:[],last:performance.now()};
+  R3={renderer,scene,camera,sun,M,G,robot,body,eyeMat,terrain,gems,voxels,voxMeshes:new Map(),water,lava,sparks:[],last:performance.now()};
 }
 
 function add(group,geo,mat,x,y,z,cast){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.receiveShadow=true;if(cast)m.castShadow=true;group.add(m);return m}
 function buildScene(){
-  if(!R3){try{initThree()}catch(e){status("這台裝置無法顯示 3D 畫面，請改用較新的瀏覽器。","bad");return}}
+  if(!R3){try{initThree()}catch(e){status(t("no3d"),"bad");return}}
   const {terrain,gems,M,G}=R3;
   terrain.clear();gems.clear();
   W.grid.forEach((row,y)=>row.forEach((c,x)=>{
@@ -660,6 +1001,7 @@ function buildScene(){
     }
   }));
   W.gems.forEach(s=>{const[x,y]=s.split(",").map(Number);const m=add(gems,G.gem,M.gem,x,.55,y,true);m.userData.seed=x+y});
+  R3.voxels.clear();R3.voxMeshes.clear();W.vox.forEach((mat,k)=>{W.vox.delete(k);voxSet(k,mat)});
   W.dirty=false;
   sizeCanvas();
 }
@@ -675,9 +1017,11 @@ function placeCamera(){
   const span=Math.abs(cols*Math.cos(view.az))+Math.abs(rows*Math.sin(view.az));
   const depth=Math.abs(cols*Math.sin(view.az))+Math.abs(rows*Math.cos(view.az));
   const t=Math.tan(cam.fov*Math.PI/360);
-  const r=Math.max((span+1.2)/(2*t*cam.aspect),(depth*.75+2)/(2*t))+2.5;
-  cam.position.set(cx+r*Math.cos(view.el)*Math.sin(view.az),r*Math.sin(view.el),cz+r*Math.cos(view.el)*Math.cos(view.az));
-  cam.lookAt(cx,0,cz);
+  const H=W.build?Math.max(W.maxH,W.r.h+1):0;
+  const r=(Math.max((span+1.2)/(2*t*cam.aspect),(depth*.75+2)/(2*t))+2.5+H*.55)*view.zoom*(W.build?1.1:1);
+  const ly=H*.38;
+  cam.position.set(cx+r*Math.cos(view.el)*Math.sin(view.az),ly+r*Math.sin(view.el),cz+r*Math.cos(view.el)*Math.cos(view.az));
+  cam.lookAt(cx,ly,cz);
   R3.sun.position.set(cx-5,12,cz+7);R3.sun.target.position.set(cx,0,cz);
 }
 function burst(x,y){
@@ -691,13 +1035,13 @@ function frame(ms){
   if(W.dirty)buildScene();
   const t=ms/1000,dt=Math.min(.05,(ms-R3.last)/1000);R3.last=ms;
   const d=W.disp,k=reduce?1:.18;
-  d.x+=(W.r.x-d.x)*k;d.y+=(W.r.y-d.y)*k;d.a+=(W.ta-d.a)*k;
-  view.az+=(view.taz-view.az)*(reduce?1:.15);
+  d.x+=(W.r.x-d.x)*k;d.y+=(W.r.y-d.y)*k;d.a+=(W.ta-d.a)*k;d.h+=(W.r.h-d.h)*k;
+  view.az+=(view.taz-view.az)*(reduce?1:.15);view.zoom+=(view.tzoom-view.zoom)*(reduce?1:.15);
   const dist=Math.min(1,Math.hypot(W.r.x-d.x,W.r.y-d.y));
   const here=tileAt(W.r.x,W.r.y);
   W.sink=(W.sink||0)+((W.fail&&(here==="W"||here==="L")?-.75:0)-(W.sink||0))*.08;
   let sx=0;if(W.shake>0){sx=Math.sin(t*60)*W.shake*.06;W.shake=Math.max(0,W.shake-.02)}
-  R3.robot.position.set(d.x+sx,(reduce?0:Math.sin(dist*Math.PI)*.32)+W.sink,d.y);
+  R3.robot.position.set(d.x+sx,d.h+(reduce?0:Math.sin(dist*Math.PI)*(W.build&&W.r.h>0?.12:.32))+W.sink,d.y);
   R3.robot.rotation.y=-d.a*Math.PI/180;
   R3.eyeMat.color.set(W.fail?"#FF6A4D":"#6FF0C3");
   R3.gems.children.forEach(m=>{if(!reduce){m.rotation.y=t*1.6;m.position.y=.55+Math.sin(t*2.6+m.userData.seed)*.07}});
@@ -715,13 +1059,18 @@ function rotateView(step){view.taz+=step*Math.PI/4}
   c.fillStyle="#4CD9E3";c.fillRect(6,8,4,4);c.fillStyle="#EFFFFF";c.fillRect(7,9,1,1)})();
 
 /* ---------- boot ---------- */
+applyStatic();setRunUI();
+$("langBtn").onclick=()=>{LANG=LANG==="en"?"zh":"en";try{localStorage.setItem("block-miner-lang",LANG)}catch(e){}
+  stop();applyStatic();setRunUI();renderLevels();renderLesson();renderPalette();renderProgram();hud();status("")};
 let startLv=0;try{const v=+localStorage.getItem(KEY+"-lv");if(v>=0&&v<LEVELS.length)startLv=v}catch(e){}
 goLevel(startLv);
 buildScene();
-status("範例：程式裡已經有 1 塊「前進」，再加 2 塊然後按 ▶ 執行。");
+window.blockMiner={levels:LEVELS,state:S,mk,goLevel,renderProgram,run,examples:EXAMPLES,fromSpec};
+status(t("example"));
 if(startLv!==0)status("");
 addEventListener("resize",()=>{if(W)sizeCanvas()});
 $("rotL").onclick=()=>rotateView(1);$("rotR").onclick=()=>rotateView(-1);
+$("zoomIn").onclick=()=>{view.tzoom=Math.max(.45,view.tzoom*.82)};$("zoomOut").onclick=()=>{view.tzoom=Math.min(1.8,view.tzoom/.82)};
 requestAnimationFrame(frame);
 })();
 </script>
