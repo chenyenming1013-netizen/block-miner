@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="用積木學寫程式：帶機器人小方挖寶石，並對照 JavaScript 與 Python 程式碼。">
+<title>方塊礦工程式課</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700;900&family=Silkscreen:wght@400;700&display=swap">
+<style>
+/* Layout: lesson + pixel world on the left, block bench + live code on the right; stacks on phones */
+:root{
+  --bg:#E7EEE4; --surface:#F6FAF4; --surface-2:#EDF3EA; --ink:#17231B; --muted:#56675B; --line:#C8D5C3;
+  --accent:#2B7A4A; --accent-ink:#FFFFFF; --warn:#B4441E; --ok:#2B7A4A; --gold:#D9A21F;
+  --frame:#1E2721; --frame-line:#34413A;
+  --code-bg:#18211C; --code-fg:#DCE6DE; --code-dim:#6E8275; --c-kw:#E59BD8; --c-fn:#8CC8FF; --c-num:#F6C177; --c-const:#7FE0B5; --c-var:#DCE6DE;
+  --dot:#C9D6C5;
+  --b-move:#2F6FD6; --b-turn:#6A55C9; --b-loop:#1E8F54; --b-build:#C26A1A; --b-logic:#0F7E86;
+  --f-display:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-pixel:"Silkscreen","Courier New",monospace;
+  --f-code:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101612; --surface:#18201B; --surface-2:#1E2822; --ink:#E2EBE0; --muted:#97A99B; --line:#2D3B32;
+  --accent:#55B97D; --accent-ink:#0D1A12; --warn:#F08A5D; --ok:#55B97D; --gold:#F0C04A;
+  --frame:#0B100D; --frame-line:#26322B; --dot:#26332B; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#101612; --surface:#18201B; --surface-2:#1E2822; --ink:#E2EBE0; --muted:#97A99B; --line:#2D3B32;
+  --accent:#55B97D; --accent-ink:#0D1A12; --warn:#F08A5D; --ok:#55B97D; --gold:#F0C04A;
+  --frame:#0B100D; --frame-line:#26322B; --dot:#26332B; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:16px 40px}
+.wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand canvas{width:40px;height:40px;image-rendering:pixelated}
+.brand h1{font-family:var(--f-display);font-weight:900;font-size:1.45rem;margin:0;line-height:1.2;letter-spacing:.02em}
+.brand p{margin:0;color:var(--muted);font-size:.85rem}
+.levels{display:flex;flex-wrap:wrap;gap:6px}
+.lv{width:46px;height:50px;border:2px solid var(--line);background:var(--surface);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0}
+.lv b{font-family:var(--f-pixel);font-size:1.05rem;line-height:1}
+.lv i{font-style:normal;font-size:.62rem;letter-spacing:-1px;color:var(--gold);min-height:.9em;line-height:1}
+.lv.cur{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.lv.cur i{color:var(--accent-ink)}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:920px){.layout{grid-template-columns:minmax(0,1fr)}}
+
+/* lesson */
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.chips{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{font-family:var(--f-pixel);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+.chip.concept{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-family:var(--f-body);font-weight:700;letter-spacing:.1em}
+.lesson h2{font-family:var(--f-display);font-weight:900;font-size:1.6rem;margin:0;line-height:1.25;text-wrap:balance}
+.goal{margin:0;font-weight:700}
+.goal span{color:var(--accent)}
+.explain{margin:0;color:var(--muted);max-width:62ch}
+details.hint{border-top:1px dashed var(--line);padding-top:8px}
+details.hint summary{cursor:pointer;font-weight:700;color:var(--accent);width:max-content}
+details.hint p{margin:6px 0 0;max-width:62ch}
+
+/* world */
+.world{background:var(--frame);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--frame-line)}
+.canvas-box{position:relative;display:flex;justify-content:center;overflow:hidden}
+#world{image-rendering:pixelated;display:block;max-width:100%;border-radius:3px}
+.hud{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-pixel);font-size:.8rem;color:#C7D3CA;letter-spacing:.04em}
+.hud b{color:#FFFFFF;font-weight:700}
+.status{min-height:1.6em;font-size:.92rem;color:#E9F0EA;font-weight:500}
+.status.bad{color:#FF9B73}
+.status.good{color:#7FE0A6}
+
+.result{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,16,12,.72);padding:12px}
+.result-card{background:var(--surface);color:var(--ink);border-radius:8px;padding:20px 22px;text-align:center;max-width:320px;width:100%;display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.result-card h3{margin:0;font-family:var(--f-display);font-weight:900;font-size:1.4rem}
+.stars{font-size:2rem;letter-spacing:6px;color:var(--gold);line-height:1}
+.stars .off{color:var(--line)}
+.result-card p{margin:0;color:var(--muted);font-size:.9rem}
+.result-card .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+
+/* bench */
+.bench{background:var(--surface);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;min-width:0}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.btn{border:2px solid var(--line);background:var(--surface-2);border-radius:6px;padding:6px 14px;font-weight:700;font-size:.9rem}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);padding:6px 20px;font-size:1rem}
+.btn.primary.stop{background:var(--warn);border-color:var(--warn);color:#fff}
+.btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.toolbar .spacer{flex:1}
+.count{font-size:.85rem;color:var(--muted)}
+.count b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+.bench-grid{display:grid;grid-template-columns:188px minmax(0,1fr);min-height:340px}
+@media (max-width:560px){.bench-grid{grid-template-columns:minmax(0,1fr)}}
+.palette{border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:6px;background:var(--surface-2)}
+@media (max-width:560px){.palette{border-right:0;border-bottom:1px solid var(--line);flex-direction:row;flex-wrap:wrap}}
+.pal-title,.prog-title{font-family:var(--f-pixel);font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin:0 0 2px}
+@media (max-width:560px){.pal-title{width:100%}}
+.palette .blk{border:0;text-align:left;width:100%}
+@media (max-width:560px){.palette .blk{width:auto}}
+.palette .blk:hover{filter:brightness(1.1)}
+.palette .blk:disabled{opacity:.35;cursor:not-allowed}
+
+/* blocks */
+.blk{position:relative;color:#fff;font-weight:700;font-size:.88rem;border-radius:4px;padding:7px 10px 7px 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;line-height:1.3;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.blk::after{content:"";position:absolute;left:14px;bottom:-5px;width:16px;height:6px;background:inherit;border-radius:0 0 3px 3px;z-index:1}
+.c-move{background:var(--b-move)} .c-turn{background:var(--b-turn)} .c-loop{background:var(--b-loop)} .c-build{background:var(--b-build)} .c-logic{background:var(--b-logic)}
+.blk select{background:rgba(255,255,255,.95);color:#17231B;border:0;border-radius:10px;padding:1px 6px;font-weight:700;font-size:.85rem}
+.blk .ico{font-family:var(--f-pixel);opacity:.9}
+
+.program-area{padding:12px 14px 18px;background-color:var(--surface);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.3px);background-size:18px 18px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.prog-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.challenge{font-size:.8rem;color:var(--muted)}
+.list{display:flex;flex-direction:column;gap:3px;align-items:flex-start;min-width:0}
+.list .item{display:flex;flex-direction:column;min-width:0;max-width:100%}
+.start-cap{background:var(--accent);color:var(--accent-ink);font-family:var(--f-pixel);font-size:.75rem;letter-spacing:.08em;padding:6px 14px;border-radius:12px 12px 4px 4px;width:max-content;position:relative}
+.start-cap::after{content:"";position:absolute;left:14px;bottom:-5px;width:16px;height:6px;background:inherit;border-radius:0 0 3px 3px}
+.tools{display:inline-flex;gap:2px;margin-left:4px}
+.tools button{background:rgba(0,0,0,.2);border:0;color:#fff;width:22px;height:22px;border-radius:4px;font-size:.8rem;line-height:1;padding:0}
+.tools button:hover{background:rgba(0,0,0,.38)}
+.blk.running{outline:3px solid var(--gold);outline-offset:1px}
+.wrapper{display:flex;flex-direction:column;min-width:0}
+.wrapper > .blk{border-radius:4px 4px 0 0}
+.wrapper > .blk::after{display:none}
+.mouth{display:flex;min-width:0}
+.mouth .arm{width:14px;flex:none}
+.mouth .inner{padding:6px 0 6px 6px;display:flex;flex-direction:column;gap:3px;min-width:120px}
+.foot{height:14px;width:150px;border-radius:0 0 4px 4px;position:relative}
+.foot::after{content:"";position:absolute;left:14px;bottom:-5px;width:16px;height:6px;background:inherit;border-radius:0 0 3px 3px}
+.slot{border:2px dashed var(--line);background:transparent;color:var(--muted);border-radius:4px;font-size:.78rem;padding:3px 10px;text-align:left;margin-top:3px;width:max-content;max-width:100%}
+.slot.on{border-color:var(--gold);color:var(--ink);background:color-mix(in srgb,var(--gold) 16%,transparent);font-weight:700}
+.locked .tools,.locked .slot,.locked select{pointer-events:none}
+.empty-tip{color:var(--muted);font-size:.85rem;margin:6px 0 0}
+
+/* code */
+.code{border-top:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.tabs{display:flex;gap:0;padding:0 14px;background:var(--surface-2);border-bottom:1px solid var(--line);align-items:stretch}
+.tab{border:0;background:none;padding:9px 14px;font-weight:700;font-size:.85rem;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+.tabs .note{margin-left:auto;align-self:center;font-size:.75rem;color:var(--muted)}
+@media (max-width:480px){.tabs .note{display:none}}
+pre.src{margin:0;background:var(--code-bg);color:var(--code-fg);font-family:var(--f-code);font-size:.84rem;line-height:1.65;padding:14px 0;overflow-x:auto;border-radius:0 0 8px 8px;min-height:120px;counter-reset:ln}
+pre.src .ln{display:block;padding:0 16px 0 0;white-space:pre}
+pre.src .ln::before{counter-increment:ln;content:counter(ln);display:inline-block;width:3em;padding-right:1em;text-align:right;color:var(--code-dim)}
+pre.src .ln.hot{background:rgba(240,192,74,.16)}
+.t-kw{color:var(--c-kw)} .t-fn{color:var(--c-fn)} .t-num{color:var(--c-num)} .t-const{color:var(--c-const)} .t-com{color:var(--code-dim);font-style:italic}
+
+.foot-note{color:var(--muted);font-size:.8rem;text-align:center;margin:4px 0 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <canvas id="logo" width="16" height="16" aria-hidden="true"></canvas>
+      <div>
+        <h1>方塊礦工程式課</h1>
+        <p>拼積木、看程式碼，帶機器人「小方」挖寶石</p>
+      </div>
+    </div>
+    <nav class="levels" id="levels" aria-label="關卡"></nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage" style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <article class="lesson" id="lesson"></article>
+      <div class="world">
+        <div class="canvas-box" id="canvasBox">
+          <canvas id="world" aria-label="方塊世界地圖"></canvas>
+          <div class="result" id="result" hidden></div>
+        </div>
+        <div class="hud">
+          <span>寶石 <b id="hGem">0/0</b></span>
+          <span>步數 <b id="hStep">0</b></span>
+          <span>木頭 <b id="hWood">0</b></span>
+        </div>
+        <div class="status" id="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="bench" aria-label="程式工作台">
+      <div class="toolbar">
+        <button class="btn primary" id="runBtn">▶ 執行</button>
+        <button class="btn" id="resetBtn">重設地圖</button>
+        <button class="btn" id="clearBtn">清空積木</button>
+        <button class="btn" id="speedBtn" aria-pressed="false">快轉 ×2</button>
+        <span class="spacer"></span>
+        <span class="count">積木 <b id="bCount">0</b> 塊</span>
+      </div>
+      <div class="bench-grid">
+        <div class="palette" id="palette"></div>
+        <div class="program-area">
+          <div class="prog-head">
+            <p class="prog-title">我的程式</p>
+            <span class="challenge" id="challenge"></span>
+          </div>
+          <div id="program"></div>
+        </div>
+      </div>
+      <div class="code">
+        <div class="tabs" role="tablist">
+          <button class="tab" role="tab" id="tab-js" aria-selected="true">JavaScript</button>
+          <button class="tab" role="tab" id="tab-py" aria-selected="false">Python</button>
+          <span class="note">積木會自動翻成程式碼</span>
+        </div>
+        <pre class="src" id="src"></pre>
+      </div>
+    </section>
+  </main>
+  <p class="foot-note">點左側「積木箱」把積木加入程式；虛線框標示新積木會放在哪裡。進度只存在這台裝置的瀏覽器裡。</p>
+</div>
+
+<script>
+(()=>{
+/* ---------- levels ---------- */
+const LEVELS=[
+ {name:"第一步",concept:"序列",palette:["forward"],dir:1,optimal:3,
+  map:["TTTTTTT","T.....T","TR..G.T","T.....T","TTTTTTT"],
+  goal:"讓小方走到寶石上",
+  explain:"程式是一串照順序執行的指令。小方會從最上面的積木開始，一塊一塊往下做。",
+  hint:"寶石在正前方 3 格。放 3 塊「前進 1 格」就到了。",
+  code:"每一塊積木都對應一行程式，例如「前進」就是 robot.forward()。"},
+ {name:"轉個彎",concept:"方向",palette:["forward","left","right"],dir:1,optimal:7,
+  map:["TTTTTTT","TR..TTT","TTT.TTT","TTT..GT","TTTTTTT"],
+  goal:"沿著小路轉彎，拿到寶石",
+  explain:"轉向只會改變小方面對的方向，不會移動位置。看清楚小方的眼睛朝哪邊，再決定往左或往右。",
+  hint:"前進 2、右轉、前進 2、左轉、前進 2。",
+  code:"轉向用 robot.turn(LEFT) 或 robot.turn(RIGHT)，括號裡的值叫做「參數」。"},
+ {name:"長長的走廊",concept:"迴圈",palette:["forward","left","right","repeat"],dir:1,optimal:2,
+  map:["WWWWWWWWWW","TTTTTTTTTT","TR......GT","TTTTTTTTTT","WWWWWWWWWW"],
+  goal:"走過 7 格長的走廊",challenge:"挑戰：只用 2 塊積木",
+  explain:"同一件事要做很多次時，用「重複」積木把它包起來，就不用一直複製貼上。這就是迴圈。",
+  hint:"先加入「重複」，再點它裡面的虛線框，放進「前進」，次數改成 7。",
+  code:"JavaScript 用 for 迴圈，Python 用 for i in range(7)，意思都是做 7 次。"},
+ {name:"搭一座橋",concept:"建造",palette:["forward","left","right","repeat","place"],dir:1,optimal:5,
+  map:["WWWWWWWWW","WR.WWWWGW","WWWWWWWWW"],
+  goal:"在水面上鋪路，走到對岸",challenge:"挑戰：5 塊積木內完成",
+  explain:"小方不會游泳。「放方塊」會在正前方的水面鋪一塊木板，鋪好才能走過去。",
+  hint:"先前進 1 格，然後重複 4 次「放方塊 → 前進」，最後再前進 1 格。",
+  code:"robot.place(FORWARD) 會在前方放下方塊。迴圈裡可以放好幾行程式。"},
+ {name:"清出小路",concept:"挖掘",palette:["forward","left","right","repeat","place","dig"],dir:1,optimal:4,
+  map:["WWWWWWWWW","WR.T.T.GW","WWWWWWWWW"],
+  goal:"把擋路的樹挖掉，拿到寶石",challenge:"挑戰：4 塊積木內完成",
+  explain:"樹木會擋住去路。「挖掘」會把正前方的方塊挖掉並收集起來；前面是空地時，挖掘不會有任何效果。",
+  hint:"找出重複的規律：前進、挖掘、前進。把這三塊放進「重複 3 次」。",
+  code:"robot.dig(FORWARD) 挖前方。找出規律再用迴圈，是寫程式最重要的習慣之一。"},
+ {name:"看情況做事",concept:"條件",palette:["forward","left","right","repeat","place","dig","if"],dir:1,optimal:6,
+  map:["WWWWWWWWWWWW","WR.TW.TWW.GW","WWWWWWWWWWWW"],
+  goal:"路上有樹也有水，讓小方自己判斷",challenge:"挑戰：6 塊積木內完成",
+  explain:"「如果」積木會先檢查前方是什麼，條件成立才執行裡面的積木。搭配迴圈，小方就能應付不同的路況。",
+  hint:"重複 9 次：如果前方是樹木就挖掘、如果前方是水就放方塊、然後前進。",
+  code:"if 是條件判斷。== 用來比較兩個值是否相等，和 = 的「指定」意思不同。"},
+ {name:"繞場一圈",concept:"巢狀迴圈",palette:["forward","left","right","repeat","place","dig","if"],dir:1,optimal:4,
+  map:["TTTTTT","TR.G.T","TGTT.T","T.TTGT","T.G..T","TTTTTT"],
+  goal:"沿著外圈走，收集 4 顆寶石",challenge:"挑戰：4 塊積木內完成",
+  explain:"迴圈裡面還可以再放迴圈。外層迴圈管「四個邊」，內層迴圈管「每一邊走幾步」。",
+  hint:"重複 4 次 { 重複 3 次 { 前進 }、向右轉 }。",
+  code:"兩層迴圈要用不同的變數名稱，所以外層用 i、內層用 j。"}
+];
+
+const BLOCKS={
+  forward:{cat:"move",label:"前進 1 格",ico:"▲"},
+  left:{cat:"turn",label:"向左轉",ico:"↺"},
+  right:{cat:"turn",label:"向右轉",ico:"↻"},
+  place:{cat:"build",label:"在前方放方塊",ico:"■"},
+  dig:{cat:"build",label:"挖掉前方方塊",ico:"⛏"},
+  repeat:{cat:"loop",label:"重複 _ 次",ico:"⟳"},
+  if:{cat:"logic",label:"如果前方是 _",ico:"?"}
+};
+const CONDS={tree:"樹木",water:"水",blocked:"障礙物"};
+const TILE_NAME={T:"樹",S:"石頭",W:"水",L:"岩漿"};
+
+/* ---------- storage ---------- */
+const KEY="block-miner-progress-v1";
+let progress={};
+try{progress=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){progress={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(progress))}catch(e){}}
+
+/* ---------- state ---------- */
+let uid=1;
+const S={lv:0,progs:LEVELS.map(()=>[]),target:null,running:false,fast:false,tab:"js"};
+let W=null; // world
+let gen=null,timer=null,curId=null;
+
+function mk(type){const b={id:uid++,type};if(type==="repeat"){b.n=3;b.body=[]}if(type==="if"){b.cond="tree";b.body=[]}return b}
+const prog=()=>S.progs[S.lv];
+function find(list,id){for(const b of list){if(b.id===id)return b;if(b.body){const r=find(b.body,id);if(r)return r}}return null}
+function parentOf(list,id){for(const b of list){if(b.id===id)return list;if(b.body){const r=parentOf(b.body,id);if(r)return r}}return null}
+function count(list){return list.reduce((s,b)=>s+1+(b.body?count(b.body):0),0)}
+
+/* ---------- seed level 1 with an example ---------- */
+S.progs[0]=[mk("forward")];
+
+/* ---------- world ---------- */
+const DX=[0,1,0,-1],DY=[-1,0,1,0];
+function loadWorld(){
+  const L=LEVELS[S.lv];
+  const grid=L.map.map(r=>r.split(""));
+  const gems=new Set();let rx=0,ry=0;
+  grid.forEach((row,y)=>row.forEach((c,x)=>{
+    if(c==="G"){gems.add(x+","+y);row[x]="."}
+    if(c==="R"){rx=x;ry=y;row[x]="."}
+  }));
+  W={grid,gems,total:gems.size,got:0,steps:0,wood:0,
+     r:{x:rx,y:ry,dir:L.dir},disp:{x:rx,y:ry,a:L.dir*90},ta:L.dir*90,fail:false,shake:0,sparks:[]};
+  hud();sizeCanvas();
+}
+function tileAt(x,y){return (W.grid[y]&&W.grid[y][x])||"#"}
+function front(){return{x:W.r.x+DX[W.r.dir],y:W.r.y+DY[W.r.dir]}}
+function walkable(c){return c==="."||c==="B"}
+function failWith(msg){W.fail=true;W.shake=1;throw{msg}}
+
+function act(type){
+  W.steps++; if(W.steps>400) throw{msg:"步數太多了，檢查一下迴圈次數吧"};
+  const f=front(),c=tileAt(f.x,f.y);
+  if(type==="forward"){
+    if(c==="W") {W.r.x=f.x;W.r.y=f.y;failWith("撲通！小方掉進水裡了。試試先放方塊鋪路。")}
+    if(c==="L") {W.r.x=f.x;W.r.y=f.y;failWith("小方踩到岩漿了！")}
+    if(!walkable(c)) failWith(`前面有${TILE_NAME[c]||"牆"}擋住，小方撞到了。`);
+    W.r.x=f.x;W.r.y=f.y;
+    const k=f.x+","+f.y;
+    if(W.gems.has(k)){W.gems.delete(k);W.got++;burst(f.x,f.y)}
+  }else if(type==="left"){W.r.dir=(W.r.dir+3)%4;W.ta-=90}
+  else if(type==="right"){W.r.dir=(W.r.dir+1)%4;W.ta+=90}
+  else if(type==="place"){
+    if(c==="W"||c==="L") W.grid[f.y][f.x]="B";
+    else if(c==="."&&!W.gems.has(f.x+","+f.y)) W.grid[f.y][f.x]="S";
+  }else if(type==="dig"){
+    if(c==="T"){W.grid[f.y][f.x]=".";W.wood++}
+    else if(c==="S"){W.grid[f.y][f.x]="."}
+  }
+  hud();
+}
+function check(cond){
+  const f=front(),c=tileAt(f.x,f.y);
+  if(cond==="tree") return c==="T";
+  if(cond==="water") return c==="W";
+  return !walkable(c);
+}
+function* exec(list){
+  for(const b of list){
+    if(W.got===W.total) return;
+    if(b.type==="repeat"){for(let i=0;i<b.n;i++){yield {id:b.id,silent:true};yield* exec(b.body);if(W.got===W.total)return}}
+    else if(b.type==="if"){const ok=check(b.cond);yield {id:b.id};if(ok) yield* exec(b.body)}
+    else {act(b.type);yield {id:b.id}}
+  }
+}
+
+/* ---------- running ---------- */
+const $=id=>document.getElementById(id);
+function status(t,cls){const s=$("status");s.textContent=t;s.className="status"+(cls?" "+cls:"")}
+function hud(){$("hGem").textContent=W.got+"/"+W.total;$("hStep").textContent=W.steps;$("hWood").textContent=W.wood}
+
+function run(){
+  if(S.running){stop("已停止");return}
+  if(!prog().length){status("先從積木箱加入積木吧。","bad");return}
+  loadWorld();$("result").hidden=true;
+  S.running=true;gen=exec(prog());setRunUI();status("執行中…");
+  tick();
+}
+function tick(){
+  let r;
+  try{r=gen.next()}catch(e){highlight(curId);return end(false,e.msg||"程式出錯了")}
+  if(r.done){
+    highlight(null);
+    if(W.got===W.total) return end(true);
+    const left=W.total-W.got;
+    return end(false,`程式跑完了，但還有 ${left} 顆寶石沒拿到。`);
+  }
+  curId=r.value.id;highlight(curId);
+  if(W.got===W.total){timer=setTimeout(()=>end(true),S.fast?200:420);return}
+  const delay=r.value.silent?(S.fast?60:140):(S.fast?190:420);
+  timer=setTimeout(tick,delay);
+}
+function stop(msg){clearTimeout(timer);S.running=false;gen=null;highlight(null);setRunUI();if(msg)status(msg)}
+function end(win,msg){
+  clearTimeout(timer);S.running=false;gen=null;setRunUI();
+  if(!win){status(msg,"bad");return}
+  highlight(null);
+  const L=LEVELS[S.lv],n=count(prog());
+  const stars=n<=L.optimal?3:n<=L.optimal+3?2:1;
+  progress[S.lv]=Math.max(progress[S.lv]||0,stars);save();renderLevels();
+  status(`完成！用了 ${n} 塊積木。`,"good");
+  const last=S.lv===LEVELS.length-1;
+  const st="★".repeat(stars)+`<span class="off">${"★".repeat(3-stars)}</span>`;
+  const tip=stars===3?"積木數量達到最佳解，太厲害了！":`最佳解只要 ${L.optimal} 塊積木，再挑戰看看？`;
+  $("result").innerHTML=`<div class="result-card" role="dialog" aria-label="過關">
+    <div class="stars" aria-label="${stars} 顆星">${st}</div>
+    <h3>${last?"全部關卡完成！":"過關！"}</h3><p>${tip}</p>
+    <div class="row"><button class="btn" id="again">再玩一次</button>${last?"":'<button class="btn primary" id="next">下一關 →</button>'}</div></div>`;
+  $("result").hidden=false;
+  $("again").onclick=()=>{loadWorld();$("result").hidden=true;status("")};
+  if(!last)$("next").onclick=()=>goLevel(S.lv+1);
+}
+function setRunUI(){
+  const b=$("runBtn");b.textContent=S.running?"■ 停止":"▶ 執行";b.classList.toggle("stop",S.running);
+  $("program").classList.toggle("locked",S.running);
+  document.querySelectorAll(".palette .blk").forEach(x=>x.disabled=S.running);
+}
+function highlight(id){
+  document.querySelectorAll(".blk.running").forEach(e=>e.classList.remove("running"));
+  document.querySelectorAll(".ln.hot").forEach(e=>e.classList.remove("hot"));
+  if(id==null)return;
+  const el=document.querySelector(`#program .blk[data-id="${id}"]`);if(el)el.classList.add("running");
+  const ln=document.querySelector(`#src .ln[data-id="${id}"]`);if(ln)ln.classList.add("hot");
+}
+
+/* ---------- UI: levels & lesson ---------- */
+function renderLevels(){
+  $("levels").innerHTML=LEVELS.map((L,i)=>{
+    const s=progress[i]||0;
+    return `<button class="lv${i===S.lv?" cur":""}" data-lv="${i}" title="第 ${i+1} 關：${L.name}" aria-current="${i===S.lv}"><b>${i+1}</b><i>${"★".repeat(s)}</i></button>`}).join("");
+}
+function renderLesson(){
+  const L=LEVELS[S.lv];
+  $("lesson").innerHTML=`<div class="chips"><span class="chip concept">${L.concept}</span><span class="chip">LEVEL ${S.lv+1}/${LEVELS.length}</span></div>
+   <h2>${L.name}</h2>
+   <p class="goal">目標：<span>${L.goal}</span></p>
+   <p class="explain">${L.explain}</p>
+   <details class="hint"><summary>需要提示？</summary><p>${L.hint}</p><p style="color:var(--muted)">程式碼小知識：${L.code}</p></details>`;
+  $("challenge").textContent=L.challenge||"";
+}
+function goLevel(i){
+  stop();S.lv=i;S.target=null;
+  renderLevels();renderLesson();renderPalette();renderProgram();loadWorld();
+  $("result").hidden=true;status("");
+  try{localStorage.setItem(KEY+"-lv",String(i))}catch(e){}
+}
+
+/* ---------- UI: palette ---------- */
+function blockInner(type,b){
+  const d=BLOCKS[type];
+  if(type==="repeat"){
+    const sel=b?`<select aria-label="重複次數" data-n="${b.id}">${Array.from({length:10},(_,k)=>`<option${b.n===k+1?" selected":""}>${k+1}</option>`).join("")}</select>`:"<b>N</b>";
+    return `<span class="ico">${d.ico}</span>重複 ${sel} 次`;
+  }
+  if(type==="if"){
+    const sel=b?`<select aria-label="條件" data-c="${b.id}">${Object.entries(CONDS).map(([k,v])=>`<option value="${k}"${b.cond===k?" selected":""}>${v}</option>`).join("")}</select>`:"<b>…</b>";
+    return `<span class="ico">${d.ico}</span>如果前方是 ${sel} 就`;
+  }
+  return `<span class="ico">${d.ico}</span>${d.label}`;
+}
+function renderPalette(){
+  const L=LEVELS[S.lv];
+  $("palette").innerHTML=`<p class="pal-title">積木箱</p>`+L.palette.map(t=>`<button class="blk c-${BLOCKS[t].cat}" data-add="${t}">${blockInner(t)}</button>`).join("");
+}
+
+/* ---------- UI: program ---------- */
+function slot(id){const on=(S.target===id);return `<button class="slot${on?" on":""}" data-slot="${id===null?"main":id}">${on?"▸ 新積木會放在這裡":"＋ 放到這裡"}</button>`}
+function tools(b){return `<span class="tools"><button data-up="${b.id}" aria-label="往上移" title="往上移">↑</button><button data-del="${b.id}" aria-label="刪除" title="刪除">✕</button></span>`}
+function renderList(list){
+  return list.map(b=>{
+    const cat=BLOCKS[b.type].cat;
+    if(b.body){
+      return `<div class="item wrapper"><div class="blk c-${cat}" data-id="${b.id}">${blockInner(b.type,b)}${tools(b)}</div>
+        <div class="mouth"><div class="arm c-${cat}"></div><div class="inner">${renderList(b.body)}${slot(b.id)}</div></div>
+        <div class="foot c-${cat}"></div></div>`;
+    }
+    return `<div class="item"><div class="blk c-${cat}" data-id="${b.id}">${blockInner(b.type,b)}${tools(b)}</div></div>`;
+  }).join("");
+}
+function renderProgram(){
+  if(S.target!==null&&!find(prog(),S.target))S.target=null;
+  const p=prog();
+  $("program").innerHTML=`<div class="list"><div class="start-cap">當 ▶ 按下</div>${renderList(p)}${slot(null)}</div>`+
+    (p.length?"":`<p class="empty-tip">點左邊的積木，它會接到「當 ▶ 按下」下面。</p>`);
+  $("bCount").textContent=count(p);
+  renderCode();
+}
+
+/* ---------- code generation ---------- */
+const sp=(c,t)=>`<span class="t-${c}">${t}</span>`;
+const VARS=["i","j","k","m"];
+function call(fn,arg){return `robot.${sp("fn",fn)}(${arg?sp("const",arg):""})`}
+function stmt(b,lang){
+  if(b.type==="forward")return call("forward");
+  if(b.type==="left")return call("turn","LEFT");
+  if(b.type==="right")return call("turn","RIGHT");
+  if(b.type==="place")return call("place","FORWARD");
+  if(b.type==="dig")return call("dig","FORWARD");
+}
+function condExpr(c){
+  if(c==="blocked")return call("blocked","FORWARD");
+  return `${call("inspect","FORWARD")} == ${sp("const",c==="tree"?"TREE":"WATER")}`;
+}
+function emit(list,lang,ind,depth,out){
+  const pad="    ".repeat(ind);
+  for(const b of list){
+    if(b.type==="repeat"){
+      const v=VARS[depth]||("i"+depth);
+      if(lang==="js")out.push([b.id,`${pad}${sp("kw","for")} (${sp("kw","let")} ${v} = ${sp("num",0)}; ${v} < ${sp("num",b.n)}; ${v}++) {`]);
+      else out.push([b.id,`${pad}${sp("kw","for")} ${v} ${sp("kw","in")} ${sp("fn","range")}(${sp("num",b.n)}):`]);
+      emit(b.body,lang,ind+1,depth+1,out);
+      if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
+      if(lang==="js")out.push([null,`${pad}}`]);
+    }else if(b.type==="if"){
+      if(lang==="js")out.push([b.id,`${pad}${sp("kw","if")} (${condExpr(b.cond)}) {`]);
+      else out.push([b.id,`${pad}${sp("kw","if")} ${condExpr(b.cond)}:`]);
+      emit(b.body,lang,ind+1,depth,out);
+      if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
+      if(lang==="js")out.push([null,`${pad}}`]);
+    }else{
+      out.push([b.id,pad+stmt(b,lang)+(lang==="js"?";":"")]);
+    }
+  }
+}
+function renderCode(){
+  const L=LEVELS[S.lv],lang=S.tab,c=lang==="js"?"//":"#";
+  const out=[[null,sp("com",`${c} 第 ${S.lv+1} 關：${L.name}`)]];
+  if(!prog().length)out.push([null,sp("com",`${c} 加入積木後，程式碼會出現在這裡`)]);
+  emit(prog(),lang,0,0,out);
+  $("src").innerHTML=out.map(([id,h])=>`<span class="ln"${id!=null?` data-id="${id}"`:""}>${h||" "}</span>`).join("");
+  $("tab-js").setAttribute("aria-selected",lang==="js");$("tab-py").setAttribute("aria-selected",lang==="py");
+  if(S.running&&curId!=null)highlight(curId);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.lv!=null){goLevel(+t.dataset.lv);return}
+  if(S.running&&!t.matches("#runBtn,#speedBtn,.tab"))return;
+  if(t.dataset.add){
+    const b=mk(t.dataset.add);
+    const host=S.target===null?prog():(find(prog(),S.target)||{body:prog()}).body;
+    host.push(b);
+    if(b.body)S.target=b.id;
+    renderProgram();status("");return;
+  }
+  if(t.dataset.slot){S.target=t.dataset.slot==="main"?null:+t.dataset.slot;renderProgram();return}
+  if(t.dataset.del){const id=+t.dataset.del,p=parentOf(prog(),id);p.splice(p.findIndex(b=>b.id===id),1);renderProgram();return}
+  if(t.dataset.up){const id=+t.dataset.up,p=parentOf(prog(),id),i=p.findIndex(b=>b.id===id);if(i>0)[p[i-1],p[i]]=[p[i],p[i-1]];renderProgram();return}
+});
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.dataset.n){find(prog(),+t.dataset.n).n=+t.value;renderCode()}
+  if(t.dataset.c){find(prog(),+t.dataset.c).cond=t.value;renderCode()}
+});
+$("runBtn").onclick=run;
+$("resetBtn").onclick=()=>{stop();loadWorld();$("result").hidden=true;status("地圖已重設。")};
+$("clearBtn").onclick=()=>{stop();S.progs[S.lv]=[];S.target=null;renderProgram();loadWorld();$("result").hidden=true;status("積木已清空。")};
+$("speedBtn").onclick=()=>{S.fast=!S.fast;$("speedBtn").setAttribute("aria-pressed",S.fast)};
+$("tab-js").onclick=()=>{S.tab="js";renderCode()};
+$("tab-py").onclick=()=>{S.tab="py";renderCode()};
+
+/* ---------- pixel rendering ---------- */
+const cv=$("world"),ctx=cv.getContext("2d");
+let T=48;
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function sizeCanvas(){
+  const cols=W.grid[0].length,rows=W.grid.length;
+  const avail=Math.max(160,$("canvasBox").clientWidth);
+  T=Math.max(16,Math.min(64,Math.floor(avail/cols/8)*8));
+  const dpr=window.devicePixelRatio||1;
+  cv.width=cols*T*dpr;cv.height=rows*T*dpr;cv.style.width=cols*T+"px";cv.style.height=rows*T+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;
+}
+function hsh(x,y,i){let n=(x*374761393+y*668265263+i*974634)|0;n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295}
+function P(ox,oy,gx,gy,col,w=1,h=1){const p=T/8;ctx.fillStyle=col;ctx.fillRect(ox+gx*p,oy+gy*p,w*p,h*p)}
+function grass(x,y,ox,oy){
+  ctx.fillStyle="#5BA04A";ctx.fillRect(ox,oy,T,T);
+  for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){const r=hsh(x*8+gx,y*8+gy,1);if(r<.16)P(ox,oy,gx,gy,"#4B8B3C");else if(r>.9)P(ox,oy,gx,gy,"#6FB95A")}
+}
+function drawTile(c,x,y,t){
+  const ox=x*T,oy=y*T;
+  if(c==="."){grass(x,y,ox,oy);return}
+  if(c==="W"){
+    ctx.fillStyle="#2D72C4";ctx.fillRect(ox,oy,T,T);
+    const s=reduce?0:Math.floor(t*2);
+    for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){
+      if((gx+gy*3+x*8+s)%9===0)P(ox,oy,gx,gy,"#5B9DE6",2,1);
+      else if(hsh(x*8+gx,y*8+gy,2)<.08)P(ox,oy,gx,gy,"#245EA3");
+    }return}
+  if(c==="L"){ctx.fillStyle="#D9471A";ctx.fillRect(ox,oy,T,T);const s=reduce?0:Math.floor(t*1.5);
+    for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){if((gx*2+gy+s)%6===0)P(ox,oy,gx,gy,"#F6A23A")}return}
+  if(c==="T"){
+    grass(x,y,ox,oy);
+    P(ox,oy,2,2,"rgba(0,0,0,.22)",6,6);
+    for(let gy=1;gy<7;gy++)for(let gx=1;gx<7;gx++){
+      if((gx===1||gx===6)&&(gy===1||gy===6))continue;
+      const r=hsh(x*8+gx,y*8+gy,3);
+      let col="#2F6E2C";if(gx+gy<6&&r>.35)col="#47923C";if(gx+gy>9||r<.12)col="#22521F";
+      P(ox,oy,gx,gy,col);
+    }
+    P(ox,oy,3,3,"#6A4524",2,2);P(ox,oy,3,3,"#2F6E2C",1,1);P(ox,oy,2,2,"#5EAA4E");return}
+  if(c==="S"){ctx.fillStyle="#8E949A";ctx.fillRect(ox,oy,T,T);
+    for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){const r=hsh(x*8+gx,y*8+gy,4);if(r<.2)P(ox,oy,gx,gy,"#737981");else if(r>.85)P(ox,oy,gx,gy,"#ADB2B7")}
+    ctx.strokeStyle="rgba(0,0,0,.35)";ctx.lineWidth=Math.max(1,T/16);ctx.strokeRect(ox+.5,oy+.5,T-1,T-1);return}
+  if(c==="B"){ctx.fillStyle="#2D72C4";ctx.fillRect(ox,oy,T,T);
+    for(let k=0;k<4;k++){P(ox,oy,0.5,k*2,"#B07D43",7,2);P(ox,oy,0.5,k*2+1.6,"#7E5329",7,.4);P(ox,oy,1,k*2+.6,"#3E2A16",.5,.5);P(ox,oy,6,k*2+.6,"#3E2A16",.5,.5)}return}
+  ctx.fillStyle="#1A1F1C";ctx.fillRect(ox,oy,T,T);
+}
+function drawGem(x,y,t){
+  const ox=x*T,oy=y*T+(reduce?0:Math.sin(t*3+x)*T/24);
+  P(ox,y*T,2.5,6.5,"rgba(0,0,0,.2)",3,1);
+  const rows=["...##...","..#ab#..",".#aaab#.","#aaabbb#",".#abbb#.","..#bb#..","...##..."];
+  rows.forEach((r,gy)=>[...r].forEach((ch,gx)=>{
+    if(ch===".")return;P(ox,oy,gx,gy+.3,ch==="#"?"#0D5E66":ch==="a"?"#4CD9E3":"#1FA4B1")}));
+  P(ox,oy,3,1.3,"#EFFFFF");P(ox,oy,2,2.3,"#BFF7FA");
+}
+function drawRobot(t){
+  const d=W.disp,p=T/8;
+  let cx=(d.x+.5)*T,cy=(d.y+.5)*T;
+  if(W.shake>0){cx+=Math.sin(t*60)*W.shake*p;W.shake=Math.max(0,W.shake-.03)}
+  ctx.save();ctx.translate(cx,cy);
+  ctx.fillStyle="rgba(0,0,0,.28)";ctx.fillRect(-2.8*p,-2.2*p,6.2*p,6.2*p);
+  ctx.rotate(d.a*Math.PI/180);
+  const R=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x*p,y*p,w*p,h*p)};
+  R(-3.6,-2.6,1.2,5.4,"#38434E");R(2.4,-2.6,1.2,5.4,"#38434E");
+  for(let k=0;k<3;k++){R(-3.6,-2.2+k*1.8,1.2,.4,"#56636F");R(2.4,-2.2+k*1.8,1.2,.4,"#56636F")}
+  R(-2.6,-3,5.2,6,"#26303A");R(-2.2,-2.6,4.4,5.2,"#D8DFE4");R(-2.2,1.6,4.4,1,"#B7C1C9");
+  R(-1.8,-2.4,3.6,1.6,"#1A2632");
+  const blink=(!reduce&&Math.floor(t*1.3)%5===0&&(t*1.3%1)<.15);
+  if(!blink){R(-1.3,-2,1,.8,W.fail?"#FF7A59":"#6FF0C3");R(.3,-2,1,.8,W.fail?"#FF7A59":"#6FF0C3")}
+  R(-.5,.6,1,1,"#F2B33D");
+  ctx.restore();
+  if(W.fail){ctx.fillStyle="#FF7A59";ctx.font=`700 ${T*.5}px ${getComputedStyle(document.body).fontFamily}`;ctx.textAlign="center";ctx.fillText("!",cx,cy-T*.55)}
+}
+function burst(x,y){for(let i=0;i<12;i++){const a=Math.PI*2*i/12;W.sparks.push({x:(x+.5)*T,y:(y+.5)*T,vx:Math.cos(a)*2,vy:Math.sin(a)*2,l:1})}}
+function frame(ms){
+  const t=ms/1000;
+  if(W){
+    const d=W.disp,k=reduce?1:.2;
+    d.x+=(W.r.x-d.x)*k;d.y+=(W.r.y-d.y)*k;d.a+=(W.ta-d.a)*k;
+    ctx.clearRect(0,0,cv.width,cv.height);
+    W.grid.forEach((row,y)=>row.forEach((c,x)=>drawTile(c,x,y,t)));
+    W.gems.forEach(s=>{const[x,y]=s.split(",").map(Number);drawGem(x,y,t)});
+    drawRobot(t);
+    W.sparks=W.sparks.filter(s=>{s.x+=s.vx*T/40;s.y+=s.vy*T/40;s.l-=.03;ctx.fillStyle=`rgba(180,250,255,${Math.max(0,s.l)})`;ctx.fillRect(s.x,s.y,T/10,T/10);return s.l>0});
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ---------- logo ---------- */
+(()=>{const c=$("logo").getContext("2d");const g=["#5BA04A","#4B8B3C","#6FB95A"];
+  for(let y=0;y<16;y++)for(let x=0;x<16;x++){c.fillStyle=y<5?g[(x*7+y*3)%5===0?1:(x+y)%7===0?2:0]:((x*5+y*3)%7===0?"#6E4A2A":"#8A5F37");c.fillRect(x,y,1,1)}
+  c.fillStyle="#4CD9E3";c.fillRect(6,8,4,4);c.fillStyle="#EFFFFF";c.fillRect(7,9,1,1)})();
+
+/* ---------- boot ---------- */
+let startLv=0;try{const v=+localStorage.getItem(KEY+"-lv");if(v>=0&&v<LEVELS.length)startLv=v}catch(e){}
+goLevel(startLv);
+status("範例：程式裡已經有 1 塊「前進」，再加 2 塊然後按 ▶ 執行。");
+if(startLv!==0)status("");
+addEventListener("resize",()=>{if(W)sizeCanvas()});
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
