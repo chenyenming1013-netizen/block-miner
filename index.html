@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="用積木學寫程式：帶機器人小方挖寶石，並對照 JavaScript 與 Python 程式碼。">
+<meta name="description" content="用積木學寫程式：帶機器人小方在 3D 方塊世界挖寶石，並對照 JavaScript 與 Python 程式碼。">
 <title>方塊礦工程式課</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700;900&family=Silkscreen:wght@400;700&display=swap">
@@ -31,6 +31,7 @@
   --frame:#0B100D; --frame-line:#26322B; --dot:#26332B; color-scheme:dark }
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:16px 40px}
 .wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 button,select{font:inherit;color:inherit}
@@ -48,6 +49,7 @@ button{cursor:pointer}
 .lv b{font-family:var(--f-pixel);font-size:1.05rem;line-height:1}
 .lv i{font-style:normal;font-size:.62rem;letter-spacing:-1px;color:var(--gold);min-height:.9em;line-height:1}
 .lv.cur{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+@media (max-width:440px){.levels{gap:4px}.lv{width:calc((100vw - 32px - 24px)/7);height:44px}}
 .lv.cur i{color:var(--accent-ink)}
 
 .layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
@@ -69,7 +71,12 @@ details.hint p{margin:6px 0 0;max-width:62ch}
 /* world */
 .world{background:var(--frame);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--frame-line)}
 .canvas-box{position:relative;display:flex;justify-content:center;overflow:hidden}
-#world{image-rendering:pixelated;display:block;max-width:100%;border-radius:3px}
+#world{display:block;max-width:100%;border-radius:4px;touch-action:pan-y;cursor:grab}
+#world:active{cursor:grabbing}
+.view-ctl{position:absolute;top:8px;right:8px;display:flex;gap:4px}
+.view-ctl button{background:rgba(16,24,19,.72);color:#fff;border:0;border-radius:4px;padding:4px 9px;font-size:.8rem;font-weight:700}
+.view-ctl button:hover{background:rgba(16,24,19,.9)}
+.drag-tip{position:absolute;left:8px;bottom:8px;background:rgba(16,24,19,.6);color:#E9F0EA;font-size:.72rem;padding:2px 8px;border-radius:3px;pointer-events:none}
 .hud{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-pixel);font-size:.8rem;color:#C7D3CA;letter-spacing:.04em}
 .hud b{color:#FFFFFF;font-weight:700}
 .status{min-height:1.6em;font-size:.92rem;color:#E9F0EA;font-weight:500}
@@ -154,7 +161,6 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
 .foot-note{color:var(--muted);font-size:.8rem;text-align:center;margin:4px 0 0}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 
@@ -175,7 +181,9 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
       <article class="lesson" id="lesson"></article>
       <div class="world">
         <div class="canvas-box" id="canvasBox">
-          <canvas id="world" aria-label="方塊世界地圖"></canvas>
+          <canvas id="world" aria-label="3D 方塊世界地圖"></canvas>
+          <div class="view-ctl"><button id="rotL" aria-label="向左旋轉視角">↺</button><button id="rotR" aria-label="向右旋轉視角">↻</button></div>
+          <span class="drag-tip">左右拖曳可旋轉視角</span>
           <div class="result" id="result" hidden></div>
         </div>
         <div class="hud">
@@ -219,6 +227,7 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
   <p class="foot-note">點左側「積木箱」把積木加入程式；虛線框標示新積木會放在哪裡。進度只存在這台裝置的瀏覽器裡。</p>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (()=>{
 /* ---------- levels ---------- */
@@ -312,7 +321,7 @@ function loadWorld(){
   }));
   W={grid,gems,total:gems.size,got:0,steps:0,wood:0,
      r:{x:rx,y:ry,dir:L.dir},disp:{x:rx,y:ry,a:L.dir*90},ta:L.dir*90,fail:false,shake:0,sparks:[]};
-  hud();sizeCanvas();
+  hud();if(R3)buildScene();
 }
 function tileAt(x,y){return (W.grid[y]&&W.grid[y][x])||"#"}
 function front(){return{x:W.r.x+DX[W.r.dir],y:W.r.y+DY[W.r.dir]}}
@@ -328,15 +337,15 @@ function act(type){
     if(!walkable(c)) failWith(`前面有${TILE_NAME[c]||"牆"}擋住，小方撞到了。`);
     W.r.x=f.x;W.r.y=f.y;
     const k=f.x+","+f.y;
-    if(W.gems.has(k)){W.gems.delete(k);W.got++;burst(f.x,f.y)}
+    if(W.gems.has(k)){W.gems.delete(k);W.got++;burst(f.x,f.y);W.dirty=true}
   }else if(type==="left"){W.r.dir=(W.r.dir+3)%4;W.ta-=90}
   else if(type==="right"){W.r.dir=(W.r.dir+1)%4;W.ta+=90}
   else if(type==="place"){
-    if(c==="W"||c==="L") W.grid[f.y][f.x]="B";
-    else if(c==="."&&!W.gems.has(f.x+","+f.y)) W.grid[f.y][f.x]="S";
+    if(c==="W"||c==="L"){W.grid[f.y][f.x]="B";W.dirty=true}
+    else if(c==="."&&!W.gems.has(f.x+","+f.y)){W.grid[f.y][f.x]="S";W.dirty=true}
   }else if(type==="dig"){
-    if(c==="T"){W.grid[f.y][f.x]=".";W.wood++}
-    else if(c==="S"){W.grid[f.y][f.x]="."}
+    if(c==="T"){W.grid[f.y][f.x]=".";W.wood++;W.dirty=true}
+    else if(c==="S"){W.grid[f.y][f.x]=".";W.dirty=true}
   }
   hud();
 }
@@ -551,93 +560,154 @@ $("speedBtn").onclick=()=>{S.fast=!S.fast;$("speedBtn").setAttribute("aria-press
 $("tab-js").onclick=()=>{S.tab="js";renderCode()};
 $("tab-py").onclick=()=>{S.tab="py";renderCode()};
 
-/* ---------- pixel rendering ---------- */
-const cv=$("world"),ctx=cv.getContext("2d");
-let T=48;
+/* ---------- 3D rendering (Three.js) ---------- */
+const cv=$("world");
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-function sizeCanvas(){
-  const cols=W.grid[0].length,rows=W.grid.length;
-  const avail=Math.max(160,$("canvasBox").clientWidth);
-  T=Math.max(16,Math.min(64,Math.floor(avail/cols/8)*8));
-  const dpr=window.devicePixelRatio||1;
-  cv.width=cols*T*dpr;cv.height=rows*T*dpr;cv.style.width=cols*T+"px";cv.style.height=rows*T+"px";
-  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;
-}
 function hsh(x,y,i){let n=(x*374761393+y*668265263+i*974634)|0;n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295}
-function P(ox,oy,gx,gy,col,w=1,h=1){const p=T/8;ctx.fillStyle=col;ctx.fillRect(ox+gx*p,oy+gy*p,w*p,h*p)}
-function grass(x,y,ox,oy){
-  ctx.fillStyle="#5BA04A";ctx.fillRect(ox,oy,T,T);
-  for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){const r=hsh(x*8+gx,y*8+gy,1);if(r<.16)P(ox,oy,gx,gy,"#4B8B3C");else if(r>.9)P(ox,oy,gx,gy,"#6FB95A")}
+let R3=null;
+const view={az:.45,taz:.45,el:1.02};
+
+function tex(draw){
+  const c=document.createElement("canvas");c.width=c.height=16;const g=c.getContext("2d");draw(g);
+  const t=new THREE.CanvasTexture(c);t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;return t;
 }
-function drawTile(c,x,y,t){
-  const ox=x*T,oy=y*T;
-  if(c==="."){grass(x,y,ox,oy);return}
-  if(c==="W"){
-    ctx.fillStyle="#2D72C4";ctx.fillRect(ox,oy,T,T);
-    const s=reduce?0:Math.floor(t*2);
-    for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){
-      if((gx+gy*3+x*8+s)%9===0)P(ox,oy,gx,gy,"#5B9DE6",2,1);
-      else if(hsh(x*8+gx,y*8+gy,2)<.08)P(ox,oy,gx,gy,"#245EA3");
-    }return}
-  if(c==="L"){ctx.fillStyle="#D9471A";ctx.fillRect(ox,oy,T,T);const s=reduce?0:Math.floor(t*1.5);
-    for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){if((gx*2+gy+s)%6===0)P(ox,oy,gx,gy,"#F6A23A")}return}
-  if(c==="T"){
-    grass(x,y,ox,oy);
-    P(ox,oy,2,2,"rgba(0,0,0,.22)",6,6);
-    for(let gy=1;gy<7;gy++)for(let gx=1;gx<7;gx++){
-      if((gx===1||gx===6)&&(gy===1||gy===6))continue;
-      const r=hsh(x*8+gx,y*8+gy,3);
-      let col="#2F6E2C";if(gx+gy<6&&r>.35)col="#47923C";if(gx+gy>9||r<.12)col="#22521F";
-      P(ox,oy,gx,gy,col);
+function speckle(g,base,spots,seed,y0=0,y1=16){
+  g.fillStyle=base;g.fillRect(0,y0,16,y1-y0);
+  for(let y=y0;y<y1;y++)for(let x=0;x<16;x++){const r=hsh(x,y,seed);
+    for(const [lo,hi,c] of spots){if(r>=lo&&r<hi){g.fillStyle=c;g.fillRect(x,y,1,1);break}}}
+}
+function initThree(){
+  if(typeof THREE==="undefined") throw new Error("no three");
+  const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  const scene=new THREE.Scene();scene.background=new THREE.Color("#9FD0EE");
+  const camera=new THREE.PerspectiveCamera(38,1.6,.1,200);
+  scene.add(new THREE.HemisphereLight(0xe8f6ff,0x4d5e3c,.78));
+  const sun=new THREE.DirectionalLight(0xfff4e0,.72);sun.castShadow=true;
+  sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-12,right:12,top:12,bottom:-12,near:.5,far:60});
+  scene.add(sun);scene.add(sun.target);
+
+  const grassTop=tex(g=>speckle(g,"#5BA04A",[[0,.16,"#4B8B3C"],[.9,1,"#71BC5B"]],1));
+  const grassSide=tex(g=>{speckle(g,"#8A5F37",[[0,.18,"#6E4A2A"],[.88,1,"#A27247"]],2);speckle(g,"#5BA04A",[[0,.2,"#4B8B3C"]],3,0,4);
+    for(let x=0;x<16;x++)if(hsh(x,9,5)<.5){g.fillStyle="#5BA04A";g.fillRect(x,4,1,1)}});
+  const dirt=tex(g=>speckle(g,"#8A5F37",[[0,.18,"#6E4A2A"],[.88,1,"#A27247"]],4));
+  const stone=tex(g=>speckle(g,"#8E949A",[[0,.2,"#737981"],[.85,1,"#ADB2B7"]],6));
+  const logSide=tex(g=>{g.fillStyle="#6A4524";g.fillRect(0,0,16,16);g.fillStyle="#4E321A";for(let x=1;x<16;x+=4)g.fillRect(x,0,1,16);speckle(g,"rgba(0,0,0,0)",[[0,.08,"#82582F"]],7)});
+  const logTop=tex(g=>{g.fillStyle="#6A4524";g.fillRect(0,0,16,16);g.fillStyle="#A27A4A";g.fillRect(2,2,12,12);g.fillStyle="#8A6238";g.fillRect(4,4,8,8);g.fillStyle="#A27A4A";g.fillRect(6,6,4,4)});
+  const leaves=tex(g=>speckle(g,"#2F6E2C",[[0,.22,"#22521F"],[.78,1,"#47923C"]],8));
+  const plank=tex(g=>{g.fillStyle="#B07D43";g.fillRect(0,0,16,16);g.fillStyle="#7E5329";for(let y=3;y<16;y+=4)g.fillRect(0,y,16,1);
+    g.fillStyle="#3E2A16";[[1,1],[14,1],[1,9],[14,9]].forEach(([x,y])=>g.fillRect(x,y,1,1))});
+  const water=tex(g=>speckle(g,"#2D72C4",[[0,.07,"#245EA3"],[.86,1,"#5B9DE6"]],9));water.wrapS=water.wrapT=THREE.RepeatWrapping;
+  const lava=tex(g=>speckle(g,"#D9471A",[[0,.15,"#A8320F"],[.7,1,"#F6A23A"]],10));lava.wrapS=lava.wrapT=THREE.RepeatWrapping;
+
+  const L=m=>new THREE.MeshLambertMaterial({map:m});
+  const sideM=L(grassSide),logS=L(logSide),logT=L(logTop);
+  const M={
+    grass:[sideM,sideM,L(grassTop),L(dirt),sideM,sideM],
+    dirt:L(dirt),stone:L(stone),leaves:L(leaves),plank:L(plank),
+    log:[logS,logS,logT,logT,logS,logS],
+    water:new THREE.MeshLambertMaterial({map:water,transparent:true,opacity:.82}),
+    lava:new THREE.MeshBasicMaterial({map:lava}),
+    gem:new THREE.MeshLambertMaterial({color:"#4CD9E3",emissive:"#0B6A73"}),
+    spark:new THREE.MeshBasicMaterial({color:"#C8FBFF",transparent:true})
+  };
+  const G={box:new THREE.BoxGeometry(1,1,1),liquid:new THREE.BoxGeometry(1,.82,1),slab:new THREE.BoxGeometry(1,.2,1),
+    trunk:new THREE.BoxGeometry(.34,.8,.34),leaf:new THREE.BoxGeometry(.92,.8,.92),gem:new THREE.OctahedronGeometry(.27),
+    spark:new THREE.BoxGeometry(.07,.07,.07)};
+
+  // robot
+  const robot=new THREE.Group(),body=new THREE.Group();robot.add(body);
+  const C=c=>new THREE.MeshLambertMaterial({color:c});
+  const eyeMat=new THREE.MeshBasicMaterial({color:"#6FF0C3"});
+  const part=(geo,mat,x,y,z)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=true;body.add(m);return m};
+  part(new THREE.BoxGeometry(.62,.5,.62),C("#D8DFE4"),0,.42,0);
+  part(new THREE.BoxGeometry(.66,.08,.66),C("#9AA6B0"),0,.66,0);
+  part(new THREE.BoxGeometry(.5,.2,.04),C("#1A2632"),0,.47,-.32);
+  part(new THREE.BoxGeometry(.1,.08,.02),eyeMat,-.11,.48,-.345);
+  part(new THREE.BoxGeometry(.1,.08,.02),eyeMat,.11,.48,-.345);
+  part(new THREE.BoxGeometry(.16,.22,.66),C("#38434E"),-.36,.13,0);
+  part(new THREE.BoxGeometry(.16,.22,.66),C("#38434E"),.36,.13,0);
+  part(new THREE.BoxGeometry(.04,.22,.04),C("#56636F"),0,.8,.12);
+  part(new THREE.BoxGeometry(.1,.1,.1),C("#F2B33D"),0,.94,.12);
+  scene.add(robot);
+
+  const terrain=new THREE.Group(),gems=new THREE.Group();scene.add(terrain,gems);
+
+  // drag to orbit (horizontal drags only, so the page still scrolls on phones)
+  let dragX=null;
+  cv.addEventListener("pointerdown",e=>{dragX=e.clientX;cv.setPointerCapture(e.pointerId)});
+  cv.addEventListener("pointermove",e=>{if(dragX==null)return;const dx=e.clientX-dragX;dragX=e.clientX;view.taz-=dx*.01;if(reduce)view.az=view.taz});
+  const up=()=>{dragX=null};cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+
+  R3={renderer,scene,camera,sun,M,G,robot,body,eyeMat,terrain,gems,water,lava,sparks:[],last:performance.now()};
+}
+
+function add(group,geo,mat,x,y,z,cast){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.receiveShadow=true;if(cast)m.castShadow=true;group.add(m);return m}
+function buildScene(){
+  if(!R3){try{initThree()}catch(e){status("這台裝置無法顯示 3D 畫面，請改用較新的瀏覽器。","bad");return}}
+  const {terrain,gems,M,G}=R3;
+  terrain.clear();gems.clear();
+  W.grid.forEach((row,y)=>row.forEach((c,x)=>{
+    if(c==="W"||c==="B"||c==="L"){
+      add(terrain,G.box,M.dirt,x,-1.5,y);
+      add(terrain,G.liquid,c==="L"?M.lava:M.water,x,-.56,y);
+      if(c==="B")add(terrain,G.slab,M.plank,x,-.1,y,true);
+    }else{
+      add(terrain,G.box,M.grass,x,-.5,y);
+      if(c==="S")add(terrain,G.box,M.stone,x,.5,y,true);
+      if(c==="T"){add(terrain,G.trunk,M.log,x,.4,y,true);add(terrain,G.leaf,M.leaves,x,1.12,y,true)}
     }
-    P(ox,oy,3,3,"#6A4524",2,2);P(ox,oy,3,3,"#2F6E2C",1,1);P(ox,oy,2,2,"#5EAA4E");return}
-  if(c==="S"){ctx.fillStyle="#8E949A";ctx.fillRect(ox,oy,T,T);
-    for(let gy=0;gy<8;gy++)for(let gx=0;gx<8;gx++){const r=hsh(x*8+gx,y*8+gy,4);if(r<.2)P(ox,oy,gx,gy,"#737981");else if(r>.85)P(ox,oy,gx,gy,"#ADB2B7")}
-    ctx.strokeStyle="rgba(0,0,0,.35)";ctx.lineWidth=Math.max(1,T/16);ctx.strokeRect(ox+.5,oy+.5,T-1,T-1);return}
-  if(c==="B"){ctx.fillStyle="#2D72C4";ctx.fillRect(ox,oy,T,T);
-    for(let k=0;k<4;k++){P(ox,oy,0.5,k*2,"#B07D43",7,2);P(ox,oy,0.5,k*2+1.6,"#7E5329",7,.4);P(ox,oy,1,k*2+.6,"#3E2A16",.5,.5);P(ox,oy,6,k*2+.6,"#3E2A16",.5,.5)}return}
-  ctx.fillStyle="#1A1F1C";ctx.fillRect(ox,oy,T,T);
+  }));
+  W.gems.forEach(s=>{const[x,y]=s.split(",").map(Number);const m=add(gems,G.gem,M.gem,x,.55,y,true);m.userData.seed=x+y});
+  W.dirty=false;
+  sizeCanvas();
 }
-function drawGem(x,y,t){
-  const ox=x*T,oy=y*T+(reduce?0:Math.sin(t*3+x)*T/24);
-  P(ox,y*T,2.5,6.5,"rgba(0,0,0,.2)",3,1);
-  const rows=["...##...","..#ab#..",".#aaab#.","#aaabbb#",".#abbb#.","..#bb#..","...##..."];
-  rows.forEach((r,gy)=>[...r].forEach((ch,gx)=>{
-    if(ch===".")return;P(ox,oy,gx,gy+.3,ch==="#"?"#0D5E66":ch==="a"?"#4CD9E3":"#1FA4B1")}));
-  P(ox,oy,3,1.3,"#EFFFFF");P(ox,oy,2,2.3,"#BFF7FA");
+function sizeCanvas(){
+  if(!R3)return;
+  const w=Math.max(200,$("canvasBox").clientWidth),h=Math.round(Math.min(480,Math.max(250,w*.62)));
+  R3.renderer.setSize(w,h,false);cv.style.width=w+"px";cv.style.height=h+"px";
+  R3.camera.aspect=w/h;R3.camera.updateProjectionMatrix();
 }
-function drawRobot(t){
-  const d=W.disp,p=T/8;
-  let cx=(d.x+.5)*T,cy=(d.y+.5)*T;
-  if(W.shake>0){cx+=Math.sin(t*60)*W.shake*p;W.shake=Math.max(0,W.shake-.03)}
-  ctx.save();ctx.translate(cx,cy);
-  ctx.fillStyle="rgba(0,0,0,.28)";ctx.fillRect(-2.8*p,-2.2*p,6.2*p,6.2*p);
-  ctx.rotate(d.a*Math.PI/180);
-  const R=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x*p,y*p,w*p,h*p)};
-  R(-3.6,-2.6,1.2,5.4,"#38434E");R(2.4,-2.6,1.2,5.4,"#38434E");
-  for(let k=0;k<3;k++){R(-3.6,-2.2+k*1.8,1.2,.4,"#56636F");R(2.4,-2.2+k*1.8,1.2,.4,"#56636F")}
-  R(-2.6,-3,5.2,6,"#26303A");R(-2.2,-2.6,4.4,5.2,"#D8DFE4");R(-2.2,1.6,4.4,1,"#B7C1C9");
-  R(-1.8,-2.4,3.6,1.6,"#1A2632");
-  const blink=(!reduce&&Math.floor(t*1.3)%5===0&&(t*1.3%1)<.15);
-  if(!blink){R(-1.3,-2,1,.8,W.fail?"#FF7A59":"#6FF0C3");R(.3,-2,1,.8,W.fail?"#FF7A59":"#6FF0C3")}
-  R(-.5,.6,1,1,"#F2B33D");
-  ctx.restore();
-  if(W.fail){ctx.fillStyle="#FF7A59";ctx.font=`700 ${T*.5}px ${getComputedStyle(document.body).fontFamily}`;ctx.textAlign="center";ctx.fillText("!",cx,cy-T*.55)}
+function placeCamera(){
+  const cols=W.grid[0].length,rows=W.grid.length,cam=R3.camera;
+  const cx=(cols-1)/2,cz=(rows-1)/2;
+  const span=Math.abs(cols*Math.cos(view.az))+Math.abs(rows*Math.sin(view.az));
+  const depth=Math.abs(cols*Math.sin(view.az))+Math.abs(rows*Math.cos(view.az));
+  const t=Math.tan(cam.fov*Math.PI/360);
+  const r=Math.max((span+1.2)/(2*t*cam.aspect),(depth*.75+2)/(2*t))+2.5;
+  cam.position.set(cx+r*Math.cos(view.el)*Math.sin(view.az),r*Math.sin(view.el),cz+r*Math.cos(view.el)*Math.cos(view.az));
+  cam.lookAt(cx,0,cz);
+  R3.sun.position.set(cx-5,12,cz+7);R3.sun.target.position.set(cx,0,cz);
 }
-function burst(x,y){for(let i=0;i<12;i++){const a=Math.PI*2*i/12;W.sparks.push({x:(x+.5)*T,y:(y+.5)*T,vx:Math.cos(a)*2,vy:Math.sin(a)*2,l:1})}}
+function burst(x,y){
+  if(!R3)return;
+  for(let i=0;i<14;i++){const m=new THREE.Mesh(R3.G.spark,R3.M.spark.clone());m.position.set(x,.55,y);
+    const a=Math.PI*2*i/14;m.userData={vx:Math.cos(a)*.035,vy:.05+Math.random()*.03,vz:Math.sin(a)*.035,l:1};R3.scene.add(m);R3.sparks.push(m)}
+}
 function frame(ms){
-  const t=ms/1000;
-  if(W){
-    const d=W.disp,k=reduce?1:.2;
-    d.x+=(W.r.x-d.x)*k;d.y+=(W.r.y-d.y)*k;d.a+=(W.ta-d.a)*k;
-    ctx.clearRect(0,0,cv.width,cv.height);
-    W.grid.forEach((row,y)=>row.forEach((c,x)=>drawTile(c,x,y,t)));
-    W.gems.forEach(s=>{const[x,y]=s.split(",").map(Number);drawGem(x,y,t)});
-    drawRobot(t);
-    W.sparks=W.sparks.filter(s=>{s.x+=s.vx*T/40;s.y+=s.vy*T/40;s.l-=.03;ctx.fillStyle=`rgba(180,250,255,${Math.max(0,s.l)})`;ctx.fillRect(s.x,s.y,T/10,T/10);return s.l>0});
-  }
   requestAnimationFrame(frame);
+  if(!W||!R3)return;
+  if(W.dirty)buildScene();
+  const t=ms/1000,dt=Math.min(.05,(ms-R3.last)/1000);R3.last=ms;
+  const d=W.disp,k=reduce?1:.18;
+  d.x+=(W.r.x-d.x)*k;d.y+=(W.r.y-d.y)*k;d.a+=(W.ta-d.a)*k;
+  view.az+=(view.taz-view.az)*(reduce?1:.15);
+  const dist=Math.min(1,Math.hypot(W.r.x-d.x,W.r.y-d.y));
+  const here=tileAt(W.r.x,W.r.y);
+  W.sink=(W.sink||0)+((W.fail&&(here==="W"||here==="L")?-.75:0)-(W.sink||0))*.08;
+  let sx=0;if(W.shake>0){sx=Math.sin(t*60)*W.shake*.06;W.shake=Math.max(0,W.shake-.02)}
+  R3.robot.position.set(d.x+sx,(reduce?0:Math.sin(dist*Math.PI)*.32)+W.sink,d.y);
+  R3.robot.rotation.y=-d.a*Math.PI/180;
+  R3.eyeMat.color.set(W.fail?"#FF6A4D":"#6FF0C3");
+  R3.gems.children.forEach(m=>{if(!reduce){m.rotation.y=t*1.6;m.position.y=.55+Math.sin(t*2.6+m.userData.seed)*.07}});
+  if(!reduce){R3.water.offset.set(t*.04,t*.02);R3.lava.offset.set(t*.02,-t*.015)}
+  R3.sparks=R3.sparks.filter(m=>{const u=m.userData;m.position.x+=u.vx;m.position.y+=u.vy;m.position.z+=u.vz;u.vy-=.003;u.l-=.025;m.material.opacity=Math.max(0,u.l);
+    if(u.l<=0){R3.scene.remove(m);m.material.dispose();return false}return true});
+  placeCamera();
+  R3.renderer.render(R3.scene,R3.camera);
 }
+function rotateView(step){view.taz+=step*Math.PI/4}
 
 /* ---------- logo ---------- */
 (()=>{const c=$("logo").getContext("2d");const g=["#5BA04A","#4B8B3C","#6FB95A"];
@@ -647,9 +717,11 @@ function frame(ms){
 /* ---------- boot ---------- */
 let startLv=0;try{const v=+localStorage.getItem(KEY+"-lv");if(v>=0&&v<LEVELS.length)startLv=v}catch(e){}
 goLevel(startLv);
+buildScene();
 status("範例：程式裡已經有 1 塊「前進」，再加 2 塊然後按 ▶ 執行。");
 if(startLv!==0)status("");
 addEventListener("resize",()=>{if(W)sizeCanvas()});
+$("rotL").onclick=()=>rotateView(1);$("rotR").onclick=()=>rotateView(-1);
 requestAnimationFrame(frame);
 })();
 </script>
