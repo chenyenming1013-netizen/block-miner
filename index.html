@@ -98,7 +98,7 @@ button{cursor:pointer}
 .ed-grid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:2px;width:100%;max-width:380px;background:var(--frame);padding:4px;border-radius:6px;touch-action:none;user-select:none}
 .ed-cell{aspect-ratio:1;border:0;border-radius:2px;padding:0;font-size:clamp(.6rem,2.6vw,1rem);line-height:1;color:#fff;cursor:pointer;min-width:0}
 .ed-cell:hover{outline:2px solid #fff;outline-offset:-2px}
-.t-g{background:#5BA04A}.t-T{background:#2F6E2C}.t-S{background:#8E949A}.t-W{background:#2D72C4}.t-L{background:#D9471A}
+.t-g{background:#5BA04A}.t-T{background:#2F6E2C}.t-S{background:#8E949A}.t-W{background:#2D72C4}.t-L{background:#D9471A}.t-I{background:#BFE6F5;color:#2D72C4}.t-C{background:#9FCFE6;color:#2D5A7A}.t-P{background:#C9A13B}.t-D{background:#4A3A2A}
 .t-G{background:#5BA04A;color:#7FF1F8!important;text-shadow:0 0 2px #0D5E66}.t-R{background:#5BA04A;color:#fff!important;text-shadow:0 1px 1px #1A2632;font-weight:900}
 .ed-tip{margin:0;color:var(--muted);font-size:.82rem;font-weight:500}
 .ed-check{margin:0;font-weight:700;font-size:.88rem}
@@ -171,6 +171,7 @@ details.sol{margin-top:2px}
   .layout:not(.explore) .bench-grid{flex:1;min-height:0}
   .layout:not(.explore) .palette,.layout:not(.explore) .program-area{overflow:auto;min-height:0}
   .layout:not(.explore) .code{flex:0 0 auto;max-height:34%;min-height:0}
+  .layout:not(.explore) .code.txt{max-height:68%;flex:1 1 60%}
   .layout:not(.explore) pre.src{flex:1;min-height:0;overflow:auto}
 }
 .lv .md{font-style:normal;font-size:.62rem;line-height:1;position:absolute;top:2px;right:2px}.lv .md.ck{color:var(--ok);font-weight:900}
@@ -181,6 +182,13 @@ details.sol{margin-top:2px}
 .perk-list li{display:grid;grid-template-columns:64px 1fr;gap:8px;align-items:start;padding:6px 8px;border-radius:8px;background:var(--surface-2)}
 .perk-list li.off{opacity:.55}.perk-list b{font-family:var(--f-code);font-size:.8rem;white-space:nowrap}
 .warp-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:400;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;font-size:.92rem;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:min(92vw,520px);text-align:center}
+.toast.show{animation:pop .3s ease-out both}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px;margin-bottom:6px}
+.shop-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 8px;border-radius:10px;background:var(--surface-2);border:2px solid transparent;text-align:center;font-size:.85rem}
+.shop-item.on{border-color:var(--accent)}.shop-item .btn{padding:4px 10px;font-size:.82rem}
+.sw-look{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.lv.daily{width:auto;padding:0 10px;font-weight:800}
 .lesson-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .lesson-btns .btn{padding:6px 12px;font-size:.88rem}
 .modal{position:fixed;inset:0;z-index:300;background:rgba(10,16,12,.55);display:flex;align-items:center;justify-content:center;padding:16px}
@@ -282,6 +290,13 @@ details.sol{margin-top:2px}
 .tabs{display:flex;gap:0;padding:0 14px;background:var(--surface-2);border-bottom:1px solid var(--line);align-items:stretch}
 .tab{border:0;background:none;padding:9px 14px;font-weight:700;font-size:.85rem;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
 .tab[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+.txt-box{display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:var(--code-bg);flex:1;min-height:0}
+.txt-box textarea{flex:1;min-height:110px;width:100%;box-sizing:border-box;background:#0F1612;color:var(--code-fg);border:1px solid #2E3D34;border-radius:8px;padding:10px 12px;font-family:var(--f-code);font-size:.86rem;line-height:1.6;resize:vertical;tab-size:4}
+.tx-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tx-msg{font-size:.85rem;font-weight:700;color:var(--code-dim)}.tx-msg.good{color:#7FE0B5}.tx-msg.bad{color:#FF9A8A}
+.hint-code{margin:0;background:var(--code-bg);color:var(--code-fg);font-family:var(--f-code);font-size:.85rem;padding:10px 12px;border-radius:8px;overflow:auto}
+.bs-code{width:100%;box-sizing:border-box;font-family:var(--f-code);font-size:.8rem;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);word-break:break-all}.bs-code.bad{border-color:#D9472F}
+.tx-help{margin:0;font-size:.75rem;color:var(--code-dim);line-height:1.5}
 .tabs .note{margin-left:auto;align-self:center;font-size:.75rem;color:var(--muted)}
 @media (max-width:480px){.tabs .note{display:none}}
 pre.src{margin:0;background:var(--code-bg);color:var(--code-fg);font-family:var(--f-code);font-size:.84rem;line-height:1.65;padding:14px 0;overflow-x:auto;border-radius:0 0 8px 8px;min-height:120px;counter-reset:ln}
@@ -309,7 +324,7 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
         <h1 data-i18n="title">酷比摩程式課</h1>
         <p data-i18n="subtitle">拼積木、看程式碼，帶機器人「比維」挖寶石、蓋房子</p>
       </div>
-      <div class="top-tools"><button class="btn lang-btn" id="langBtn" lang="en">English</button><button class="btn lang-btn" id="musicBtn" aria-pressed="false">♪ 音樂 關</button><button class="btn lang-btn" id="sfxBtn" aria-pressed="false">♫ 音效 關</button></div>
+      <div class="top-tools"><button class="btn lang-btn" id="langBtn" lang="en">English</button><button class="btn lang-btn" id="musicBtn" aria-pressed="false">♪ 音樂 關</button><button class="btn lang-btn" id="sfxBtn" aria-pressed="false">♫ 音效 關</button><button class="btn lang-btn" id="achBtn" aria-label="成就" data-i18n-aria="achBtn">🏆</button><button class="btn lang-btn" id="shopBtn" aria-label="裝扮" data-i18n-aria="shopBtn">🎩 💎 <b id="gemCount">0</b></button></div>
     </div>
     <nav class="sections" id="sections" role="tablist" aria-label="項目"></nav>
     <nav class="levels" id="levels" aria-label="關卡" data-i18n-aria="levelsAria"></nav>
@@ -362,13 +377,18 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
         <div class="tabs" role="tablist">
           <button class="tab" role="tab" id="tab-js" aria-selected="true">JavaScript</button>
           <button class="tab" role="tab" id="tab-py" aria-selected="false">Python</button>
+          <button class="tab" role="tab" id="tab-txt" aria-selected="false" data-i18n="tx_tab">✏️ 文字模式</button>
           <span class="note" data-i18n="codeNote">積木會自動翻成程式碼</span>
         </div>
         <pre class="src" id="src"></pre>
+        <div class="txt-box" id="txtBox" hidden><textarea id="txtArea" spellcheck="false" aria-label="Python" autocapitalize="off" autocomplete="off"></textarea>
+          <div class="tx-row"><button class="btn primary" id="txtApply" data-i18n="tx_apply">套用到積木</button><button class="btn" id="txtReset" data-i18n="tx_reset">從積木重新產生</button><span class="tx-msg" id="txtMsg"></span></div>
+          <p class="tx-help" data-i18n="tx_help"></p></div>
       </div>
     </div></section>
   </main>
   <p class="foot-note" data-i18n="footNote">點左側「積木箱」把積木加入程式；虛線框標示新積木會放在哪裡。進度只存在這台裝置的瀏覽器裡。</p>
+  <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
   <div class="modal" id="modal" hidden><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-head"><h3 id="modalTitle"></h3><button class="modal-x" data-modalclose="1" aria-label="close">✕</button></div>
     <div class="modal-body" id="modalBody"></div></div></div>
@@ -379,10 +399,11 @@ pre.src .ln.hot{background:rgba(240,192,74,.16)}
 <script>
 (()=>{
 /* ---------- levels ---------- */
-const PB=["forward","left","right","up","down","build","digAt","repeat","setVar","changeVar","forwardV"];
+const PB=["forward","left","right","up","down","build","digAt","repeat","setVar","changeVar","forwardV","calc","ifVar","func","call","callP"];
 const field=(n,sx,sz)=>Array.from({length:n},(_,y)=>Array.from({length:n},(_,x)=>x===sx&&y===sz?"R":".").join(""));
 const BUILD_MAP=field(14,4,4);
 const P8=["forward","left","right","combo","repeat","until","if","ifElse","place","dig","func","call"];
+const P9=[...P8,"setVar","changeVar","forwardV","ifVar","calc","callP"];
 const P1=["forward"],P2=[...P1,"left","right"],P3=[...P2,"repeat"],P4=[...P3,"place","combo"],P5=[...P4,"dig"],P6=[...P5,"if"],P7=[...P6,"setVar","changeVar","forwardV"];
 const LEVELS=[
  {ch:"基礎",name:"第一步",concept:"序列",palette:P1,dir:1,optimal:3,
@@ -560,12 +581,55 @@ const LEVELS=[
   explain:"這是最後的挑戰：去程和回程都要過河，每過一條小溪就要回頭把木板拆回來。動作會重複很多次，用函式把「過溪再拆橋」包起來吧。",
   hint:"定義函式 A：放方塊、前進、前進、向右轉、向右轉、挖掘、向右轉、向右轉。主程式：前進、重複 2 次執行 A、掉頭、重複 2 次執行 A、前進。",
   code:"把複雜的任務拆成小函式，再組合起來，是解決大問題的好方法，這叫做「分解」。"},
+ {ch:"進階挑戰",key:"rside",name:"右邊的岔路",concept:"側邊感測器",palette:P9,sense:true,must:["sense"],dir:1,optimal:5,
+  map:["TTTTTTTT","TR.....T","TTTT.TTT","TG...TTT","TTTT.TTT","TTTTTTTT"],
+  goal:"用「右邊有障礙物」感測器，在岔路口轉進正確的路",
+  explain:"新的感測器可以看比維的<b>右邊</b>和<b>左邊</b>。這條路的前方常常是死路，正確的路藏在右邊：只要右邊打開了，就轉過去。",
+  hint:"重複直到寶石全部拿到：如果右邊有障礙物 → 前進；否則 → 向右轉、前進。",
+  code:"robot.blocked(RIGHT) 會檢查右邊那一格。感測器讓程式能「看」更多方向，做更聰明的判斷。"},
+ {ch:"進階挑戰",key:"rhand",name:"右手迷宮",concept:"迷宮演算法",palette:P9,sense:true,must:["sense"],dir:1,optimal:7,
+  map:["TTTTTTTTT","TR..T...T","TT.TT.T.T","T..T..T.T","T.TT.TT.T","T....T..T","TT.T.TT.T","T..T...GT","TTTTTTTTT"],
+  goal:"用「右手法則」走出迷宮",
+  explain:"<b>右手法則</b>：想像右手一直摸著牆走。右邊有路就右轉；右邊是牆、前面也是牆，就左轉；否則往前走。這個規則可以走出很多迷宮，連死路都會自己繞回來。",
+  hint:"重複直到寶石全部拿到：如果右邊有障礙物 → {如果前方有障礙物 → 向左轉，否則 → 前進}；否則 → 向右轉、前進。",
+  code:"這是一個真正的「演算法」：不用知道迷宮長什麼樣子，照著規則就能走出去。"},
+ {ch:"進階挑戰",key:"cmp",name:"比大小",concept:"比較變數",palette:P9,vars:true,must:["ifVar"],dir:1,optimal:6,
+  map:["WWWWWWWWWW","WR...WWWGW","WWWWWWWWWW"],
+  goal:"數著步數前進：走過 3 步之後才開始搭橋",
+  explain:"新的積木「如果 次數 > 3 就」可以<b>比較</b>變數和數字。一邊走一邊數，數到 3 以後，前面就是河了。",
+  hint:"設定 次數 為 0。重複直到寶石全部拿到：把 次數 增加 1；如果 次數 > 3 就放方塊；前進。",
+  code:"比較的結果只有「是」或「否」，在程式裡寫成 count > 3。"},
+ {ch:"進階挑戰",key:"dbl",name:"越走越遠",concept:"變數運算",palette:P9,vars:true,must:["calc"],dir:1,optimal:5,
+  map:["TTTTTTTT","TTTTTR.T","TTTTTT.T","TTG....T","TTTTTTTT"],
+  goal:"每一段都是上一段的 2 倍：1 格、2 格、4 格",
+  explain:"「設定 步數 為 步數 × 2」會把步數乘以 2。用它就能做出越走越遠的路線，而不只是每次加 1。",
+  hint:"設定 步數 為 1。重複 3 次：前進 步數 格、向右轉、設定 步數 為 步數 × 2。",
+  code:"steps = steps * 2：先算右邊，再把結果存回左邊的變數。"},
+ {ch:"進階挑戰",key:"param",name:"參數小橋",concept:"函式參數",palette:P9,params:true,must:["callP"],dir:1,optimal:8,
+  map:["WWWWWWWWWWWW","WRW.WW.WWWGW","WWWWWWWWWWWW"],
+  goal:"三道缺口一樣是 1、2、3 格寬，這次用「參數」把寬度交給函式",
+  explain:"「執行函式 A，n = 2」會把 2 交給函式 A，函式裡的變數 <b>n</b> 就是 2。同一個函式，每次可以收到不同的數字。",
+  hint:"定義函式 A：重複 n 次（放方塊、前進），再前進。主程式：執行 A，n = 1；執行 A，n = 2；執行 A，n = 3。",
+  code:"def action_a(n): 裡的 n 叫做「參數」。呼叫時寫 action_a(3)，就是把 3 交給 n。"},
+ {ch:"進階挑戰",key:"stairs",name:"參數階梯",concept:"參數＋轉彎",palette:P9,params:true,must:["callP"],dir:1,optimal:10,
+  map:["TTTTTTTTT","TR.TTTTTT","TTG..TTTT","TTTT.TTTT","TTTTG...T","TTTTTTT.T","TTTTTTT.T","TTTTTTTGT","TTTTTTTTT"],
+  goal:"走下一座越來越大的階梯：每一階是 1、2、3 格",
+  explain:"每一階都是「往前 n 格、右轉、往前 n 格、左轉」，只有 n 不一樣。把一階寫成有參數的函式。",
+  hint:"定義函式 A：重複 n 次前進、向右轉、重複 n 次前進、向左轉。主程式：執行 A，n = 1、2、3。",
+  code:"參數讓函式更通用：不用寫三個長得很像的函式。"},
+ {ch:"進階挑戰",key:"text",name:"打字寫程式",concept:"文字程式",palette:P9,must:["text"],dir:1,optimal:6,
+  map:["WWWWWWWWWWWW","WR.T.W.TW.GW","WWWWWWWWWWWW"],
+  goal:"這一關改用打字的方式寫程式",
+  explain:"按程式碼區的「✏️ 文字模式」，就能直接打 Python 程式，再按「套用到積木」變回積木。這一關要用文字模式完成。",
+  hint:"for i in range(9):\n    if robot.inspect(FORWARD) == TREE:\n        robot.dig(FORWARD)\n    if robot.inspect(FORWARD) == WATER:\n        robot.place(FORWARD)\n    robot.forward()",
+  code:"Python 用「縮排」（前面空 4 格）表示哪些指令在迴圈或判斷裡面。"},
  {ch:"冒險",name:"晨光村冒險",concept:"RPG",adv:true,palette:["forward"],dir:1,optimal:0,map:["R"],goal:"",explain:"",hint:"",code:""},
- {ch:"創意建造",name:"自由建造",concept:"創作",palette:PB,dir:1,optimal:0,vars:true,build:true,free:true,map:BUILD_MAP,
+ {ch:"創意建造",name:"自由建造",concept:"創作",palette:PB,dir:1,optimal:0,vars:true,params:true,build:true,free:true,map:BUILD_MAP,
   goal:"用程式從空地蓋出房屋或城堡",
-  explain:"這裡沒有寶石，只有一大片空地和 9 種材質。比維可以往上飛，用「在下方放方塊」一邊走一邊鋪，一層一層往上蓋。先載入範例看看程式怎麼寫，再改成你自己的設計。",
+  explain:"這裡沒有寶石，只有一大片空地和 12 種材質（新增砂岩、黑曜石、燈）。比維可以往上飛，用「在下方放方塊」一邊走一邊鋪，一層一層往上蓋。先載入範例看看程式怎麼寫，再改成你自己的設計。",
   hint:"蓋一圈牆的寫法：重複 4 次 { 重複 4 次 { 在下方放木板、前進 }、向右轉 }。蓋完一圈後「往上移動」，再蓋下一圈。",
   code:"robot.place(DOWN, PLANK) 的第二個參數決定材質。把同一段程式包進迴圈，就能蓋出好幾層。"},
+ {ch:"每日挑戰",key:"daily",name:"每日挑戰",concept:"每日一題",daily:true,palette:P8,dir:1,optimal:0,map:["R"],goal:"",explain:"",hint:"",code:""},
  {ch:"自創關卡",name:"關卡工坊",concept:"設計",custom:true,palette:P5,dir:1,optimal:0,map:["R"],
   goal:"",explain:"",hint:"",code:""}
 ];
@@ -583,16 +647,20 @@ const BLOCKS={
   changeVar:{cat:"var",label:"改變變數",ico:"±"},
   up:{cat:"move",ico:"⤒"},down:{cat:"move",ico:"⤓"},
   build:{cat:"build",ico:"■"},digAt:{cat:"build",ico:"⛏"},
-  until:{cat:"loop",ico:"⟲"},combo:{cat:"combo",ico:"⊕"},ifElse:{cat:"logic",ico:"?"},func:{cat:"func",ico:"ƒ"},call:{cat:"func",ico:"▸"}
+  until:{cat:"loop",ico:"⟲"},combo:{cat:"combo",ico:"⊕"},ifElse:{cat:"logic",ico:"?"},func:{cat:"func",ico:"ƒ"},call:{cat:"func",ico:"▸"},ifVar:{cat:"logic",ico:"⚖"},calc:{cat:"var",ico:"✕"},callP:{cat:"func",ico:"▸"}
 };
 const UCONDS=["blocked","tree","water","done"];
+const senseOn=()=>{const L=LEVELS[S.lv];return !!(L&&(L.sense||(L.adv&&typeof ADV!=="undefined"&&ADV&&has("goggles"))||(L.custom&&typeof CUST!=="undefined"&&CUST&&CUST.blocks.includes("sense"))||L.daily))};
+const ifConds=b=>{const l=["blocked","tree","water"].concat(senseOn()?["rblocked","lblocked"]:[]);if(b&&b.cond&&!l.includes(b.cond)&&b.cond!=="done")l.push(b.cond);return l};
+const untilConds=b=>{const l=ifConds(b);l.splice(3,0,"done");return l};
 const FNAMES=["A","B"];
-const varList=()=>(LEVELS[S.lv]&&LEVELS[S.lv].adv&&typeof ADV!=="undefined"&&ADV&&!has("shell"))?["steps"]:Object.keys(VARNAMES);
+const paramsOn=()=>{const L=LEVELS[S.lv];return !!(L&&(L.params||(L.adv&&typeof ADV!=="undefined"&&ADV&&has("scroll"))||(L.custom&&typeof CUST!=="undefined"&&CUST&&CUST.blocks.includes("param"))||L.daily))};
+const varList=()=>{const L=LEVELS[S.lv];const base=(L&&L.adv&&typeof ADV!=="undefined"&&ADV&&!has("shell"))?["steps"]:["steps","count"];return paramsOn()?base.concat("n"):base};
 const fnList=b=>(LEVELS[S.lv]&&LEVELS[S.lv].adv&&typeof ADV!=="undefined"&&ADV&&!has("pageB")&&!(b&&b.name==="B"))?["A"]:FNAMES;
-const MATS=["plank","stone","brick","plaster","glass","roof","log","leaves","gold"];
-const MATCODE={plank:"PLANK",stone:"STONE_BRICK",brick:"BRICK",plaster:"PLASTER",glass:"GLASS",roof:"ROOF_TILE",log:"LOG",leaves:"LEAVES",gold:"GOLD"};
+const MATS=["plank","stone","brick","plaster","glass","roof","log","leaves","gold","sandstone","obsidian","lamp"];
+const MATCODE={plank:"PLANK",stone:"STONE_BRICK",brick:"BRICK",plaster:"PLASTER",glass:"GLASS",roof:"ROOF_TILE",log:"LOG",leaves:"LEAVES",gold:"GOLD",sandstone:"SANDSTONE",obsidian:"OBSIDIAN",lamp:"LAMP"};
 const CONDS={tree:"樹木",water:"水",blocked:"障礙物"};
-const VARNAMES={steps:"步數",count:"次數"};
+const VARNAMES={steps:"步數",count:"次數",n:"n"};
 
 /* ---------- language ---------- */
 const STR={
@@ -611,7 +679,7 @@ const STR={
   allDone:"全部關卡完成！",passed:"過關！",again:"再玩一次",next:"下一關 →",passAria:"過關",starsAria:n=>`${n} 顆星`,
   lvTitle:(ch,i,name)=>`${ch}・第 ${i} 關：${name}`,goal:"目標：",hint:"需要提示？",codeTip:"程式碼小知識：",
   repeatAria:"重複次數",condAria:"條件",varAria:"變數",valAria:"數值",
-  repeatLbl:x=>`重複 ${x} 次`,ifLbl:x=>`如果前方是 ${x} 就`,setLbl:(v,n)=>`設定 ${v} 為 ${n}`,changeLbl:(v,n)=>`把 ${v} 增加 ${n}`,fwdV:v=>`前進 ${v} 格`,varPh:"變數",
+  repeatLbl:x=>`重複 ${x} 次`,ifLbl:x=>`如果 ${x} 就`,setLbl:(v,n)=>`設定 ${v} 為 ${n}`,changeLbl:(v,n)=>`把 ${v} 增加 ${n}`,fwdV:v=>`前進 ${v} 格`,varPh:"變數",
   b_forward:"前進 1 格",b_left:"向左轉",b_right:"向右轉",b_place:"在前方放方塊",b_dig:"挖掉前方方塊",
   slotOn:"▸ 新積木會放在這裡",slotOff:"＋ 放到這裡",up:"往上移",del:"刪除",startCap:"當 ▶ 按下",
   emptyTip:"點左邊的積木，它會接到「當 ▶ 按下」下面。",
@@ -625,16 +693,16 @@ const STR={
   buildDone:n=>`建造完成！場上共有 ${n} 個方塊。拖曳畫面，從不同角度看看吧。`,
   b_up:"往上移動",b_down:"往下移動",buildLbl:(d,m)=>`在 ${d} 放 ${m}`,digAtLbl:d=>`挖掉 ${d} 的方塊`,dirAria:"方向",matAria:"材質",
   dir_down:"下方",dir_forward:"前方",mat_stone:"石磚",mat_plank:"木板",mat_brick:"紅磚",mat_plaster:"白牆",mat_glass:"玻璃",
-  mat_roof:"屋瓦",mat_log:"原木",mat_leaves:"樹葉",mat_gold:"金塊",
+  mat_roof:"屋瓦",mat_log:"原木",mat_leaves:"樹葉",mat_gold:"金塊",mat_sandstone:"砂岩",mat_obsidian:"黑曜石",mat_lamp:"燈",
   examplesLbl:"載入範例：",ex_cabin:"小木屋",ex_tower:"城堡塔樓",ex_pyramid:"階梯金字塔",ex_blank:"空白開始",
   confirmReplace:"再按一次確認取代",exLoaded:n=>`已載入「${n}」，按 ▶ 執行看它蓋起來。`,buildNav:"自由建造",
   speed_0:"速度：一般",speed_1:"速度：快",speed_2:"速度：超快",speed_3:"速度：⚡閃電",zoomIn:"放大",zoomOut:"縮小",
   buildEach:"每次執行都會從空地重新開始蓋。程式會自動存在這個瀏覽器裡。",
-  ex_wall:"萬里長城",ex_pagoda:"寶塔",ex_lighthouse:"燈塔",ex_tree:"大樹",blueprint:"藍圖",
+  ex_wall:"萬里長城",ex_pagoda:"寶塔",ex_lighthouse:"燈塔",ex_tree:"大樹",ex_castle:"城堡要塞",ex_windmill:"風車",ex_ferris:"摩天輪",ex_rocket:"火箭發射台",ex_temple:"希臘神殿",ex_spiral:"螺旋塔",ex_ship:"帆船",ex_city:"摩天大樓街區",ex_village:"參數小鎮",ex_bridge:"拱橋",exd_castle:"函式 A(n) 蓋高度 n 的塔樓、函式 B 蓋一段城牆，主程式呼叫 4 次就圍成城堡，最後挖出城門。",exd_windmill:"函式 A、B 分別畫出往上斜和往下斜的風車葉片，用「在前方放」在空中垂直作畫。",exd_ferris:"函式 A／B 讓比維在垂直平面上左右移動，用 8 段迴圈畫出八角形的輪子，再加上輪輻和支架。",exd_rocket:"函式 A 從外面一層一層蓋出尾翼，迴圈 4 次轉到四個方向；箭身用一圈一圈的方塊往上疊。",exd_temple:"用變數「步數」和「次數」當長方形的長和寬，一圈一圈往內縮，填滿三層台階，再立起 8 根柱子。",exd_spiral:"中間的塔用迴圈蓋 10 層，外圈的螺旋樓梯每走兩格就往上一層。",exd_ship:"海、船身、甲板一層一層往上蓋；函式 A 用來回掃描的方式畫出兩面船帆。",exd_city:"函式 A、B 用變數決定每一圈的大小，蓋出會內縮的摩天大樓，四個角落再蓋不同高度的小塔。",exd_village:"函式 A(n) 是「蓋一間房子」，n 決定房子大小；屋頂用「如果 步數 > 0」決定還要不要再縮一圈。",exd_bridge:"函式 A 照著拱橋的剖面一格一格往前蓋，呼叫 3 次就是 3 格寬的橋，再加上欄杆和路燈。",blueprint:"藍圖",
   comboLbl:(a,b)=>`合併 ${a} ＋ ${b}`,comboAria:"動作",act_forward:"前進",act_left:"左轉",act_right:"右轉",act_place:"放方塊",act_dig:"挖掘",b_combo:"合併",blk_combo:"合併",
   adv_endTalk:"結束對話（E／A）",
   makeNav:"自創關卡",music:"音樂",sound:"音效",on:"開",off:"關",
-  sec_train:"程式訓練",secd_train:"32 關由淺入深，學會迴圈、條件、變數與函式",sec_adv:"冒險模式",secd_adv:"自由探索的 RPG，解開程式石碑點亮燈塔",
+  sec_train:"程式訓練",secd_train:"39 關由淺入深＋每日挑戰：迴圈、條件、變數、函式、感測器與參數",sec_adv:"冒險模式",secd_adv:"自由探索的 RPG，解開程式石碑點亮燈塔",
   sec_create:"創作工坊",secd_create:"用程式自由建造，或設計關卡給同學挑戰",secd_build:"用程式蓋房子、城堡與長城",secd_make:"畫地圖、出題、產生分享碼",
   inv:"背包",
   advNav:"冒險",adv_chip:"冒險",adv_lvLbl:"等級",adv_cryLbl:"晶石",
@@ -647,7 +715,7 @@ const STR={
   adv_gotCrystal:n=>`取得<b>${n}</b>！`,adv_effect_p1:"東橋修好了，現在可以過河到森林。",adv_effect_p2:"林道上的樹被清除了，可以前往森林神殿。",
   adv_solved:"機關解開了！",adv_again:"你又解開了一次，石碑對你點點頭。",adv_back:"回到冒險",
   adv_finTitle:"燈塔重新點亮了！",adv_finText:(x,l)=>`比維找回了三顆晶石，晨光村再次閃耀。你總共獲得 ${x} XP，達到 Lv ${l}。<br><b>第一章完成！</b>燈塔的光照向西邊的海岸，村子西邊出現了一條新的路……`,
-  adv_keepExploring:"繼續探索",adv_term:"程式石碑",adv_done:"已解開",adv_blocksFrom:"可用的積木來自你的道具：建造手套、鐵鎬、指南針、魔法書、卷尺、B 頁、回音貝都會解鎖新的積木。",
+  adv_keepExploring:"繼續探索",adv_term:"程式石碑",adv_done:"已解開",adv_blocksFrom:"可用的積木來自你的道具：建造手套、鐵鎬、指南針、魔法書、卷尺、B 頁、回音貝、感測護目鏡、參數卷軸都會解鎖新的積木。",
   adv_leave:"離開石碑",adv_noItems:"還沒有道具",adv_ok:"好",adv_quests:"任務",adv_items:"道具",
   adv_controls:"方向鍵或 WASD 走路（手機用畫面上的方向鍵），面對村民、石碑或寶箱按空白鍵、E 或 A 鍵互動。",
   adv_reset:"重新開始冒險",adv_resetSure:"再按一次確認重新開始",adv_restarted:"冒險重新開始了。",
@@ -724,7 +792,7 @@ const STR={
   pk_magnet:"寶石磁鐵",pkd_magnet:"走過寶石旁邊時，會自動把相鄰的寶石吸過來。",
   pk_legend:"傳說程式師",pkd_legend:"獲得「傳說程式師」稱號。",
   adv_warp:"傳送石",adv_warpTip:"選一個去過的區域，比維會傳送到那裡的入口。",adv_radar:n=>n?`寶石雷達：這一區還有 <b>${n}</b> 顆寶石。`:"寶石雷達：這一區的寶石都撿完了！",
-  it_shell:"回音貝",it_echo:"回音水晶",it_sky:"天空之心",ic_shell:"◎",ic_echo:"◈",ic_sky:"☁",
+  it_shell:"回音貝",it_goggles:"感測護目鏡",it_scroll:"參數卷軸",ic_goggles:"◎",ic_scroll:"✎",q_boss:n=>`挑戰六個區域的頭目石碑（${n}/6）`,it_echo:"回音水晶",it_sky:"天空之心",ic_shell:"◎",ic_echo:"◈",ic_sky:"☁",
   n_echokeeper:"回音守人",n_nomad:"沙漠旅人阿岩",n_sandy:"小沙",n_skylord:"雲上城主",n_engineer:"機械師阿齒",
   ch_canyon:"<b>第五章：回音峽谷</b><br>神殿東邊的門通往一座會回音的峽谷。這一章要學的是<b>計數器</b>：用變數數一數走了幾步、記住量到的長度，再拿來使用。先去找回音守人。",
   ch_sky:"<b>第六章：雲上天空城</b><br>回音水晶喚醒了雲上的城市。最後一章要學的是<b>演算法</b>：寫出一套規則，讓同一個程式能走完很長的路、通過不同的地圖，而且積木數有上限。",
@@ -734,7 +802,7 @@ const STR={
   t_nomad0:"北邊的量橋石碑很有意思：河的寬度剛好等於走廊的長度。先量，再搭！",t_nomad1:"雙聲石碑要記兩段路。回程就像倒帶：最後走的那段，最先走回來。",
   t_sandy:"我發現：用「重複直到」走回去會走過頭，因為起點後面還有路！所以要先數好步數。",
   t_lord0:"歡迎來到雲上天空城。這裡的石碑不比誰寫得長，而是比誰的規則聰明：<b>積木數有上限</b>，而且有的石碑要用同一個程式通過<b>兩張地圖</b>。",
-  t_lordEnd:"天空之心回來了！整座城市重新飄浮起來。比維，你已經從第一步走到了演算法，是真正的傳說程式師！",t_lordAfter:"謝謝你，比維。所有的地方都可以自由探索，去看看還有沒有漏掉的寶石吧！",
+  t_lordEnd:"天空之心回來了！整座城市重新飄浮起來。比維，你已經從第一步走到了演算法，是真正的傳說程式師！<br>送你<b>感測護目鏡</b>和<b>參數卷軸</b>：它們會解鎖側邊感測器、比較、運算和參數積木。六個區域都出現了戴著皇冠的<b>頭目石碑</b>，去挑戰看看吧！",t_lordAfter:"六個區域都有戴皇冠的頭目石碑在等你。它們用的積木，可以先到「程式訓練 → 進階挑戰」練習。",
   t_eng0:"機械師的祕訣：不要數格子，要找<b>規則</b>。前面能走就走，不能就右轉，右邊也不行就轉向左邊。",t_eng1:"雙圖石碑會換地圖測試你的程式。只要規則對了，地圖換了也能過。",
   adv_lockEcho:"峽谷北邊的岩壁緊緊閉著，好像要回音水晶的力量才能打開。",sign_sky:"告示牌：「往北 → 雲上天空城。需要回音水晶。」",
   q_toCanyon:"第五章：從神殿東邊前往回音峽谷",q_shell:"找回音守人拿回音貝",q_e12:n=>`解開回音石碑和量橋石碑（${n}/2）`,q_e3:"解開東南邊的雙聲石碑",
@@ -757,7 +825,7 @@ tile_D:"閘門",
    <ul><li>3D 繪圖：<a href="https://threejs.org" target="_blank" rel="noopener">Three.js</a> r128，採用 <a href="https://github.com/mrdoob/three.js/blob/r128/LICENSE" target="_blank" rel="noopener">MIT 授權</a>，Copyright © 2010–2021 three.js authors</li>
    <li>字型：Noto Sans TC、JetBrains Mono、Silkscreen，經由 <a href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a> 載入，採用 <a href="https://openfontlicense.org" target="_blank" rel="noopener">SIL Open Font License 1.1</a></li></ul>
    <p><b>隱私</b>：過關進度、建造作品和自創關卡只存在你自己的瀏覽器裡，不會上傳，也不收集任何個人資料。</p>`,
-  untilLbl:x=>`重複直到 ${x}`,ucond_blocked:"前方有障礙物",ucond_tree:"前方是樹木",ucond_water:"前方是水",ucond_done:"寶石全部拿到",
+  untilLbl:x=>`重複直到 ${x}`,ucond_blocked:"前方有障礙物",ucond_tree:"前方是樹木",ucond_water:"前方是水",ucond_done:"寶石全部拿到",ucond_rblocked:"右邊有障礙物",ach_unlock:"獲得成就：",ach_title:"成就",ach_intro:(n,m)=>`已解鎖 ${n} / ${m} 個成就。每解鎖一個可以拿到 💎 5。`,ach_first:"第一步",achd_first:"通過任何一關訓練關卡。",ach_medal10:"小小程式師",achd_medal10:"自己想出來拿到 10 個獎章。",ach_medalAll:"獎章大師",achd_medalAll:"拿到所有訓練關卡的獎章。",ach_sensor:"迷宮行者",achd_sensor:"用右手法則走出「右手迷宮」。",ach_param:"參數高手",achd_param:"通過「參數階梯」。",ach_text:"打字程式師",achd_text:"用文字模式套用一次程式。",ach_ch1:"點亮燈塔",achd_ch1:"完成冒險第一章。",ach_ch3:"礦坑探險家",achd_ch3:"取得礦心寶石（第三章）。",ach_ch6:"天空城英雄",achd_ch6:"完成冒險第六章。",ach_lv13:"傳說程式師",achd_lv13:"比維達到 Lv 13。",ach_gems50:"寶石收集家",achd_gems50:"在冒險中撿到 50 顆寶石。",ach_boss1:"挑戰者",achd_boss1:"解開第一座頭目石碑。",ach_bossAll:"頭目剋星",achd_bossAll:"解開全部 6 座頭目石碑。",ach_daily1:"每日一題",achd_daily1:"完成一次每日挑戰。",ach_daily7:"連續七天",achd_daily7:"每日挑戰連續完成 7 天。",ach_builder:"小小建築師",achd_builder:"在自由建造裡一次蓋出 100 個方塊。",ach_maker:"出題老師",achd_maker:"在關卡工坊儲存一個自己設計的關卡。",ach_shopper:"時尚比維",achd_shopper:"在裝扮商店買一件裝扮。",shop_title:"裝扮商店",shop_intro:n=>`你有 💎 <b>${n}</b>。自己想出來的關卡、冒險中的寶石、每日挑戰和成就都能拿到 💎。`,shop_hat:"帽子",shop_color:"外殼顏色",shop_trail:"足跡特效",shop_on:"使用中",shop_wear:"穿上",lk_hat_none:"不戴",lk_hat_none_ic:"—",lk_hat_cap:"棒球帽",lk_hat_cap_ic:"🧢",lk_hat_flower:"小花",lk_hat_flower_ic:"🌼",lk_hat_antenna:"發光天線",lk_hat_antenna_ic:"📡",lk_hat_wizard:"巫師帽",lk_hat_wizard_ic:"🧙",lk_hat_crown:"皇冠",lk_hat_crown_ic:"👑",lk_color_base:"銀白",lk_color_base_ic:"",lk_color_mint:"薄荷",lk_color_mint_ic:"",lk_color_sky:"天空藍",lk_color_sky_ic:"",lk_color_pink:"櫻花粉",lk_color_pink_ic:"",lk_color_coral:"珊瑚橘",lk_color_coral_ic:"",lk_color_night:"夜空黑",lk_color_night_ic:"",lk_color_gold:"黃金",lk_color_gold_ic:"",lk_trail_none:"沒有",lk_trail_none_ic:"—",lk_trail_sparkle:"星光",lk_trail_sparkle_ic:"✨",lk_trail_leaf:"落葉",lk_trail_leaf_ic:"🍃",lk_trail_bubble:"泡泡",lk_trail_bubble_ic:"🫧",lk_trail_rainbow:"彩虹",lk_trail_rainbow_ic:"🌈",achBtn:"成就",shopBtn:"裝扮",daily_ch:"每日挑戰",daily_name:d=>`每日挑戰 ${d}`,daily_goal:"收集所有寶石。路上可能有要挖掉的樹，或要搭橋的水。",daily_explain:n=>`每天都會出現一張新地圖，全班今天都是同一題。參考解法用了 ${n} 塊積木，你能用更少嗎？`,daily_hint:n=>`先看清楚哪一條才是路：路上的樹要挖掉、水要搭橋。把連續的「前進」放進「重複」可以省積木。參考解法用了 ${n} 塊積木。`,daily_code:"每天的地圖是用日期當「種子」由程式自動產生的，這叫做程序生成。",daily_status:(s,d)=>`🔥 連續 ${s} 天${d?" · 今天已完成 ✓":""}`,daily_done:(r,s)=>r?`📅 完成今日挑戰！連續 ${s} 天 · 💎 +${r}`:"📅 今日挑戰完成！",daily_again:n=>`今天的最佳紀錄：${n} 塊積木。`,tx_tab:"✏️ 文字模式",tx_apply:"套用到積木",tx_reset:"從積木重新產生",tx_help:"可以用：robot.forward()、robot.turn(LEFT)、robot.place(FORWARD)、robot.dig(FORWARD)、for i in range(3):、while not robot.blocked(FORWARD):、if …: / else:、def action_a():、steps = 3、steps += 1。每層縮排 4 格。",tx_default:"預設值",tx_ok:n=>`已套用！程式變成 ${n} 塊積木。`,tx_line:(n,m)=>`第 ${n} 行：${m}`,tx_notAllowed:x=>`這一關還不能用「${x}」`,tx_badVar:v=>`沒有變數「${v}」`,tx_badCond:e=>`看不懂這個條件：${e}`,tx_badMat:m=>`沒有這種材質：${m}`,tx_unknown:x=>`看不懂這行：${x}`,tx_indent:"縮排不對（每層 4 格）",tx_emptyBody:"冒號後面的下一行要縮排，放進裡面的指令",tx_range:"range() 裡的次數要在 1 到 10 之間",tx_noSense:"這一關還不能用側邊感測器",tx_lonelyElse:"else: 前面要有 if",mustT:l=>`這一關要求使用：${l}。`,mu_sense:"側邊感測器（右邊／左邊有障礙物）",mu_ifVar:"「如果 變數 比較」積木",mu_calc:"「設定 變數 為 運算」積木",mu_callP:"有參數的函式呼叫",mu_text:"文字模式（打字寫程式後按「套用到積木」）",b_ifVar:"比較變數",b_calc:"變數運算",b_callP:"參數呼叫",ucond_lblocked:"左邊有障礙物",var_n:"n",ifVarLbl:(v,o,n)=>`如果 ${v} ${o} ${n} 就`,calcLbl:(v,a,o,n)=>`設定 ${v} 為 ${a} ${o} ${n}`,callPLbl:(f,n)=>`執行函式 ${f}，n = ${n}`,opAria:"比較方式",argAria:"參數值",
   elseLbl:"否則",funcLbl:x=>`定義函式 ${x}`,callLbl:x=>`執行函式 ${x}`,fnAria:"函式名稱",
   b_until:"重複直到",b_ifElse:"如果…否則",
   untilTooMany:"「重複直到」跑了 200 次還沒停下來。檢查條件會不會成立，或迴圈裡有沒有讓比維移動。",
@@ -765,7 +833,7 @@ tile_D:"閘門",
   restoreBug:"還原有錯的程式",
   ed_explain:"設計你自己的關卡！選一種地形，在下面的格子上點一下或拖曳來畫地圖，3D 畫面會即時更新。放好起點和寶石後，就能在右邊拼積木試玩，或把分享碼傳給同學挑戰。",
   ed_name:"關卡名稱",ed_size:"大小",ed_tiles:"地形",
-  tl_grass:"草地",tl_T:"樹",tl_S:"石頭",tl_W:"水",tl_L:"岩漿",tl_G:"寶石",tl_R:"起點",
+  tl_grass:"草地",tl_T:"樹",tl_S:"石頭",tl_W:"水",tl_L:"岩漿",tl_G:"寶石",tl_R:"起點",tl_I:"冰面",bs_instant:"瞬間完成",bs_make:"產生建築分享碼",bs_load:"輸入建築分享碼",bs_hint:"把這段文字傳給同學，對方按「輸入建築分享碼」貼上，就能載入你的建築程式。",bs_paste:"貼上同學給你的建築分享碼（QBB1. 開頭）。目前的程式會被取代。",bs_bad:"分享碼看不懂，請確認有完整複製。",bs_loaded:n=>`載入了 ${n} 塊積木的建築程式，按「執行」看看！`,tl_C:"薄冰",tl_P:"壓力板",tl_D:"閘門",blk_sense:"側邊感測器",blk_cmp:"比較與運算",blk_param:"參數",ed_max:"積木上限（0 表示不限）",ed_maxHit:(m,n)=>`這一關最多只能用 ${m} 塊積木，你用了 ${n} 塊。`,
   ed_robotTip:"選「起點」再點一下小方塊，可以改變比維面對的方向。",
   ed_blocks:"玩家可以使用的積木",blk_forward:"前進",blk_turn:"轉向",blk_repeat:"重複",blk_place:"放方塊",blk_dig:"挖掘",blk_if:"如果",blk_vars:"變數",blk_until:"重複直到",blk_ifElse:"如果…否則",blk_func:"函式",
   ed_target:"三星積木數（0 表示不評分）",
@@ -795,7 +863,7 @@ tile_D:"閘門",
   allDone:"All levels complete!",passed:"Level complete!",again:"Play again",next:"Next level →",passAria:"Level complete",starsAria:n=>`${n} star${n>1?"s":""}`,
   lvTitle:(ch,i,name)=>`${ch} · Level ${i}: ${name}`,goal:"Goal: ",hint:"Need a hint?",codeTip:"Code tip: ",
   repeatAria:"Repeat count",condAria:"Condition",varAria:"Variable",valAria:"Value",
-  repeatLbl:x=>`repeat ${x} times`,ifLbl:x=>`if ${x} ahead`,setLbl:(v,n)=>`set ${v} to ${n}`,changeLbl:(v,n)=>`change ${v} by ${n}`,fwdV:v=>`move ${v} steps`,varPh:"variable",
+  repeatLbl:x=>`repeat ${x} times`,ifLbl:x=>`if ${x}`,setLbl:(v,n)=>`set ${v} to ${n}`,changeLbl:(v,n)=>`change ${v} by ${n}`,fwdV:v=>`move ${v} steps`,varPh:"variable",
   b_forward:"move 1 step",b_left:"turn left",b_right:"turn right",b_place:"place block ahead",b_dig:"dig block ahead",
   slotOn:"▸ New blocks go here",slotOff:"＋ Put here",up:"Move up",del:"Delete",startCap:"when ▶ clicked",
   emptyTip:"Tap a block on the left. It snaps under “when ▶ clicked”.",
@@ -809,16 +877,16 @@ tile_D:"閘門",
   buildDone:n=>`Build complete! There are ${n} blocks on the field. Drag the view to see it from every side.`,
   b_up:"move up",b_down:"move down",buildLbl:(d,m)=>`place ${m} ${d}`,digAtLbl:d=>`dig block ${d}`,dirAria:"Direction",matAria:"Material",
   dir_down:"below",dir_forward:"ahead",mat_stone:"stone brick",mat_plank:"plank",mat_brick:"red brick",mat_plaster:"white plaster",mat_glass:"glass",
-  mat_roof:"roof tile",mat_log:"log",mat_leaves:"leaves",mat_gold:"gold",
+  mat_roof:"roof tile",mat_log:"log",mat_leaves:"leaves",mat_gold:"gold",mat_sandstone:"sandstone",mat_obsidian:"obsidian",mat_lamp:"lamp",
   examplesLbl:"Load an example:",ex_cabin:"Cabin",ex_tower:"Castle tower",ex_pyramid:"Step pyramid",ex_blank:"Start blank",
   confirmReplace:"Tap again to replace",exLoaded:n=>`Loaded “${n}”. Press ▶ Run to watch it build.`,buildNav:"Free Build",
   speed_0:"Speed: normal",speed_1:"Speed: fast",speed_2:"Speed: turbo",speed_3:"Speed: ⚡lightning",zoomIn:"Zoom in",zoomOut:"Zoom out",
   buildEach:"Each run starts again from an empty field. Your program is saved in this browser.",
-  ex_wall:"Great Wall",ex_pagoda:"Pagoda",ex_lighthouse:"Lighthouse",ex_tree:"Big tree",blueprint:"Blueprint",
+  ex_wall:"Great Wall",ex_pagoda:"Pagoda",ex_lighthouse:"Lighthouse",ex_tree:"Big tree",ex_castle:"Fortress",ex_windmill:"Windmill",ex_ferris:"Ferris wheel",ex_rocket:"Rocket launch pad",ex_temple:"Greek temple",ex_spiral:"Spiral tower",ex_ship:"Sailing ship",ex_city:"Skyscraper block",ex_village:"Parameter village",ex_bridge:"Arch bridge",exd_castle:"Function A(n) builds an n-high tower and function B builds a wall section; four calls each enclose the castle, then a gate is dug out.",exd_windmill:"Functions A and B draw the rising and falling sails, using “place ahead” to paint in a vertical plane.",exd_ferris:"Functions A/B move Bitwick sideways in a vertical plane; 8 loops trace the octagonal wheel, then spokes and legs are added.",exd_rocket:"Function A builds a fin from outside, layer by layer, and a loop turns it to all four sides; the body stacks ring after ring.",exd_temple:"The variables steps and count are a rectangle's length and width; shrinking rings fill three steps, then eight columns rise.",exd_spiral:"A loop builds the 10-layer core, and the outer spiral stairs rise one level every two tiles.",exd_ship:"Sea, hull and deck go up layer by layer; function A sweeps back and forth to paint two sails.",exd_city:"Functions A and B size each ring from a variable to build a stepped skyscraper, plus four corner towers of different heights.",exd_village:"Function A(n) builds one house, with n setting its size; the roof uses “if steps > 0” to decide whether to shrink another ring.",exd_bridge:"Function A follows the bridge's cross-section tile by tile; three calls make it three tiles wide, then rails and lamps are added.",blueprint:"Blueprint",
   comboLbl:(a,b)=>`combo ${a} + ${b}`,comboAria:"Action",act_forward:"move",act_left:"turn left",act_right:"turn right",act_place:"place",act_dig:"dig",b_combo:"combo",blk_combo:"Combo",
   adv_endTalk:"End conversation (E / A)",
   makeNav:"Level Maker",music:"Music",sound:"Sound",on:"on",off:"off",
-  sec_train:"Training",secd_train:"32 levels from first steps to loops, conditions, variables and functions",sec_adv:"Adventure",secd_adv:"A free-roaming RPG: solve code stones and relight the lighthouse",
+  sec_train:"Training",secd_train:"39 levels plus a daily challenge: loops, conditions, variables, functions, sensors and parameters",sec_adv:"Adventure",secd_adv:"A free-roaming RPG: solve code stones and relight the lighthouse",
   sec_create:"Create",secd_create:"Build freely with code or design levels for friends",secd_build:"Build houses, castles and walls with code",secd_make:"Draw maps, set challenges and share codes",
   inv:"Bag",
   advNav:"Quest",adv_chip:"Adventure",adv_lvLbl:"Level",adv_cryLbl:"Crystals",
@@ -831,7 +899,7 @@ tile_D:"閘門",
   adv_gotCrystal:n=>`You got the <b>${n}</b>!`,adv_effect_p1:"The East Bridge is fixed. You can now cross to the forest.",adv_effect_p2:"The trees on the trail are cleared. The way to the Forest Shrine is open.",
   adv_solved:"Mechanism solved!",adv_again:"You solved it again. The stone nods at you.",adv_back:"Back to the adventure",
   adv_finTitle:"The lighthouse shines again!",adv_finText:(x,l)=>`Bitwick recovered all three crystals and Dawn Village is bright once more. You earned ${x} XP and reached Lv ${l}. <br><b>Chapter 1 complete!</b> The beam points to the west coast, and a new road has opened west of the village…`,
-  adv_keepExploring:"Keep exploring",adv_term:"Code Stone",adv_done:"Solved",adv_blocksFrom:"Your blocks come from your items: the builder gloves, pickaxe, compass, spellbook, measuring tape, page B and Echo Shell each unlock new blocks.",
+  adv_keepExploring:"Keep exploring",adv_term:"Code Stone",adv_done:"Solved",adv_blocksFrom:"Your blocks come from your items: the builder gloves, pickaxe, compass, spellbook, measuring tape, page B, Echo Shell, Sensor Goggles and Parameter Scroll each unlock new blocks.",
   adv_leave:"Leave the stone",adv_noItems:"No items yet",adv_ok:"OK",adv_quests:"Quests",adv_items:"Items",
   adv_controls:"Walk with the arrow keys or WASD (on phones, use the on-screen pad). Face a villager, stone or chest and press Space, E or A to interact.",
   adv_reset:"Restart the adventure",adv_resetSure:"Tap again to restart",adv_restarted:"The adventure has restarted.",
@@ -908,7 +976,7 @@ tile_D:"閘門",
   pk_magnet:"Gem Magnet",pkd_magnet:"Gems next to you are pulled in automatically.",
   pk_legend:"Legendary Coder",pkd_legend:"Earn the “Legendary Coder” title.",
   adv_warp:"Warp Stone",adv_warpTip:"Pick an area you've visited and Bitwick will teleport to its entrance.",adv_radar:n=>n?`Gem radar: <b>${n}</b> gem${n===1?"":"s"} left in this area.`:"Gem radar: all gems in this area collected!",
-  it_shell:"Echo Shell",it_echo:"Echo Crystal",it_sky:"Sky Heart",ic_shell:"◎",ic_echo:"◈",ic_sky:"☁",
+  it_shell:"Echo Shell",it_goggles:"Sensor Goggles",it_scroll:"Parameter Scroll",ic_goggles:"◎",ic_scroll:"✎",q_boss:n=>`Beat the boss stones in all six areas (${n}/6)`,it_echo:"Echo Crystal",it_sky:"Sky Heart",ic_shell:"◎",ic_echo:"◈",ic_sky:"☁",
   n_echokeeper:"Echo Keeper",n_nomad:"Yan the Nomad",n_sandy:"Sandy",n_skylord:"Lord of the Sky Citadel",n_engineer:"Gear the Engineer",
   ch_canyon:"<b>Chapter 5: Echo Canyon</b><br>The temple's east gate leads to a canyon that echoes. This chapter teaches <b>counters</b>: count your steps with a variable, remember measurements and use them later. Find the Echo Keeper first.",
   ch_sky:"<b>Chapter 6: Sky Citadel</b><br>The Echo Crystal woke the city above the clouds. The last chapter teaches <b>algorithms</b>: write rules so one program can finish long paths and pass different maps, all with a block limit.",
@@ -918,7 +986,7 @@ tile_D:"閘門",
   t_nomad0:"The Measure Stone up north is clever: the river is exactly as wide as the corridor is long. Measure first, then build!",t_nomad1:"The Twin Echo Stone needs two legs remembered. Coming back is like rewinding: the last leg comes back first.",
   t_sandy:"I figured it out: walking back with “repeat until” overshoots, because the path continues behind the start! You have to count first.",
   t_lord0:"Welcome to the Sky Citadel. These stones aren't about writing more; they're about smarter rules. <b>Blocks are limited</b>, and some stones test one program on <b>two maps</b>.",
-  t_lordEnd:"The Sky Heart is back! The whole city floats again. Bitwick, you've gone from your very first step all the way to algorithms. You're a true Legendary Coder!",t_lordAfter:"Thank you, Bitwick. Every area is open to explore. See if there are any gems you missed!",
+  t_lordEnd:"The Sky Heart is back! The whole city floats again. Bitwick, you've gone from your very first step all the way to algorithms. You're a true Legendary Coder!<br>Take these <b>Sensor Goggles</b> and this <b>Parameter Scroll</b>: they unlock side sensors, comparisons, math and parameters. Crowned <b>boss stones</b> have appeared in all six areas. Go challenge them!",t_lordAfter:"Crowned boss stones await in all six areas. Practise their blocks first in Training → Advanced.",
   t_eng0:"An engineer's secret: don't count tiles, find a <b>rule</b>. Move if you can, else turn right, and if that's blocked too, face left.",t_eng1:"The Twin Map Stone swaps maps to test your program. If the rule is right, a new map won't stop you.",
   adv_lockEcho:"The canyon's north wall is sealed tight. It seems to need the power of the Echo Crystal.",sign_sky:"Sign: “North → Sky Citadel. Requires the Echo Crystal.”",
   q_toCanyon:"Chapter 5: Go east from the temple to Echo Canyon",q_shell:"Get the Echo Shell from the Echo Keeper",q_e12:n=>`Solve the Echo Stone and Measure Stone (${n}/2)`,q_e3:"Solve the Twin Echo Stone in the southeast",
@@ -941,7 +1009,7 @@ tile_D:"gate",
    <ul><li>3D graphics: <a href="https://threejs.org" target="_blank" rel="noopener">Three.js</a> r128, <a href="https://github.com/mrdoob/three.js/blob/r128/LICENSE" target="_blank" rel="noopener">MIT License</a>, Copyright © 2010–2021 three.js authors</li>
    <li>Fonts: Noto Sans TC, JetBrains Mono and Silkscreen, served by <a href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a> under the <a href="https://openfontlicense.org" target="_blank" rel="noopener">SIL Open Font License 1.1</a></li></ul>
    <p><b>Privacy</b>: Progress, builds and custom levels are stored only in your own browser. Nothing is uploaded and no personal data is collected.</p>`,
-  untilLbl:x=>`repeat until ${x}`,ucond_blocked:"obstacle ahead",ucond_tree:"tree ahead",ucond_water:"water ahead",ucond_done:"all gems collected",
+  untilLbl:x=>`repeat until ${x}`,ucond_blocked:"obstacle ahead",ucond_tree:"tree ahead",ucond_water:"water ahead",ucond_done:"all gems collected",ucond_rblocked:"obstacle on the right",ach_unlock:"Achievement unlocked: ",ach_title:"Achievements",ach_intro:(n,m)=>`${n} of ${m} achievements unlocked. Each one gives 💎 5.`,ach_first:"First Step",achd_first:"Pass any training level.",ach_medal10:"Junior Coder",achd_medal10:"Earn 10 medals by solving levels yourself.",ach_medalAll:"Medal Master",achd_medalAll:"Earn the medal on every training level.",ach_sensor:"Maze Walker",achd_sensor:"Escape the Right-Hand Maze.",ach_param:"Parameter Pro",achd_param:"Pass Parameter Stairs.",ach_text:"Code Typist",achd_text:"Apply a program from text mode.",ach_ch1:"Light the Lighthouse",achd_ch1:"Finish adventure Chapter 1.",ach_ch3:"Mine Explorer",achd_ch3:"Get the Core Gem (Chapter 3).",ach_ch6:"Hero of the Sky",achd_ch6:"Finish adventure Chapter 6.",ach_lv13:"Legendary Coder",achd_lv13:"Bitwick reaches Lv 13.",ach_gems50:"Gem Collector",achd_gems50:"Collect 50 gems in the adventure.",ach_boss1:"Challenger",achd_boss1:"Solve your first boss stone.",ach_bossAll:"Boss Breaker",achd_bossAll:"Solve all 6 boss stones.",ach_daily1:"Daily Puzzle",achd_daily1:"Finish a daily challenge.",ach_daily7:"Seven-Day Streak",achd_daily7:"Finish the daily challenge 7 days in a row.",ach_builder:"Little Architect",achd_builder:"Build 100 blocks in one Free Build.",ach_maker:"Puzzle Setter",achd_maker:"Save a level you designed in the Level Workshop.",ach_shopper:"Stylish Bitwick",achd_shopper:"Buy an item in the dress-up shop.",shop_title:"Dress-up Shop",shop_intro:n=>`You have 💎 <b>${n}</b>. Earn 💎 from levels you solve yourself, adventure gems, daily challenges and achievements.`,shop_hat:"Hats",shop_color:"Shell color",shop_trail:"Footstep effects",shop_on:"Wearing",shop_wear:"Wear",lk_hat_none:"None",lk_hat_none_ic:"—",lk_hat_cap:"Cap",lk_hat_cap_ic:"🧢",lk_hat_flower:"Flower",lk_hat_flower_ic:"🌼",lk_hat_antenna:"Glow antenna",lk_hat_antenna_ic:"📡",lk_hat_wizard:"Wizard hat",lk_hat_wizard_ic:"🧙",lk_hat_crown:"Crown",lk_hat_crown_ic:"👑",lk_color_base:"Silver",lk_color_base_ic:"",lk_color_mint:"Mint",lk_color_mint_ic:"",lk_color_sky:"Sky blue",lk_color_sky_ic:"",lk_color_pink:"Blossom pink",lk_color_pink_ic:"",lk_color_coral:"Coral",lk_color_coral_ic:"",lk_color_night:"Night",lk_color_night_ic:"",lk_color_gold:"Gold",lk_color_gold_ic:"",lk_trail_none:"None",lk_trail_none_ic:"—",lk_trail_sparkle:"Starlight",lk_trail_sparkle_ic:"✨",lk_trail_leaf:"Leaves",lk_trail_leaf_ic:"🍃",lk_trail_bubble:"Bubbles",lk_trail_bubble_ic:"🫧",lk_trail_rainbow:"Rainbow",lk_trail_rainbow_ic:"🌈",achBtn:"Achievements",shopBtn:"Dress-up",daily_ch:"Daily",daily_name:d=>`Daily Challenge ${d}`,daily_goal:"Collect every gem. There may be trees to dig or water to bridge on the way.",daily_explain:n=>`A new map appears every day, and the whole class gets the same one. The reference solution uses ${n} blocks. Can you use fewer?`,daily_hint:n=>`First work out which squares are the path: dig trees on it and bridge water. Putting runs of “move” inside a repeat saves blocks. The reference solution uses ${n} blocks.`,daily_code:"Each day's map is generated by code using the date as a “seed”. This is called procedural generation.",daily_status:(s,d)=>`🔥 ${s}-day streak${d?" · done today ✓":""}`,daily_done:(r,s)=>r?`📅 Daily challenge complete! ${s}-day streak · 💎 +${r}`:"📅 Daily challenge complete!",daily_again:n=>`Today's best: ${n} blocks.`,tx_tab:"✏️ Text mode",tx_apply:"Apply to blocks",tx_reset:"Regenerate from blocks",tx_help:"You can use: robot.forward(), robot.turn(LEFT), robot.place(FORWARD), robot.dig(FORWARD), for i in range(3):, while not robot.blocked(FORWARD):, if …: / else:, def action_a():, steps = 3, steps += 1. Indent 4 spaces per level.",tx_default:"default",tx_ok:n=>`Applied! Your program is now ${n} blocks.`,tx_line:(n,m)=>`Line ${n}: ${m}`,tx_notAllowed:x=>`“${x}” isn't available in this level yet`,tx_badVar:v=>`There's no variable “${v}”`,tx_badCond:e=>`Can't understand this condition: ${e}`,tx_badMat:m=>`No such material: ${m}`,tx_unknown:x=>`Can't understand this line: ${x}`,tx_indent:"Wrong indentation (4 spaces per level)",tx_emptyBody:"The line after a colon must be indented with the commands inside",tx_range:"The count in range() must be 1 to 10",tx_noSense:"Side sensors aren't available in this level yet",tx_lonelyElse:"else: needs an if before it",mustT:l=>`This level requires: ${l}.`,mu_sense:"a side sensor (obstacle on the right/left)",mu_ifVar:"the “if variable compare” block",mu_calc:"the “set variable to calculation” block",mu_callP:"a function call with a parameter",mu_text:"text mode (type code, then press “Apply to blocks”)",b_ifVar:"compare variable",b_calc:"variable math",b_callP:"call with parameter",ucond_lblocked:"obstacle on the left",var_n:"n",ifVarLbl:(v,o,n)=>`if ${v} ${o} ${n}`,calcLbl:(v,a,o,n)=>`set ${v} to ${a} ${o} ${n}`,callPLbl:(f,n)=>`call function ${f} with n = ${n}`,opAria:"Comparison",argAria:"Argument",
   elseLbl:"else",funcLbl:x=>`define function ${x}`,callLbl:x=>`call function ${x}`,fnAria:"Function name",
   b_until:"repeat until",b_ifElse:"if…else",
   untilTooMany:"“Repeat until” ran 200 times without stopping. Check whether the condition can ever become true, or whether the loop moves Bitwick.",
@@ -949,7 +1017,7 @@ tile_D:"gate",
   restoreBug:"Restore the buggy program",
   ed_explain:"Design your own level! Pick a tile, then tap or drag on the grid to paint the map. The 3D view updates as you go. Once there's a start and at least one gem, snap blocks on the right to test it, or send the share code to a friend.",
   ed_name:"Level name",ed_size:"Size",ed_tiles:"Tiles",
-  tl_grass:"Grass",tl_T:"Tree",tl_S:"Stone",tl_W:"Water",tl_L:"Lava",tl_G:"Gem",tl_R:"Start",
+  tl_grass:"Grass",tl_T:"Tree",tl_S:"Stone",tl_W:"Water",tl_L:"Lava",tl_G:"Gem",tl_R:"Start",tl_I:"Ice",bs_instant:"Build instantly",bs_make:"Make a build share code",bs_load:"Enter a build share code",bs_hint:"Send this text to a classmate. They press “Enter a build share code” and paste it to load your build program.",bs_paste:"Paste the build share code you were given (it starts with QBB1.). Your current program will be replaced.",bs_bad:"That code couldn't be read. Check that you copied all of it.",bs_loaded:n=>`Loaded a ${n}-block build program. Press Run to see it!`,tl_C:"Thin ice",tl_P:"Pressure plate",tl_D:"Gate",blk_sense:"Side sensors",blk_cmp:"Compare & math",blk_param:"Parameters",ed_max:"Block limit (0 = no limit)",ed_maxHit:(m,n)=>`This level allows at most ${m} blocks, and you used ${n}.`,
   ed_robotTip:"With “Start” selected, tap the start square again to change which way Bitwick faces.",
   ed_blocks:"Blocks players can use",blk_forward:"Move",blk_turn:"Turns",blk_repeat:"Repeat",blk_place:"Place",blk_dig:"Dig",blk_if:"If",blk_vars:"Variables",blk_until:"Repeat until",blk_ifElse:"If…else",blk_func:"Functions",
   ed_target:"Blocks for 3 stars (0 = no rating)",
@@ -1094,11 +1162,40 @@ const LEVELS_EN=[
   explain:"The final challenge: you cross water on the way there and on the way back, and after each stream you turn around and take the plank back. The steps repeat a lot, so wrap “cross and remove the bridge” in a function.",
   hint:"Define function A: place, move, move, turn right, turn right, dig, turn right, turn right. Main program: move, repeat 2 times call A, turn around, repeat 2 times call A, move.",
   code:"Breaking a big task into small functions and then combining them is called decomposition. It's how big problems get solved."},
+ {ch:"Advanced",name:"The Right Turn",concept:"Side sensors",goal:"Use the “obstacle on the right” sensor to turn into the correct branch",
+  explain:"New sensors check Bitwick's <b>right</b> and <b>left</b>. The way ahead is often a dead end and the real path hides to the right: whenever the right side opens, turn into it.",
+  hint:"Repeat until all gems: if obstacle on the right → move; else → turn right, move.",
+  code:"robot.blocked(RIGHT) checks the tile on the right. Sensors let a program “see” more directions and make smarter decisions."},
+ {ch:"Advanced",name:"Right-Hand Maze",concept:"Maze algorithm",goal:"Escape the maze with the right-hand rule",
+  explain:"<b>The right-hand rule</b>: imagine keeping your right hand on the wall. If the right is open, turn right; if right and ahead are both walls, turn left; otherwise move forward. It escapes many mazes and even backs out of dead ends.",
+  hint:"Repeat until all gems: if obstacle on the right → {if obstacle ahead → turn left, else → move}; else → turn right, move.",
+  code:"This is a real algorithm: you don't need to know the maze, just follow the rule."},
+ {ch:"Advanced",name:"Compare",concept:"Comparing variables",goal:"Count your steps and start bridging only after 3 steps",
+  explain:"The new block “if count > 3” <b>compares</b> a variable with a number. Count as you walk; after 3, the river begins.",
+  hint:"Set count to 0. Repeat until all gems: change count by 1; if count > 3, place a block; move.",
+  code:"A comparison is either true or false, written count > 3 in code."},
+ {ch:"Advanced",name:"Further and Further",concept:"Variable arithmetic",goal:"Each leg is twice the last: 1, 2, then 4 tiles",
+  explain:"“Set steps to steps × 2” doubles steps. It makes routes that grow faster than adding 1 each time.",
+  hint:"Set steps to 1. Repeat 3 times: move steps tiles, turn right, set steps to steps × 2.",
+  code:"steps = steps * 2: work out the right side first, then store the result in the variable on the left."},
+ {ch:"Advanced",name:"Parameter Bridges",concept:"Function parameters",goal:"The gaps are 1, 2 and 3 wide again; this time pass the width to the function as a parameter",
+  explain:"“Call function A with n = 2” hands 2 to function A, so the variable <b>n</b> inside it is 2. The same function can receive a different number each time.",
+  hint:"Define function A: repeat n times (place, move), then move. Main: call A with n = 1, n = 2, n = 3.",
+  code:"The n in def action_a(n): is a parameter. Calling action_a(3) hands 3 to n."},
+ {ch:"Advanced",name:"Parameter Stairs",concept:"Parameters + turns",goal:"Walk down stairs that keep growing: steps of 1, 2 and 3",
+  explain:"Each stair is “forward n, turn right, forward n, turn left”; only n changes. Write one stair as a function with a parameter.",
+  hint:"Define function A: repeat n times move, turn right, repeat n times move, turn left. Main: call A with n = 1, 2, 3.",
+  code:"Parameters make functions general: no need for three nearly identical functions."},
+ {ch:"Advanced",name:"Type Your Code",concept:"Text coding",goal:"Write this level by typing code",
+  explain:"Press “✏️ Text mode” in the code panel to type Python directly, then “Apply to blocks” to turn it back into blocks. This level must be finished with text mode.",
+  hint:"for i in range(9):\n    if robot.inspect(FORWARD) == TREE:\n        robot.dig(FORWARD)\n    if robot.inspect(FORWARD) == WATER:\n        robot.place(FORWARD)\n    robot.forward()",
+  code:"Python uses indentation (4 spaces) to show which lines are inside a loop or an if."},
  {ch:"Adventure",name:"Dawn Village Quest",concept:"RPG"},
  {ch:"Creative Build",name:"Free Build",concept:"Create",goal:"Use code to build a house or a castle from an empty field",
-  explain:"No gems here, just an open field and 9 materials. Bitwick can fly up, so use “place … below” while moving to lay blocks, then build up one layer at a time. Load an example to see how the code works, then turn it into your own design.",
+  explain:"No gems here, just an open field and 12 materials (now with sandstone, obsidian and lamps). Bitwick can fly up, so use “place … below” while moving to lay blocks, then build up one layer at a time. Load an example to see how the code works, then turn it into your own design.",
   hint:"To build one ring of wall: repeat 4 times { repeat 4 times { place plank below, move }, turn right }. After each ring, move up and build the next.",
   code:"In robot.place(DOWN, PLANK), the second argument picks the material. Wrap the same code in a loop to build many layers."},
+ {ch:"Daily",concept:"Daily puzzle"},
  {ch:"Level Maker",name:"Level Workshop",concept:"Design"}
 ];
 let LANG="zh";
@@ -1134,7 +1231,7 @@ const S={lv:0,progs:LEVELS.map(()=>[]),target:null,running:false,speed:0,tab:"js
 let W=null; // world
 let gen=null,timer=null,curId=null;
 
-function mk(type){const b={id:uid++,type};if(type==="repeat"){b.n=3;b.body=[]}if(type==="if"){b.cond="tree";b.body=[]}if(type==="setVar"){b.v="steps";b.n=1}if(type==="changeVar"){b.v="steps";b.n=1}if(type==="forwardV"){b.v="steps"}if(type==="build"){b.dir="down";b.mat="plank"}if(type==="digAt"){b.dir="forward"}if(type==="until"){b.cond="blocked";b.body=[]}if(type==="ifElse"){b.cond="blocked";b.body=[];b.elseBody=[]}if(type==="func"){b.name="A";b.body=[]}if(type==="call"){b.name="A"}if(type==="combo"){b.a="forward";b.b="place"}return b}
+function mk(type){const b={id:uid++,type};if(type==="repeat"){b.n=3;b.body=[]}if(type==="if"){b.cond="tree";b.body=[]}if(type==="setVar"){b.v="steps";b.n=1}if(type==="changeVar"){b.v="steps";b.n=1}if(type==="forwardV"){b.v="steps"}if(type==="build"){b.dir="down";b.mat="plank"}if(type==="digAt"){b.dir="forward"}if(type==="until"){b.cond="blocked";b.body=[]}if(type==="ifElse"){b.cond="blocked";b.body=[];b.elseBody=[]}if(type==="func"){b.name="A";b.body=[]}if(type==="call"){b.name="A"}if(type==="combo"){b.a="forward";b.b="place"}if(type==="ifVar"){b.v="count";b.op=">";b.n=3;b.body=[];b.elseBody=[]}if(type==="calc"){b.v="steps";b.v2="steps";b.op="*";b.n=2}if(type==="callP"){b.name="A";b.arg=3}return b}
 const prog=()=>S.progs[S.lv];
 function kids(b){return b.elseBody?[b.body,b.elseBody]:b.body?[b.body]:[]}
 function find(list,id){for(const b of list){if(b.id===id)return b;for(const k of kids(b)){const r=find(k,id);if(r)return r}}return null}
@@ -1181,6 +1278,9 @@ Object.assign(EXAMPLES,{
     E("left"),E("forward"),E("left"),E("forward"),E("right"),E("right"),ring("leaves",2),...inward,E("build",{dir:"down",mat:"leaves"}),
     E("up"),E("build",{dir:"down",mat:"leaves"})]
 });
+/* ten bigger showcase builds: each is a real program (functions, parameters, variables, comparisons) */
+Object.assign(EXAMPLES,{"castle":[{"type":"func","name":"B","body":[{"type":"repeat","n":5,"body":[{"type":"down"}]},{"type":"repeat","n":4,"body":[{"type":"up"},{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"forward"}]},{"type":"up"},{"type":"repeat","n":3,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"},{"type":"forward"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"forward"}]},{"type":"func","name":"A","body":[{"type":"repeat","n":"n","body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"brick"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"},{"type":"forward"},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"roof"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"}]},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"repeat","n":5,"body":[{"type":"up"}]},{"type":"repeat","n":4,"body":[{"type":"call","name":"B"}]},{"type":"repeat","n":3,"body":[{"type":"up"}]},{"type":"left"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":8,"body":[{"type":"down"}]},{"type":"callP","name":"A","arg":6},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"right"}]},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"repeat","n":8,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":3,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":3,"body":[{"type":"build","dir":"down","mat":"glass"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":3,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":3,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"repeat","n":7,"body":[{"type":"down"}]},{"type":"digAt","dir":"forward"},{"type":"up"},{"type":"digAt","dir":"forward"},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"digAt","dir":"forward"},{"type":"down"},{"type":"digAt","dir":"forward"},{"type":"up"},{"type":"up"},{"type":"build","dir":"forward","mat":"lamp"},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"build","dir":"forward","mat":"lamp"}],"windmill":[{"type":"func","name":"A","body":[{"type":"repeat","n":8,"body":[{"type":"build","dir":"forward","mat":"plank"},{"type":"down"},{"type":"build","dir":"forward","mat":"plaster"},{"type":"up"},{"type":"up"},{"type":"left"},{"type":"forward"},{"type":"right"}]},{"type":"build","dir":"forward","mat":"plank"}]},{"type":"func","name":"B","body":[{"type":"repeat","n":8,"body":[{"type":"build","dir":"forward","mat":"plank"},{"type":"down"},{"type":"build","dir":"forward","mat":"plaster"},{"type":"left"},{"type":"forward"},{"type":"right"}]},{"type":"build","dir":"forward","mat":"plank"}]},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"leaves"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"down"},{"type":"repeat","n":2,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"glass"},{"type":"forward"}]},{"type":"right"}]},{"type":"repeat","n":2,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"glass"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"up"},{"type":"build","dir":"down","mat":"roof"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":7,"body":[{"type":"down"}]},{"type":"call","name":"A"},{"type":"right"},{"type":"repeat","n":8,"body":[{"type":"forward"}]},{"type":"left"},{"type":"call","name":"B"},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"up"}]},{"type":"build","dir":"forward","mat":"gold"}],"ferris":[{"type":"func","name":"A","body":[{"type":"left"},{"type":"forward"},{"type":"right"}]},{"type":"func","name":"B","body":[{"type":"right"},{"type":"forward"},{"type":"left"}]},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"repeat","n":2,"body":[{"type":"repeat","n":10,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"}]},{"type":"build","dir":"down","mat":"stone"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"}]},{"type":"build","dir":"down","mat":"stone"},{"type":"left"},{"type":"forward"},{"type":"left"}]},{"type":"repeat","n":9,"body":[{"type":"up"}]},{"type":"left"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"build","dir":"forward","mat":"brick"},{"type":"call","name":"A"}]},{"type":"repeat","n":3,"body":[{"type":"build","dir":"forward","mat":"lamp"},{"type":"call","name":"A"},{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"build","dir":"forward","mat":"brick"},{"type":"down"}]},{"type":"repeat","n":3,"body":[{"type":"build","dir":"forward","mat":"lamp"},{"type":"call","name":"B"},{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"build","dir":"forward","mat":"brick"},{"type":"call","name":"B"}]},{"type":"repeat","n":3,"body":[{"type":"build","dir":"forward","mat":"lamp"},{"type":"call","name":"B"},{"type":"up"}]},{"type":"repeat","n":2,"body":[{"type":"build","dir":"forward","mat":"brick"},{"type":"up"}]},{"type":"repeat","n":3,"body":[{"type":"build","dir":"forward","mat":"lamp"},{"type":"call","name":"A"},{"type":"up"}]},{"type":"call","name":"A"},{"type":"repeat","n":7,"body":[{"type":"down"}]},{"type":"repeat","n":7,"body":[{"type":"build","dir":"forward","mat":"log"},{"type":"up"}]},{"type":"repeat","n":3,"body":[{"type":"down"}]},{"type":"call","name":"B"},{"type":"call","name":"B"},{"type":"call","name":"B"},{"type":"repeat","n":7,"body":[{"type":"build","dir":"forward","mat":"log"},{"type":"call","name":"A"}]},{"type":"call","name":"B"},{"type":"call","name":"B"},{"type":"call","name":"B"},{"type":"call","name":"B"},{"type":"build","dir":"forward","mat":"gold"},{"type":"left"},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"build","dir":"forward","mat":"gold"},{"type":"call","name":"B"},{"type":"down"},{"type":"repeat","n":5,"body":[{"type":"build","dir":"forward","mat":"brick"},{"type":"call","name":"B"},{"type":"down"}]},{"type":"repeat","n":5,"body":[{"type":"up"}]},{"type":"repeat","n":6,"body":[{"type":"call","name":"A"}]},{"type":"repeat","n":5,"body":[{"type":"down"},{"type":"build","dir":"forward","mat":"brick"},{"type":"call","name":"A"}]}],"rocket":[{"type":"func","name":"A","body":[{"type":"forward"},{"type":"build","dir":"forward","mat":"brick"},{"type":"up"},{"type":"build","dir":"forward","mat":"brick"},{"type":"up"},{"type":"build","dir":"forward","mat":"brick"},{"type":"right"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"down"},{"type":"down"},{"type":"build","dir":"forward","mat":"brick"},{"type":"up"},{"type":"build","dir":"forward","mat":"brick"}]},{"type":"left"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"obsidian"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":4,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"lamp"},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"call","name":"A"},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"right"},{"type":"down"}]},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"brick"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"glass"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"brick"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"brick"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"brick"},{"type":"up"},{"type":"build","dir":"down","mat":"brick"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"down"},{"type":"repeat","n":9,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"log"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"build","dir":"down","mat":"lamp"},{"type":"right"},{"type":"right"},{"type":"forward"},{"type":"down"},{"type":"down"},{"type":"build","dir":"down","mat":"plank"}],"temple":[{"type":"func","name":"B","body":[{"type":"repeat","n":2,"body":[{"type":"repeat","n":"steps","body":[{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":"count","body":[{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"setVar","v":"steps","n":10},{"type":"setVar","v":"count","n":7},{"type":"repeat","n":4,"body":[{"type":"call","name":"B"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"changeVar","v":"steps","n":-2},{"type":"changeVar","v":"count","n":-2}]},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"setVar","v":"steps","n":8},{"type":"setVar","v":"count","n":5},{"type":"repeat","n":3,"body":[{"type":"call","name":"B"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"changeVar","v":"steps","n":-2},{"type":"changeVar","v":"count","n":-2}]},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"setVar","v":"steps","n":6},{"type":"setVar","v":"count","n":3},{"type":"repeat","n":2,"body":[{"type":"call","name":"B"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"changeVar","v":"steps","n":-2},{"type":"changeVar","v":"count","n":-2}]},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"up"}]},{"type":"repeat","n":2,"body":[{"type":"repeat","n":3,"body":[{"type":"repeat","n":4,"body":[{"type":"down"}]},{"type":"repeat","n":4,"body":[{"type":"up"},{"type":"build","dir":"down","mat":"plaster"}]},{"type":"forward"},{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"down"}]},{"type":"repeat","n":4,"body":[{"type":"up"},{"type":"build","dir":"down","mat":"plaster"}]},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"right"}]},{"type":"up"},{"type":"setVar","v":"steps","n":6},{"type":"setVar","v":"count","n":3},{"type":"call","name":"B"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"setVar","v":"steps","n":4},{"type":"setVar","v":"count","n":1},{"type":"call","name":"B"},{"type":"left"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"repeat","n":2,"body":[{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"build","dir":"down","mat":"roof"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"build","dir":"down","mat":"roof"},{"type":"left"},{"type":"forward"},{"type":"left"}]},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"up"},{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"build","dir":"down","mat":"roof"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"build","dir":"down","mat":"roof"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"right"},{"type":"right"},{"type":"repeat","n":6,"body":[{"type":"forward"}]},{"type":"build","dir":"down","mat":"gold"}],"spiral":[{"type":"left"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"leaves"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"down"},{"type":"repeat","n":5,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"glass"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"down"},{"type":"repeat","n":5,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"up"}]},{"type":"right"}]},{"type":"build","dir":"down","mat":"lamp"}],"ship":[{"type":"func","name":"A","body":[{"type":"repeat","n":2,"body":[{"type":"repeat","n":4,"body":[{"type":"build","dir":"forward","mat":"plaster"},{"type":"left"},{"type":"forward"},{"type":"right"}]},{"type":"build","dir":"forward","mat":"plaster"},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"build","dir":"forward","mat":"plaster"},{"type":"right"},{"type":"forward"},{"type":"left"}]},{"type":"build","dir":"forward","mat":"plaster"},{"type":"up"}]}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"up"},{"type":"repeat","n":5,"body":[{"type":"build","dir":"down","mat":"glass"},{"type":"repeat","n":10,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"repeat","n":1,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"build","dir":"down","mat":"glass"},{"type":"repeat","n":10,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"repeat","n":1,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"left"},{"type":"forward"},{"type":"left"}]},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":6,"body":[{"type":"forward"}]},{"type":"right"},{"type":"build","dir":"down","mat":"plank"},{"type":"repeat","n":6,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"plank"}]},{"type":"up"},{"type":"right"},{"type":"right"},{"type":"repeat","n":7,"body":[{"type":"forward"}]},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"repeat","n":8,"body":[{"type":"build","dir":"down","mat":"plank"},{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plank"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"plank"},{"type":"repeat","n":6,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"plank"}]},{"type":"up"},{"type":"right"},{"type":"right"},{"type":"repeat","n":8,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"repeat","n":10,"body":[{"type":"build","dir":"down","mat":"log"},{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"build","dir":"down","mat":"log"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plank"},{"type":"repeat","n":10,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"plank"}]},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"build","dir":"down","mat":"plank"},{"type":"repeat","n":10,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"plank"}]},{"type":"left"},{"type":"forward"},{"type":"left"}]},{"type":"build","dir":"down","mat":"plank"},{"type":"repeat","n":10,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"plank"}]},{"type":"up"},{"type":"forward"},{"type":"left"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"build","dir":"down","mat":"plank"},{"type":"up"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"build","dir":"down","mat":"plank"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"repeat","n":3,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"repeat","n":3,"body":[{"type":"down"}]},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"roof"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"up"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"repeat","n":5,"body":[{"type":"down"}]},{"type":"repeat","n":7,"body":[{"type":"up"},{"type":"build","dir":"down","mat":"log"}]},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"repeat","n":8,"body":[{"type":"down"}]},{"type":"repeat","n":7,"body":[{"type":"up"},{"type":"build","dir":"down","mat":"log"}]},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"},{"type":"left"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"left"},{"type":"forward"},{"type":"repeat","n":6,"body":[{"type":"down"}]},{"type":"call","name":"A"},{"type":"repeat","n":2,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":6,"body":[{"type":"down"}]},{"type":"call","name":"A"}],"city":[{"type":"func","name":"A","body":[{"type":"repeat","n":4,"body":[{"type":"repeat","n":"steps","body":[{"type":"build","dir":"down","mat":"glass"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"func","name":"B","body":[{"type":"repeat","n":4,"body":[{"type":"repeat","n":"steps","body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"right"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":6,"body":[{"type":"build","dir":"down","mat":"stone"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"down"},{"type":"setVar","v":"steps","n":4},{"type":"up"},{"type":"call","name":"B"},{"type":"repeat","n":2,"body":[{"type":"up"},{"type":"call","name":"A"},{"type":"up"},{"type":"call","name":"A"},{"type":"up"},{"type":"call","name":"B"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"setVar","v":"steps","n":2},{"type":"up"},{"type":"call","name":"A"},{"type":"up"},{"type":"call","name":"A"},{"type":"up"},{"type":"call","name":"B"},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"lamp"},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"},{"type":"up"},{"type":"build","dir":"down","mat":"gold"},{"type":"right"},{"type":"right"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"repeat","n":3,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"brick"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":8,"body":[{"type":"up"}]},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"repeat","n":5,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":6,"body":[{"type":"up"}]},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"repeat","n":4,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"brick"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":7,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"repeat","n":6,"body":[{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":1,"body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":5,"body":[{"type":"up"}]},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"repeat","n":10,"body":[{"type":"up"}]},{"type":"left"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"repeat","n":10,"body":[{"type":"up"}]},{"type":"left"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"repeat","n":10,"body":[{"type":"up"}]},{"type":"right"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"repeat","n":10,"body":[{"type":"down"}]},{"type":"repeat","n":2,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"}],"village":[{"type":"func","name":"A","body":[{"type":"setVar","v":"count","n":0},{"type":"calc","v":"steps","v2":"n","op":"*","n":2},{"type":"repeat","n":2,"body":[{"type":"up"},{"type":"changeVar","v":"count","n":1},{"type":"repeat","n":4,"body":[{"type":"repeat","n":"steps","body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]}]},{"type":"up"},{"type":"changeVar","v":"count","n":1},{"type":"repeat","n":4,"body":[{"type":"repeat","n":"steps","body":[{"type":"build","dir":"down","mat":"glass"},{"type":"forward"}]},{"type":"right"}]},{"type":"up"},{"type":"changeVar","v":"count","n":1},{"type":"repeat","n":4,"body":[{"type":"repeat","n":"steps","body":[{"type":"build","dir":"down","mat":"plaster"},{"type":"forward"}]},{"type":"right"}]},{"type":"repeat","n":3,"body":[{"type":"ifVar","v":"steps","op":">","n":0,"body":[{"type":"up"},{"type":"changeVar","v":"count","n":1},{"type":"repeat","n":4,"body":[{"type":"repeat","n":"steps","body":[{"type":"build","dir":"down","mat":"roof"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"changeVar","v":"steps","n":-2}],"elseBody":[]}]},{"type":"up"},{"type":"changeVar","v":"count","n":1},{"type":"build","dir":"down","mat":"gold"},{"type":"calc","v":"steps","v2":"n","op":"+","n":1},{"type":"forwardV","v":"steps"},{"type":"repeat","n":"count","body":[{"type":"down"}]}]},{"type":"func","name":"B","body":[{"type":"repeat","n":3,"body":[{"type":"up"},{"type":"build","dir":"down","mat":"log"}]},{"type":"up"},{"type":"left"},{"type":"forward"},{"type":"left"},{"type":"forward"},{"type":"right"},{"type":"right"},{"type":"repeat","n":4,"body":[{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"leaves"},{"type":"forward"}]},{"type":"right"}]},{"type":"forward"},{"type":"right"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"}]},{"type":"repeat","n":9,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"callP","name":"A","arg":2},{"type":"repeat","n":9,"body":[{"type":"up"}]},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"callP","name":"A","arg":1},{"type":"repeat","n":9,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":6,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"callP","name":"A","arg":3},{"type":"repeat","n":9,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"callP","name":"A","arg":1},{"type":"repeat","n":9,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"call","name":"B"},{"type":"repeat","n":4,"body":[{"type":"up"}]},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"call","name":"B"},{"type":"repeat","n":4,"body":[{"type":"up"}]},{"type":"repeat","n":6,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":7,"body":[{"type":"up"}]},{"type":"left"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":7,"body":[{"type":"up"}]},{"type":"left"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":7,"body":[{"type":"up"}]},{"type":"repeat","n":8,"body":[{"type":"forward"}]},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":7,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":10,"body":[{"type":"forward"}]},{"type":"repeat","n":3,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":6,"body":[{"type":"forward"}]},{"type":"repeat","n":9,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"lamp"}],"bridge":[{"type":"func","name":"A","body":[{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"},{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"},{"type":"down"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"},{"type":"down"},{"type":"down"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"down"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"down"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"down"},{"type":"down"},{"type":"down"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"plank"},{"type":"forward"},{"type":"down"},{"type":"down"},{"type":"down"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"},{"type":"down"},{"type":"down"},{"type":"build","dir":"down","mat":"stone"},{"type":"up"},{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"},{"type":"down"},{"type":"build","dir":"down","mat":"sandstone"},{"type":"forward"},{"type":"build","dir":"down","mat":"sandstone"}]},{"type":"forward"},{"type":"left"},{"type":"repeat","n":4,"body":[{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"up"},{"type":"repeat","n":2,"body":[{"type":"build","dir":"down","mat":"glass"},{"type":"repeat","n":10,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"repeat","n":3,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"left"},{"type":"forward"},{"type":"left"},{"type":"build","dir":"down","mat":"glass"},{"type":"repeat","n":10,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"repeat","n":3,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"glass"}]},{"type":"right"},{"type":"forward"},{"type":"right"}]},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":6,"body":[{"type":"forward"}]},{"type":"left"},{"type":"call","name":"A"},{"type":"right"},{"type":"forward"},{"type":"right"},{"type":"call","name":"A"},{"type":"left"},{"type":"forward"},{"type":"left"},{"type":"call","name":"A"},{"type":"repeat","n":4,"body":[{"type":"up"}]},{"type":"left"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":9,"body":[{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":4,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"log"}]},{"type":"forward"},{"type":"build","dir":"down","mat":"lamp"},{"type":"right"},{"type":"repeat","n":2,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":5,"body":[{"type":"forward"}]},{"type":"right"},{"type":"right"},{"type":"build","dir":"down","mat":"lamp"},{"type":"repeat","n":4,"body":[{"type":"forward"},{"type":"build","dir":"down","mat":"log"}]},{"type":"forward"},{"type":"build","dir":"down","mat":"lamp"},{"type":"right"},{"type":"right"},{"type":"repeat","n":7,"body":[{"type":"forward"}]},{"type":"right"},{"type":"repeat","n":6,"body":[{"type":"forward"}]},{"type":"repeat","n":5,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"repeat","n":2,"body":[{"type":"up"}]},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"forward"}]},{"type":"repeat","n":5,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"repeat","n":2,"body":[{"type":"up"}]},{"type":"right"},{"type":"right"},{"type":"repeat","n":9,"body":[{"type":"forward"}]},{"type":"left"},{"type":"repeat","n":9,"body":[{"type":"forward"}]},{"type":"repeat","n":5,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"repeat","n":2,"body":[{"type":"up"}]},{"type":"left"},{"type":"repeat","n":9,"body":[{"type":"forward"}]},{"type":"repeat","n":5,"body":[{"type":"down"}]},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"},{"type":"up"},{"type":"build","dir":"down","mat":"leaves"}]});
+const EX_BIG=["castle","windmill","ferris","rocket","temple","spiral","ship","city","village","bridge"];
 const CH_SOL=[
   [E("repeat",{n:4},[E("up"),E("build",{dir:"down",mat:"stone"})])],
   [E("repeat",{n:2},[E("up"),E("repeat",{n:4},[E("build",{dir:"down",mat:"stone"}),E("forward")]),E("build",{dir:"down",mat:"stone"}),E("right"),E("right")])],
@@ -1192,8 +1292,8 @@ const CH_SOL=[
 ];
 const countSpec=l=>l.reduce((a,b)=>a+1+(b.body?countSpec(b.body):0)+(b.elseBody?countSpec(b.elseBody):0),0);
 LEVELS.filter(L=>L.bp).forEach((L,i)=>{L.solution=CH_SOL[i];L.optimal=countSpec(CH_SOL[i])});
-function fromSpec(list){return list.map(o=>{const b=mk(o.type);for(const k of["n","v","cond","dir","mat","name","a","b"])if(o[k]!==undefined)b[k]=o[k];if(o.body)b.body=fromSpec(o.body);if(o.elseBody)b.elseBody=fromSpec(o.elseBody);return b})}
-function toSpec(list){return list.map(b=>{const o={};for(const k of["type","n","v","cond","dir","mat","name","a","b"])if(b[k]!==undefined)o[k]=b[k];if(b.body)o.body=toSpec(b.body);if(b.elseBody)o.elseBody=toSpec(b.elseBody);return o})}
+function fromSpec(list){return list.map(o=>{const b=mk(o.type);for(const k of["n","v","cond","dir","mat","name","a","b","op","v2","arg"])if(o[k]!==undefined)b[k]=o[k];if(o.body)b.body=fromSpec(o.body);if(o.elseBody)b.elseBody=fromSpec(o.elseBody);return b})}
+function toSpec(list){return list.map(b=>{const o={};for(const k of["type","n","v","cond","dir","mat","name","a","b","op","v2","arg"])if(b[k]!==undefined)o[k]=b[k];if(b.body)o.body=toSpec(b.body);if(b.elseBody)o.elseBody=toSpec(b.elseBody);return o})}
 const STARTERS={
   bug1:[E("forward"),E("forward"),E("left"),E("forward"),E("forward")],
   bug2:[E("forward"),E("repeat",{n:3},[E("place"),E("forward")]),E("forward")],
@@ -1212,13 +1312,27 @@ const MASTER_SOL={
 LEVELS.forEach(L=>{if(L.key&&MASTER_SOL[L.key]){L.solution=MASTER_SOL[L.key];L.optimal=countSpec(MASTER_SOL[L.key])}});
 const BUILD_LV=LEVELS.findIndex(L=>L.free);
 try{const sv=JSON.parse(localStorage.getItem("block-miner-build")||"null");S.progs[BUILD_LV]=sv?fromSpec(sv):[]}catch(e){}
+function b64e(o){return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,"")}
+function b64d(x){while(x.length%4)x+="=";return JSON.parse(decodeURIComponent(escape(atob(x))))}
+function buildCode(){return"QBB1."+b64e(toSpec(S.progs[BUILD_LV]))}
+function buildFromCode(str){try{const m=String(str).trim().match(/QBB1\.([A-Za-z0-9+/]+)/);if(!m)return null;const spec=b64d(m[1]);const pal=LEVELS[BUILD_LV].palette;
+  const ok=l=>Array.isArray(l)&&l.every(b=>b&&pal.includes(b.type)&&(!b.body||ok(b.body))&&(!b.elseBody||ok(b.elseBody)));return ok(spec)?spec:null}catch(e){return null}}
+function instantBuild(){if(S.running)stop();if(!prog().length){status(t("addFirst"),"bad");return}
+  loadWorld();$("result").hidden=true;FDEPTH=0;let msg=null;
+  try{const g=exec(prog());while(!g.next().done);}catch(e){msg=e.msg||t("error")}
+  W.dirty=true;hud();
+  if(msg){W.fail=true;status(msg,"bad");sfx("fail")}else{status(t("buildDone",W.vox.size),"good");sfx("win");META.stats.built=Math.max(META.stats.built,W.vox.size);metaSave();achCheck()}
+  return msg}
+function showBuildShare(){openModal(`🔗 ${t("bs_make")}`,`<p>${t("bs_hint")}</p><textarea id="bsCode" class="bs-code" readonly rows="4">${buildCode()}</textarea><div class="ed-row"><button class="btn primary" data-bcopy="1">${t("ed_copy")}</button></div>`)}
+function showBuildLoad(){openModal(`📥 ${t("bs_load")}`,`<p>${t("bs_paste")}</p><textarea id="bsCode" class="bs-code" rows="4"></textarea><div class="ed-row"><button class="btn primary" data-bapply="1">${t("ed_apply")}</button></div>`);setTimeout(()=>$("bsCode")&&$("bsCode").focus(),50)}
 function saveBuild(){if(S.lv!==BUILD_LV)return;try{localStorage.setItem("block-miner-build",JSON.stringify(toSpec(prog())))}catch(e){}}
 
 /* ---------- level maker ---------- */
 const CUSTOM_LV=LEVELS.findIndex(L=>L.custom);
-const ED_TILES=[".","T","S","W","L","G","R"];
-const ED_BLOCKS={forward:["forward"],combo:["combo"],turn:["left","right"],repeat:["repeat"],until:["until"],place:["place"],dig:["dig"],if:["if"],ifElse:["ifElse"],func:["func","call"],vars:["setVar","changeVar","forwardV"]};
-const ED_COL={".":"#5BA04A",T:"#2F6E2C",S:"#8E949A",W:"#2D72C4",L:"#D9471A",G:"#5BA04A",R:"#5BA04A"};
+const ED_TILES=[".","T","S","W","L","I","C","P","D","G","R"];
+const ED_BLOCKS={forward:["forward"],combo:["combo"],turn:["left","right"],repeat:["repeat"],until:["until"],place:["place"],dig:["dig"],if:["if"],ifElse:["ifElse"],func:["func","call"],vars:["setVar","changeVar","forwardV"],sense:[],cmp:["ifVar","calc"],param:["callP"]};
+const ED_COL={".":"#5BA04A",T:"#2F6E2C",S:"#8E949A",W:"#2D72C4",L:"#D9471A",I:"#BFE6F5",C:"#9FCFE6",P:"#C9A13B",D:"#4A3A2A",G:"#5BA04A",R:"#5BA04A"};
+const ED_GLYPH={G:"◆",T:"♣",I:"❄",C:"◇",P:"●",D:"▦"};
 const ARROWS=["▲","▶","▼","◀"];
 function defaultCustom(){return{name:tr("ed_defaultName"),grid:["TTTTTTT","T.....T","TR.T..T","T.WW.GT","T.....T","T..G..T","TTTTTTT"].map(r=>r.split("")),dir:1,blocks:["forward","turn","repeat","place","dig"],optimal:0}}
 let CUST=null,MYLEVELS=[];
@@ -1232,14 +1346,14 @@ function applyCust(){
   const L=LEVELS[CUSTOM_LV];
   L.map=CUST.grid.map(r=>r.join(""));L.dir=CUST.dir;L.optimal=CUST.optimal||0;
   L.palette=["forward",...CUST.blocks.filter(k=>k!=="forward")].flatMap(k=>ED_BLOCKS[k]||[]);
-  L.vars=CUST.blocks.includes("vars");
+  L.vars=["vars","cmp","param"].some(k=>CUST.blocks.includes(k));L.maxBlocks=CUST.max||0;
   saveCust();
 }
 function custCheck(){let r=0,g=0;CUST.grid.forEach(row=>row.forEach(c=>{if(c==="R")r++;if(c==="G")g++}));return{r,g,ok:r===1&&g>0}}
 const ED={tool:"T",painting:false,pendingDel:null,panel:null,reload:false};
 function edReload(){if(ED.reload)return;ED.reload=true;requestAnimationFrame(()=>{ED.reload=false;applyCust();loadWorld();edCheckMsg()})}
 function edCheckMsg(){const c=custCheck(),el=$("edCheck");if(!el)return;el.textContent=c.ok?t("ed_ok"):(c.r!==1?t("ed_needStart"):"")+(c.g?"":" "+t("ed_needGem"));el.className="ed-check "+(c.ok?"good":"bad")}
-function cellHTML(c,x,y){const glyph=c==="G"?"◆":c==="R"?ARROWS[CUST.dir]:c==="T"?"♣":"";
+function cellHTML(c,x,y){const glyph=c==="R"?ARROWS[CUST.dir]:ED_GLYPH[c]||"";
   return `<button class="ed-cell t-${c==="."?"g":c}" data-cx="${x}" data-cy="${y}" aria-label="${x+1},${y+1} ${t(c==="."?"tl_grass":"tl_"+c)}">${glyph}</button>`}
 function renderEditor(){
   const L=LT(S.lv),n=CUST.grid.length,mine=MYLEVELS.map((m,i)=>`<option value="${i}">${esc(m.name)}</option>`).join("");
@@ -1248,12 +1362,13 @@ function renderEditor(){
    <p class="explain">${t("ed_explain")}</p>
    <div class="ed-row"><label for="edName">${t("ed_name")}</label><input id="edName" class="ed-input" maxlength="30" value="${esc(CUST.name)}">
      <label for="edSize">${t("ed_size")}</label><select id="edSize" class="ed-input">${[5,6,7,8,9,10,11,12].map(k=>`<option value="${k}"${k===n?" selected":""}>${k} × ${k}</option>`).join("")}</select></div>
-   <div class="ed-tools" role="radiogroup" aria-label="${t("ed_tiles")}">${ED_TILES.map(k=>`<button class="ed-tool${ED.tool===k?" on":""}" role="radio" aria-checked="${ED.tool===k}" data-tool="${k}"><span class="sw t-${k==="."?"g":k}">${k==="G"?"◆":k==="R"?"▶":k==="T"?"♣":""}</span>${t(k==="."?"tl_grass":"tl_"+k)}</button>`).join("")}</div>
+   <div class="ed-tools" role="radiogroup" aria-label="${t("ed_tiles")}">${ED_TILES.map(k=>`<button class="ed-tool${ED.tool===k?" on":""}" role="radio" aria-checked="${ED.tool===k}" data-tool="${k}"><span class="sw t-${k==="."?"g":k}">${k==="R"?"▶":ED_GLYPH[k]||""}</span>${t(k==="."?"tl_grass":"tl_"+k)}</button>`).join("")}</div>
    <div class="ed-grid" id="edGrid" style="--n:${n}">${CUST.grid.map((row,y)=>row.map((c,x)=>cellHTML(c,x,y)).join("")).join("")}</div>
    <p class="ed-tip">${t("ed_robotTip")}</p>
    <p class="ed-check" id="edCheck" aria-live="polite"></p>
    <fieldset class="ed-blocks"><legend>${t("ed_blocks")}</legend>${Object.keys(ED_BLOCKS).map(k=>`<label><input type="checkbox" id="edb-${k}" data-edb="${k}"${CUST.blocks.includes(k)||k==="forward"?" checked":""}${k==="forward"?" disabled":""}> ${t("blk_"+k)}</label>`).join("")}</fieldset>
-   <div class="ed-row"><label for="edTarget">${t("ed_target")}</label><input id="edTarget" class="ed-input num" type="number" min="0" max="99" value="${CUST.optimal||0}"></div>
+   <div class="ed-row"><label for="edTarget">${t("ed_target")}</label><input id="edTarget" class="ed-input num" type="number" min="0" max="99" value="${CUST.optimal||0}">
+     <label for="edMax">${t("ed_max")}</label><input id="edMax" class="ed-input num" type="number" min="0" max="99" value="${CUST.max||0}"></div>
    <div class="ed-row">
      <button class="btn" data-ed="save">${t("ed_save")}</button><button class="btn" data-ed="new">${t("ed_new")}</button>
      <button class="btn" data-ed="export">${t("ed_export")}</button><button class="btn" data-ed="import">${t("ed_import")}</button></div>
@@ -1267,7 +1382,7 @@ function renderEditor(){
 }
 function esc(x){return String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function exportCode(){
-  const o={n:CUST.name,m:CUST.grid.map(r=>r.join("")),d:CUST.dir,b:CUST.blocks,o:CUST.optimal||0};
+  const o={n:CUST.name,m:CUST.grid.map(r=>r.join("")),d:CUST.dir,b:CUST.blocks,o:CUST.optimal||0,x:CUST.max||0};
   return "QBM1."+btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,"");
 }
 function importCode(str){
@@ -1276,7 +1391,7 @@ function importCode(str){
     let b=m[1];while(b.length%4)b+="=";
     const o=JSON.parse(decodeURIComponent(escape(atob(b))));
     const c={name:String(o.n||"").slice(0,30)||tr("ed_newName"),grid:(o.m||[]).map(r=>String(r).split("")),dir:+o.d||0,
-      blocks:(o.b||[]).filter(k=>ED_BLOCKS[k]),optimal:Math.max(0,Math.min(99,+o.o||0))};
+      blocks:(o.b||[]).filter(k=>ED_BLOCKS[k]),optimal:Math.max(0,Math.min(99,+o.o||0)),max:Math.max(0,Math.min(99,+o.x||0))};
     return validCust(c)?c:null;
   }catch(e){return null}
 }
@@ -1300,7 +1415,7 @@ function edResize(n){
 }
 function setCust(c,msg){CUST=c;ED.panel=null;ED.pendingDel=null;applyCust();S.progs[CUSTOM_LV]=S.progs[CUSTOM_LV]||[];renderEditor();renderPalette();renderProgram();loadWorld();$("result").hidden=true;if(msg)status(msg,"good")}
 function edAction(a){
-  if(a==="save"){const i=MYLEVELS.findIndex(m=>m.name===CUST.name);const copy=JSON.parse(JSON.stringify(CUST));if(i>=0)MYLEVELS[i]=copy;else MYLEVELS.push(copy);saveMine();ED.mineSel=i>=0?i:MYLEVELS.length-1;renderEditor();status(tr("ed_saved",CUST.name),"good")}
+  if(a==="save"){const i=MYLEVELS.findIndex(m=>m.name===CUST.name);const copy=JSON.parse(JSON.stringify(CUST));if(i>=0)MYLEVELS[i]=copy;else MYLEVELS.push(copy);saveMine();achCheck();ED.mineSel=i>=0?i:MYLEVELS.length-1;renderEditor();status(tr("ed_saved",CUST.name),"good")}
   else if(a==="new"){const n=7;const g=Array.from({length:n},()=>Array.from({length:n},()=>"."));g[3][1]="R";setCust({name:tr("ed_newName"),grid:g,dir:1,blocks:CUST.blocks.slice(),optimal:0},"")}
   else if(a==="export"||a==="import"){ED.panel=ED.panel===a?null:a;renderEditor();if(a==="import"&&$("edCode"))$("edCode").focus()}
   else if(a==="copy"){const ta=$("edCode");const done=()=>{const b=document.querySelector('[data-ed="copy"]');if(b)b.textContent=tr("ed_copied")};
@@ -1317,6 +1432,7 @@ addEventListener("pointerup",()=>{ED.painting=false});addEventListener("pointerc
 document.addEventListener("input",e=>{
   if(e.target.id==="edName"){CUST.name=e.target.value.slice(0,30)||tr("ed_newName");saveCust();renderCode()}
   if(e.target.id==="edTarget"){CUST.optimal=Math.max(0,Math.min(99,+e.target.value||0));applyCust()}
+  if(e.target.id==="edMax"){CUST.max=Math.max(0,Math.min(99,+e.target.value||0));applyCust()}
 });
 document.addEventListener("change",e=>{
   if(e.target.id==="edSize")edResize(+e.target.value);
@@ -1356,7 +1472,7 @@ function makeWorld(L){
     if(c==="R"){rx=x;ry=y;row[x]="."}
   }));
   if(L.home&&grid[L.home[1]])grid[L.home[1]][L.home[0]]="H";
-  return {grid,orig:grid.map(r=>r.slice()),inv:L.inv==null?null:L.inv,gems,total:gems.size,got:0,steps:0,wood:0,vars:{steps:0,count:0},build:!!L.build,vox:new Map(),maxH:0,
+  return {grid,orig:grid.map(r=>r.slice()),inv:L.inv==null?null:L.inv,gems,total:gems.size,got:0,steps:0,wood:0,vars:{steps:0,count:0,n:0},build:!!L.build,vox:new Map(),maxH:0,
      r:{x:rx,y:ry,dir:L.dir,h:0},disp:{x:rx,y:ry,a:L.dir*90,h:0},ta:L.dir*90,fail:false,shake:0,sparks:[]};
 }
 function tileAt(x,y){return (W.grid[y]&&W.grid[y][x])||"#"}
@@ -1400,7 +1516,7 @@ function stepTo(f,c){
   if(c==="W"){W.r.x=f.x;W.r.y=f.y;if(fromThin)crack(ox,oy);fx("splash",f.x,f.y);failWith(t("splash"))}
   if(c==="L"){W.r.x=f.x;W.r.y=f.y;if(fromThin)crack(ox,oy);fx("ember",f.x,f.y);failWith(t("lava"))}
   if(!walkable(c))failWith(t("blocked",t("tile_"+(TILE_NAME[c]||c==="D"?c:"wall"))));
-  W.r.x=f.x;W.r.y=f.y;
+  W.r.x=f.x;W.r.y=f.y;trailFx(f.x,f.y);
   if(fromThin)crack(ox,oy);
   const k=f.x+","+f.y;
   if(W.gems.has(k)){W.gems.delete(k);W.got++;burst(f.x,f.y);W.dirty=true}
@@ -1433,6 +1549,7 @@ function act(type,b){
 function check(cond){
   if(cond==="done")return W.got===W.total;
   const f=front(),c=tileAt(f.x,f.y);
+  if(cond==="rblocked"||cond==="lblocked"){const d=(W.r.dir+(cond==="rblocked"?1:3))%4;return !walkable(tileAt(W.r.x+DX[d],W.r.y+DY[d]))}
   if(cond==="tree") return c==="T";
   if(cond==="water") return c==="W";
   return !walkable(c);
@@ -1447,6 +1564,10 @@ function* exec(list){
       while(!check(b.cond)){if(++n>200)throw{msg:t("untilTooMany")};yield* exec(b.body);if(won())return;yield {id:b.id,silent:true}}continue}
     if(b.type==="combo"){act(b.a,b);yield {id:b.id};if(won())return;act(b.b,b);yield {id:b.id};continue}
     if(b.type==="ifElse"){const ok=check(b.cond);yield {id:b.id};yield* exec(ok?b.body:b.elseBody);continue}
+    if(b.type==="ifVar"){const a=W.vars[b.v],ok=b.op===">"?a>b.n:b.op==="<"?a<b.n:a===b.n;yield {id:b.id};yield* exec(ok?b.body:b.elseBody);continue}
+    if(b.type==="calc"){const a=W.vars[b.v2];W.vars[b.v]=b.op==="+"?a+b.n:b.op==="-"?a-b.n:a*b.n;hud();yield {id:b.id};continue}
+    if(b.type==="callP"){const f=prog().find(x=>x.type==="func"&&x.name===b.name);if(!f)throw{msg:t("noFunc",b.name)};
+      if(++FDEPTH>20){FDEPTH=0;throw{msg:t("tooDeep")}}const old=W.vars.n,nv=val(b.arg);yield {id:b.id};W.vars.n=nv;hud();try{yield* exec(f.body)}finally{FDEPTH--;W.vars.n=old;if(!W.sim)hud()}continue}
     if(b.type==="call"){const f=prog().find(x=>x.type==="func"&&x.name===b.name);if(!f)throw{msg:t("noFunc",b.name)};
       if(++FDEPTH>20){FDEPTH=0;throw{msg:t("tooDeep")}}yield {id:b.id};try{yield* exec(f.body)}finally{FDEPTH--}continue}
     if(b.type==="repeat"){const n=val(b.n);if(n>60)throw{msg:t("repeatTooMany",n)};for(let i=0;i<n;i++){yield {id:b.id,silent:true};yield* exec(b.body);if(won())return}}
@@ -1474,15 +1595,17 @@ function hud0(){
     else{$("hWoodLbl").textContent=tr("adv_cryLbl");$("hWood").textContent=ADV.crystals.length+"/3"}$("hInvBox").hidden=true;$("hVars").hidden=true;return}
   $("hStepLbl").textContent=t("steps");
   $("hInvBox").hidden=W.inv==null;if(W.inv!=null)$("hInv").textContent=W.inv;
-  const v=!!LEVELS[S.lv].vars;$("hVars").hidden=!v;if(v)$("hVarVal").textContent=Object.keys(VARNAMES).map(k=>vn(k)+" = "+W.vars[k]).join("　")}
+  const v=!!LEVELS[S.lv].vars;$("hVars").hidden=!v;if(v)$("hVarVal").textContent=varList().map(k=>vn(k)+" = "+W.vars[k]).join("　")}
 
 function mustMiss(must,list){const all=[];const walk=l=>l.forEach(b=>{all.push(b);if(b.body)walk(b.body);if(b.elseBody)walk(b.elseBody)});walk(list);
-  return must.filter(k=>k==="fnB"?!(all.some(b=>b.type==="func"&&b.name==="B")&&all.some(b=>b.type==="call"&&b.name==="B")):k==="repVar"?!all.some(b=>b.type==="repeat"&&typeof b.n==="string"):k==="count"?!all.some(b=>b.v==="count"||b.n==="count"):!all.some(b=>b.type===k))}
+  return must.filter(k=>k==="fnB"?!(all.some(b=>b.type==="func"&&b.name==="B")&&all.some(b=>b.type==="call"&&b.name==="B")):k==="repVar"?!all.some(b=>b.type==="repeat"&&typeof b.n==="string"):k==="count"?!all.some(b=>b.v==="count"||b.n==="count"):k==="sense"?!all.some(b=>b.cond==="rblocked"||b.cond==="lblocked"):k==="text"?S.textLv!==S.lv:!all.some(b=>b.type===k))}
 function run(){
   if(S.running){stop(t("stopped"));return}
   if(LEVELS[S.lv].custom&&!custCheck().ok){status(t("ed_invalid"),"bad");return}
   if(!prog().length){status(t("addFirst"),"bad");return}
   {const L=LEVELS[S.lv],P=L.adv&&ADV.mode==="puzzle"?PUZ[ADV.pz]:null;
+   if(L.custom&&L.maxBlocks&&count(prog())>L.maxBlocks){status(t("ed_maxHit",L.maxBlocks,count(prog())),"bad");return}
+   if(!L.adv&&L.must){const miss=mustMiss(L.must,prog());if(miss.length){status(t("mustT",miss.map(k=>t("mu_"+k)).join("、")),"bad");return}}
    if(P&&P.must){const miss=mustMiss(P.must,prog());if(miss.length){status(tr("adv_must",miss.map(k=>tr("mu_"+k)).join("、")),"bad");return}}
    if(P&&P.maxBlocks&&count(prog())>P.maxBlocks){status(tr("adv_maxBlocks",P.maxBlocks,count(prog())),"bad");return}
    if(P&&P.maps){if(!pzCont){pzMap=0;L.map=P.maps[0]}pzCont=false}}
@@ -1514,7 +1637,7 @@ function end(win,msg){
   if(!win){status(msg,"bad");sfx("fail");return}
   sfx("win");
   highlight(null);
-  if(LEVELS[S.lv].free){status(t("buildDone",W.vox.size),"good");return}
+  if(LEVELS[S.lv].free){status(t("buildDone",W.vox.size),"good");META.stats.built=Math.max(META.stats.built,W.vox.size);metaSave();achCheck();return}
   if(LEVELS[S.lv].adv){advPuzzleWin();return}
   const L=LEVELS[S.lv],n=count(prog());
   if(L.custom){
@@ -1526,10 +1649,16 @@ function end(win,msg){
       <div class="row"><button class="btn" id="again">${t("again")}</button></div></div>`;
     $("result").hidden=false;$("again").onclick=()=>{loadWorld();$("result").hidden=true;status("")};return;
   }
+  if(L.daily){const helpD=!!META.daily.hinted[dayKey()];const r=dailyWin(n,helpD);const sd=helpD?0:n<=L.optimal?3:n<=L.optimal+3?2:1;status(t("done",n),"good");confetti();
+    $("result").innerHTML=`<div class="result-card" role="dialog" aria-label="${t("passAria")}"><div class="stars">${"★".repeat(sd)}<span class="off">${"★".repeat(3-sd)}</span></div>
+      <h3>${t("daily_done",r.reward,r.streak)}</h3><p>${helpD?t("rw_help"):sd===3?t("best"):t("tryBest",L.optimal)}<br>${t("daily_again",r.best)}</p>
+      <div class="row"><button class="btn" id="again">${t("again")}</button></div></div>`;
+    $("result").hidden=false;$("again").onclick=()=>{loadWorld();$("result").hidden=true;status("")};renderLesson();return}
   const help=hintedLv(S.lv)&&!medalLv(S.lv);
   const stars=help?0:n<=L.optimal?3:n<=L.optimal+3?2:1;
+  const newMedal=!help&&!medalLv(S.lv);
   if(help)progress["c"+S.lv]=1;else{progress[S.lv]=Math.max(progress[S.lv]||0,stars);progress["m"+S.lv]=1}
-  save();renderLevels();
+  save();renderLevels();if(newMedal)setTimeout(()=>earn(3),500);else setTimeout(achCheck,500);
   status(t("done",n),"good");confetti();
   const last=S.lv>=FIRST_SP-1;
   const st="★".repeat(stars)+`<span class="off">${"★".repeat(3-stars)}</span>`;
@@ -1572,21 +1701,23 @@ function renderLevels(){
   const groups=[];
   LEVELS.forEach((_,i)=>{if(secOf(i)!=="train")return;const L=LT(i),s=progress[i]||0;
     const mk=medalLv(i)?`<em class="md" title="${t("rw_medal")}">🏅</em>`:progress["c"+i]&&!s?`<em class="md ck">✓</em>`:"";
-    const btn=`<button class="lv${i===S.lv?" cur":""}" data-lv="${i}" title="${t("lvTitle",L.ch,i+1,L.name)}" aria-current="${i===S.lv}"><b>${i+1}</b><i>${"★".repeat(s)}</i>${mk}</button>`;
-    if(!groups.length||groups[groups.length-1].key!==L.ch)groups.push({key:L.ch,ch:L.ch,btns:[]});
+    const btn=L.daily?`<button class="lv daily${i===S.lv?" cur":""}" data-lv="${i}" aria-current="${i===S.lv}"><b>📅 ${META.daily.done[dayKey()]?"✓":""}</b><i>${META.daily.streak?"🔥"+META.daily.streak:""}</i></button>`
+      :`<button class="lv${i===S.lv?" cur":""}" data-lv="${i}" title="${t("lvTitle",L.ch,i+1,L.name)}" aria-current="${i===S.lv}"><b>${i+1}</b><i>${"★".repeat(s)}</i>${mk}</button>`;
+    const ck=L.daily?"daily":L.ch;if(!groups.length||groups[groups.length-1].key!==ck)groups.push({key:ck,ch:L.daily?t("daily_ch"):L.ch,btns:[]});
     groups[groups.length-1].btns.push(btn)});
-  const nm=LEVELS.filter((_,i)=>secOf(i)==="train"&&medalLv(i)).length;
+  const nm=LEVELS.filter((_,i)=>i<FIRST_SP&&medalLv(i)).length;
   $("levels").innerHTML=groups.map(g=>`<div class="lv-group"><span class="lv-ch">${g.ch}</span><div class="lv-row">${g.btns.join("")}</div></div>`).join("")+`<div class="lv-sum" title="${t("rw_medalSum")}">🏅 ${nm} / ${FIRST_SP}</div>`;
 }
 function renderLesson(){
+  if(LEVELS[S.lv].daily){const D=LEVELS[S.lv];Object.assign(D,{name:t("daily_name",D.dkey),goal:t("daily_goal"),explain:t("daily_explain",D.optimal)+`<br><b>${t("daily_status",META.daily.streak,!!META.daily.done[D.dkey])}</b>`,hint:t("daily_hint",D.optimal),code:t("daily_code"),concept:t("daily_ch"),ch:t("daily_ch")})}
   const L=LT(S.lv);
   if(L.custom)return renderEditor();
   if(L.adv)return renderAdv();
-  $("lesson").innerHTML=`<div class="chips"><span class="chip concept">${L.concept}</span><span class="chip">${L.ch}</span>${L.free?"":`<span class="chip">LEVEL ${S.lv+1}/${FIRST_SP}</span>`}</div>
+  $("lesson").innerHTML=`<div class="chips"><span class="chip concept">${L.concept}</span><span class="chip">${L.ch}</span>${L.free||L.daily?"":`<span class="chip">LEVEL ${S.lv+1}/${FIRST_SP}</span>`}</div>
    <h2>${L.name}</h2>
    <p class="goal">${t("goal")}<span>${L.goal}</span></p>
    <p class="explain">${L.explain}</p>
-   ${L.free?`<div class="examples"><span>${t("examplesLbl")}</span>${["cabin","tower","pyramid","wall","pagoda","lighthouse","tree","blank"].map(k=>`<button class="btn ex-btn${S.pendingEx===k?" warn":""}" data-example="${k}">${S.pendingEx===k?t("confirmReplace"):t("ex_"+k)}</button>`).join("")}</div><p class="explain">${t("buildEach")}</p>`:""}
+   ${L.free?`<div class="examples"><span>${t("examplesLbl")}</span>${["cabin","tower","pyramid","wall","pagoda","lighthouse","tree",...EX_BIG,"blank"].map(k=>`<button class="btn ex-btn${S.pendingEx===k?" warn":""}" data-example="${k}">${S.pendingEx===k?t("confirmReplace"):t("ex_"+k)}</button>`).join("")}</div><p class="explain">${t("buildEach")}</p><div class="lesson-btns"><button class="btn primary" data-binstant="1">⏩ ${t("bs_instant")}</button><button class="btn" data-bshare="1">🔗 ${t("bs_make")}</button><button class="btn" data-bload="1">📥 ${t("bs_load")}</button></div>`:""}
    ${L.free?"":`<div class="lesson-btns"><button class="btn" data-showhint="1">💡 ${t("hint")}</button>${solBlock()}${L.starter?`<button class="btn" data-restore="1">${t("restoreBug")}</button>`:""}</div>`}`;
   $("challenge").textContent=L.challenge||"";
 }
@@ -1595,7 +1726,7 @@ function advEnter(){
     S.progs[ADV_LV]=ADV.progs[ADV.pz]?fromSpec(ADV.progs[ADV.pz]):[]}
   else{ADV.mode="explore";LEVELS[ADV_LV].palette=["forward"]}
 }
-function goLevel(i){closeModal();
+function goLevel(i){closeModal();S.textLv=null;if(S.tab==="txt")S.tab="py";if(LEVELS[i].daily)dailyPrep();
   if(LEVELS[S.lv]&&LEVELS[S.lv].adv&&ADV.mode==="puzzle"&&ADV.pz)ADV.progs[ADV.pz]=toSpec(prog());
   if(LEVELS[i].adv)advEnter();
   if(secOf(i)==="train"){S.lastTrain=i;try{localStorage.setItem(KEY+"-train",String(i))}catch(e){}}
@@ -1612,7 +1743,7 @@ function goLevel(i){closeModal();
 function blockInner(type,b){
   const d=BLOCKS[type];
   if(type==="repeat"){
-    const vs=LEVELS[S.lv].vars?varList():[];
+    const vs=(LEVELS[S.lv].vars||paramsOn())?varList():[];if(b&&typeof b.n==="string"&&!vs.includes(b.n))vs.push(b.n);
     const sel=b?`<select aria-label="${t("repeatAria")}" data-n="${b.id}">${Array.from({length:10},(_,k)=>`<option${b.n===k+1?" selected":""}>${k+1}</option>`).join("")}${vs.map(k=>`<option value="${k}"${b.n===k?" selected":""}>${vn(k)}</option>`).join("")}</select>`:"<b>N</b>";
     return `<span class="ico">${d.ico}</span>${t("repeatLbl",sel)}`;
   }
@@ -1622,11 +1753,11 @@ function blockInner(type,b){
     return `<span class="ico">${d.ico}</span>${t("comboLbl",sel("a"),sel("b"))}`;
   }
   if(type==="until"){
-    const sel=b?`<select aria-label="${t("condAria")}" data-c="${b.id}">${UCONDS.map(k=>`<option value="${k}"${b.cond===k?" selected":""}>${t("ucond_"+k)}</option>`).join("")}</select>`:"<b>…</b>";
+    const sel=b?`<select aria-label="${t("condAria")}" data-c="${b.id}">${untilConds(b).map(k=>`<option value="${k}"${b.cond===k?" selected":""}>${t("ucond_"+k)}</option>`).join("")}</select>`:"<b>…</b>";
     return `<span class="ico">${d.ico}</span>${t("untilLbl",sel)}`;
   }
   if(type==="ifElse"){
-    const sel=b?`<select aria-label="${t("condAria")}" data-c="${b.id}">${UCONDS.slice(0,3).map(k=>`<option value="${k}"${b.cond===k?" selected":""}>${t("cond_"+k)}</option>`).join("")}</select>`:"<b>…</b>";
+    const sel=b?`<select aria-label="${t("condAria")}" data-c="${b.id}">${ifConds(b).map(k=>`<option value="${k}"${b.cond===k?" selected":""}>${t("ucond_"+k)}</option>`).join("")}</select>`:"<b>…</b>";
     return `<span class="ico">${d.ico}</span>${t("ifLbl",sel)}`;
   }
   if(type==="func"||type==="call"){
@@ -1634,12 +1765,19 @@ function blockInner(type,b){
     return `<span class="ico">${d.ico}</span>${t(type==="func"?"funcLbl":"callLbl",sel)}`;
   }
   if(type==="if"){
-    const sel=b?`<select aria-label="${t("condAria")}" data-c="${b.id}">${Object.keys(CONDS).map(k=>`<option value="${k}"${b.cond===k?" selected":""}>${t("cond_"+k)}</option>`).join("")}</select>`:"<b>…</b>";
+    const sel=b?`<select aria-label="${t("condAria")}" data-c="${b.id}">${ifConds(b).map(k=>`<option value="${k}"${b.cond===k?" selected":""}>${t("ucond_"+k)}</option>`).join("")}</select>`:"<b>…</b>";
     return `<span class="ico">${d.ico}</span>${t("ifLbl",sel)}`;
   }
   const vsel=b?`<select aria-label="${t("varAria")}" data-set="${b.id}" data-field="v">${varList().concat(b.v&&!varList().includes(b.v)?[b.v]:[]).map(k=>`<option value="${k}"${b.v===k?" selected":""}>${vn(k)}</option>`).join("")}</select>`:`<b>${t("varPh")}</b>`;
   const nsel=(lo,hi)=>b?`<select aria-label="${t("valAria")}" data-set="${b.id}" data-field="n">${Array.from({length:hi-lo+1},(_,k)=>lo+k).filter(x=>type!=="changeVar"||x!==0).map(x=>`<option value="${x}"${b.n===x?" selected":""}>${x}</option>`).join("")}</select>`:"<b>N</b>";
   if(type==="setVar")return `<span class="ico">${d.ico}</span>${t("setLbl",vsel,nsel(0,10))}`;
+  const sel2=(field,opts,lab)=>b?`<select aria-label="${t(lab)}" data-set="${b.id}" data-field="${field}">${opts.map(([v,l])=>`<option value="${v}"${String(b[field])===String(v)?" selected":""}>${l}</option>`).join("")}</select>`:`<b>${opts[0][1]}</b>`;
+  if(type==="ifVar")return `<span class="ico">${d.ico}</span>${t("ifVarLbl",vsel,sel2("op",[[">",">"],["<","<"],["=","="]],"opAria"),nsel(0,10))}`;
+  if(type==="calc"){const v2=b?`<select aria-label="${t("varAria")}" data-set="${b.id}" data-field="v2">${varList().map(k=>`<option value="${k}"${b.v2===k?" selected":""}>${vn(k)}</option>`).join("")}</select>`:`<b>${t("varPh")}</b>`;
+    return `<span class="ico">${d.ico}</span>${t("calcLbl",vsel,v2,sel2("op",[["*","×"],["+","+"],["-","−"]],"opAria"),nsel(0,10))}`}
+  if(type==="callP"){const fs=b?`<select aria-label="${t("fnAria")}" data-set="${b.id}" data-field="name">${fnList(b).map(k=>`<option value="${k}"${b.name===k?" selected":""}>${k}</option>`).join("")}</select>`:"<b>A</b>";
+    const as=b?`<select aria-label="${t("argAria")}" data-set="${b.id}" data-field="arg">${Array.from({length:11},(_,k)=>k).map(x=>`<option value="${x}"${b.arg===x?" selected":""}>${x}</option>`).join("")}${varList().filter(k=>k!=="n").map(k=>`<option value="${k}"${b.arg===k?" selected":""}>${vn(k)}</option>`).join("")}</select>`:"<b>N</b>";
+    return `<span class="ico">${d.ico}</span>${t("callPLbl",fs,as)}`}
   if(type==="changeVar")return `<span class="ico">${d.ico}</span>${t("changeLbl",vsel,nsel(-3,5))}`;
   if(type==="forwardV")return `<span class="ico">${d.ico}</span>${t("fwdV",vsel)}`;
   const dsel=b?`<select aria-label="${t("dirAria")}" data-set="${b.id}" data-field="dir">${["down","forward"].map(k=>`<option value="${k}"${b.dir===k?" selected":""}>${t("dir_"+k)}</option>`).join("")}</select>`:`<b>${t(type==="build"?"dir_down":"dir_forward")}</b>`;
@@ -1695,21 +1833,27 @@ function stmt(b,lang){
   if(b.type==="build")return `robot.${sp("fn","place")}(${sp("const",b.dir==="down"?"DOWN":"FORWARD")}, ${sp("const",MATCODE[b.mat])})`;
   if(b.type==="digAt")return call("dig",b.dir==="down"?"DOWN":"FORWARD");
   if(b.type==="call")return `${sp("fn",fnName(b.name,lang))}()`;
+  if(b.type==="callP")return `${sp("fn",fnName(b.name,lang))}(${numOrVar(b.arg)})`;
+  if(b.type==="calc")return `${b.v} = ${b.v2} ${b.op} ${sp("num",b.n)}`;
   if(b.type==="combo")return `${stmt({type:b.a},lang)}; ${stmt({type:b.b},lang)}`;
 }
 const fnName=(n,lang)=>lang==="py"?"action_"+n.toLowerCase():"action"+n;
 function untilExpr(c,lang){
   if(c==="done")return lang==="py"?`robot.${sp("fn","gems_left")}() > ${sp("num",0)}`:`robot.${sp("fn","gemsLeft")}() > ${sp("num",0)}`;
   if(c==="blocked")return lang==="py"?`${sp("kw","not")} ${call("blocked","FORWARD")}`:`!${call("blocked","FORWARD")}`;
+  if(c==="rblocked"||c==="lblocked"){const s=c==="rblocked"?"RIGHT":"LEFT";return lang==="py"?`${sp("kw","not")} ${call("blocked",s)}`:`!${call("blocked",s)}`}
   return `${call("inspect","FORWARD")} != ${sp("const",c==="tree"?"TREE":"WATER")}`;
 }
-function usedVars(list,set=new Set()){for(const b of list){if(b.v)set.add(b.v);if(b.type==="repeat"&&typeof b.n==="string")set.add(b.n);kids(b).forEach(k=>usedVars(k,set))}return set}
+function usedVars(list,set=new Set()){for(const b of list){if(b.v)set.add(b.v);if(b.v2)set.add(b.v2);if(typeof b.arg==="string")set.add(b.arg);if(b.type==="repeat"&&typeof b.n==="string")set.add(b.n);kids(b).forEach(k=>usedVars(k,set))}return set}
 let DECL=new Set();
 const numOrVar=n=>typeof n==="string"?n:sp("num",n);
 function condExpr(c){
   if(c==="blocked")return call("blocked","FORWARD");
+  if(c==="rblocked")return call("blocked","RIGHT");
+  if(c==="lblocked")return call("blocked","LEFT");
   return `${call("inspect","FORWARD")} == ${sp("const",c==="tree"?"TREE":"WATER")}`;
 }
+function hasParam(name){let f=false;(function w(l){l.forEach(b=>{if(b.type==="callP"&&b.name===name)f=true;kids(b).forEach(w)})})(prog());return f}
 function emit(list,lang,ind,depth,out){
   const pad="    ".repeat(ind);
   for(const b of list){
@@ -1721,9 +1865,10 @@ function emit(list,lang,ind,depth,out){
       if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
       if(lang==="js")out.push([null,`${pad}}`]);
     }else if(b.type==="func"){
-      if(lang==="js")out.push([b.id,`${pad}${sp("kw","function")} ${sp("fn",fnName(b.name,lang))}() {`]);
-      else{out.push([b.id,`${pad}${sp("kw","def")} ${sp("fn",fnName(b.name,lang))}():`]);
-        const g=[...usedVars(b.body)].filter(v=>JSON.stringify(toSpec(b.body)).match(new RegExp('"type":"(setVar|changeVar)","v":"'+v+'"')));
+      const pa=hasParam(b.name)?"n":"";
+      if(lang==="js")out.push([b.id,`${pad}${sp("kw","function")} ${sp("fn",fnName(b.name,lang))}(${pa}) {`]);
+      else{out.push([b.id,`${pad}${sp("kw","def")} ${sp("fn",fnName(b.name,lang))}(${pa}):`]);
+        const g=[...usedVars(b.body)].filter(v=>v!=="n"&&JSON.stringify(toSpec(b.body)).match(new RegExp('"type":"(setVar|changeVar)","v":"'+v+'"')));
         if(g.length)out.push([null,`${pad}    ${sp("kw","global")} ${g.join(", ")}`])}
       emit(b.body,lang,ind+1,0,out);
       if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
@@ -1735,8 +1880,9 @@ function emit(list,lang,ind,depth,out){
       emit(b.body,lang,ind+1,depth,out);
       if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
       if(lang==="js")out.push([null,`${pad}}`]);
-    }else if(b.type==="ifElse"){
-      if(lang==="js")out.push([b.id,`${pad}${sp("kw","if")} (${condExpr(b.cond)}) {`]);else out.push([b.id,`${pad}${sp("kw","if")} ${condExpr(b.cond)}:`]);
+    }else if(b.type==="ifElse"||b.type==="ifVar"){
+      const ce=b.type==="ifVar"?`${b.v} ${b.op==="="?"==":b.op} ${sp("num",b.n)}`:condExpr(b.cond);
+      if(lang==="js")out.push([b.id,`${pad}${sp("kw","if")} (${ce}) {`]);else out.push([b.id,`${pad}${sp("kw","if")} ${ce}:`]);
       emit(b.body,lang,ind+1,depth,out);if(lang==="py"&&!b.body.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
       out.push([null,lang==="js"?`${pad}} ${sp("kw","else")} {`:`${pad}${sp("kw","else")}:`]);
       emit(b.elseBody,lang,ind+1,depth,out);if(lang==="py"&&!b.elseBody.length)out.push([null,`${pad}    ${sp("kw","pass")}`]);
@@ -1753,19 +1899,191 @@ function emit(list,lang,ind,depth,out){
   }
 }
 function renderCode(){
-  const L=LT(S.lv),lang=S.tab,c=lang==="js"?"//":"#";
+  const L=LT(S.lv),lang=S.tab==="js"?"js":"py",c=lang==="js"?"//":"#";
   const out=[[null,sp("com",`${c} ${L.custom?CUST.name:L.free?L.name:L.adv?(ADV.pz?tx(PUZ[ADV.pz].name):L.name):t("codeHead",S.lv+1,L.name)}`)]];
   if(!prog().length)out.push([null,sp("com",`${c} ${t("codeEmpty")}`)]);
   // a variable whose first use is a top-level "set" is declared right there; others start at 0
   const first={};(function walk(list,top){for(const b of list){for(const v of usedVars([{...b,body:null,elseBody:null}]))if(!(v in first))first[v]=top&&b.type==="setVar"?b.id:null;kids(b).forEach(k=>walk(k,false))}})(prog().filter(b=>b.type!=="func"),true);
   prog().filter(b=>b.type==="func").forEach(f=>usedVars(f.body).forEach(v=>{if(!(v in first))first[v]=null}));
+  if(prog().some(b=>b.type==="func"&&hasParam(b.name)))delete first.n;
   DECL=new Set(Object.values(first).filter(x=>x!=null));
-  Object.keys(first).filter(v=>first[v]==null).forEach(v=>out.push([null,lang==="js"?`${sp("kw","let")} ${v} = ${sp("num",0)};`:`${v} = ${sp("num",0)}`]));
+  Object.keys(first).filter(v=>first[v]==null).forEach(v=>out.push([null,lang==="js"?`${sp("kw","let")} ${v} = ${sp("num",0)};  ${sp("com","// "+t("tx_default"))}`:`${v} = ${sp("num",0)}  ${sp("com","# "+t("tx_default"))}`]));
   const P=prog();emit(P.filter(b=>b.type==="func"),lang,0,0,out);emit(P.filter(b=>b.type!=="func"),lang,0,0,out);
   $("src").innerHTML=out.map(([id,h])=>`<span class="ln"${id!=null?` data-id="${id}"`:""}>${h||" "}</span>`).join("");
-  $("tab-js").setAttribute("aria-selected",lang==="js");$("tab-py").setAttribute("aria-selected",lang==="py");
+  $("tab-js").setAttribute("aria-selected",S.tab==="js");$("tab-py").setAttribute("aria-selected",S.tab==="py");$("tab-txt").setAttribute("aria-selected",S.tab==="txt");
+  $("src").hidden=S.tab==="txt";$("txtBox").hidden=S.tab!=="txt";document.querySelector(".code").classList.toggle("txt",S.tab==="txt");
   if(S.running&&curId!=null)highlight(curId);
   saveBuild();
+}
+
+/* ---------- meta: wallet, achievements, cosmetics, daily ---------- */
+let META={gems:0,earned:0,ach:{},owned:{hat:{none:1},color:{base:1},trail:{none:1}},eq:{hat:"none",color:"base",trail:"none"},daily:{done:{},hinted:{},last:null,streak:0},stats:{advGems:0,built:0,text:0}};
+try{const m=JSON.parse(localStorage.getItem("block-miner-meta")||"null");if(m&&typeof m==="object")META=Object.assign(META,m,{owned:Object.assign(META.owned,m.owned||{}),eq:Object.assign(META.eq,m.eq||{}),daily:Object.assign(META.daily,m.daily||{}),stats:Object.assign(META.stats,m.stats||{})})}catch(e){}
+function metaSave(){try{localStorage.setItem("block-miner-meta",JSON.stringify(META))}catch(e){}}
+function gemUI(){const g=$("gemCount");if(g)g.textContent=META.gems}
+let toastQ=[],toastOn=false;
+function toast(html){toastQ.push(html);if(!toastOn)nextToast()}
+function nextToast(){const el=$("toast");if(!toastQ.length){toastOn=false;el.hidden=true;return}toastOn=true;el.innerHTML=toastQ.shift();el.hidden=false;el.classList.remove("show");void el.offsetWidth;el.classList.add("show");setTimeout(nextToast,2600)}
+function earn(n){if(!n)return;META.gems+=n;META.earned+=n;metaSave();gemUI();toast(`💎 +${n}`);achCheck()}
+const ACH=[
+ ["first","🌱",()=>LEVELS.some((_,i)=>i<FIRST_SP&&clearedLv(i))],
+ ["medal10","🏅",()=>LEVELS.filter((_,i)=>i<FIRST_SP&&medalLv(i)).length>=10],
+ ["medalAll","🎖",()=>LEVELS.every((_,i)=>i>=FIRST_SP||medalLv(i))],
+ ["sensor","👀",()=>clearedLv(LEVELS.findIndex(L=>L.key==="rhand"))],
+ ["param","🧩",()=>clearedLv(LEVELS.findIndex(L=>L.key==="stairs"))],
+ ["text","⌨",()=>META.stats.text>0],
+ ["ch1","🗼",()=>!!(ADV&&ADV.flags.done)],
+ ["ch3","⛏",()=>!!(ADV&&ADV.items.includes("core"))],
+ ["ch6","☁",()=>!!(ADV&&ADV.flags.done3)],
+ ["lv13","👑",()=>!!(ADV&&advLv()>=13)],
+ ["gems50","💠",()=>META.stats.advGems>=50],
+ ["boss1","⚔",()=>!!(ADV&&BOSSES.some(id=>ADV.solved[id]))],
+ ["bossAll","🐉",()=>!!(ADV&&BOSSES.every(id=>ADV.solved[id]))],
+ ["daily1","📅",()=>Object.keys(META.daily.done).length>=1],
+ ["daily7","🔥",()=>META.daily.streak>=7],
+ ["builder","🏰",()=>META.stats.built>=100],
+ ["maker","🛠",()=>typeof MYLEVELS!=="undefined"&&MYLEVELS.length>=1],
+ ["shopper","🎩",()=>Object.values(META.owned).reduce((a,o)=>a+Object.keys(o).length,0)>3]];
+function achCheck(){let got=0;for(const [id,ic,f] of ACH){if(META.ach[id])continue;let ok=false;try{ok=f()}catch(e){}
+  if(ok){META.ach[id]=Date.now();got++;toast(`🏆 ${t("ach_unlock")}<b>${ic} ${t("ach_"+id)}</b> · 💎 +5`);META.gems+=5;META.earned+=5}}
+  if(got){metaSave();gemUI()}}
+function showAch(){const n=ACH.filter(a=>META.ach[a[0]]).length;
+  openModal(`🏆 ${t("ach_title")}`,`<p>${t("ach_intro",n,ACH.length)}</p><ul class="perk-list">${ACH.map(([id,ic])=>`<li class="${META.ach[id]?"":"off"}"><b>${META.ach[id]?ic:"🔒"}</b><span><strong>${t("ach_"+id)}</strong><br>${t("achd_"+id)}</span></li>`).join("")}</ul>`)}
+const SHOP={hat:[["none",0],["cap",10],["flower",15],["antenna",20],["wizard",30],["crown",40]],
+  color:[["base",0],["mint",10],["sky",10],["pink",10],["coral",15],["night",20],["gold",50]],
+  trail:[["none",0],["sparkle",20],["leaf",20],["bubble",25],["rainbow",40]]};
+const LOOK_COL={base:"#D8DFE4",mint:"#8FE3C8",sky:"#8CC8FF",pink:"#F5A3C7",coral:"#FF8A65",night:"#4A5260",gold:"#E8C24A"};
+function showShop(){openModal(`🎩 ${t("shop_title")}`,`<p>${t("shop_intro",META.gems)}</p>`+Object.entries(SHOP).map(([cat,items])=>`<p class="pal-title">${t("shop_"+cat)}</p><div class="shop-grid">${items.map(([id,price])=>{
+    const own=META.owned[cat][id],on=META.eq[cat]===id;
+    return `<div class="shop-item${on?" on":""}"><span class="sw-look" data-look="${cat}-${id}"${cat==="color"?` style="background:${LOOK_COL[id]}"`:""}>${t("lk_"+cat+"_"+id+"_ic")}</span><b>${t("lk_"+cat+"_"+id)}</b>
+      ${on?`<span class="ed-tip">${t("shop_on")}</span>`:own?`<button class="btn" data-equip="${cat}:${id}">${t("shop_wear")}</button>`:`<button class="btn" data-buy="${cat}:${id}"${META.gems<price?" disabled":""}>💎 ${price}</button>`}</div>`}).join("")}</div>`).join(""))}
+function buyLook(cat,id){const it=SHOP[cat].find(x=>x[0]===id);if(!it||META.owned[cat][id]||META.gems<it[1])return;META.gems-=it[1];META.owned[cat][id]=1;META.eq[cat]=id;metaSave();gemUI();applyLook();achCheck();showShop();sfx("lvup")}
+function equipLook(cat,id){if(!META.owned[cat][id])return;META.eq[cat]=id;metaSave();applyLook();showShop()}
+function applyLook(){if(!R3)return;
+  const L=LEVELS[S.lv],advGold=L&&L.adv&&typeof perk==="function"&&ADV&&perk("gold");
+  R3.shellMat.color.set(META.eq.color!=="base"?LOOK_COL[META.eq.color]:advGold?LOOK_COL.gold:LOOK_COL.base);
+  const g=R3.hatG;while(g.children.length)g.remove(g.children[0]);const C=c=>new THREE.MeshLambertMaterial({color:c});
+  const P=(w,h,d,c,x,y,z)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),C(c));m.position.set(x,y,z);m.castShadow=true;g.add(m);return m};
+  const h=META.eq.hat;
+  if(h==="cap"){P(.6,.14,.6,"#D9472F",0,.77,0);P(.4,.05,.24,"#D9472F",0,.72,-.38)}
+  else if(h==="flower"){P(.05,.22,.05,"#3F8A37",.18,.8,.1);["#F4D24B","#EE6B86","#F6F2EA","#9D8CF2"].forEach((c,i)=>P(.1,.1,.06,c,.18+[.08,-.08,0,0][i],.94+[0,0,.08,-.08][i],.1));P(.07,.07,.07,"#F29A3E",.18,.94,.07)}
+  else if(h==="antenna"){P(.04,.34,.04,"#9AA6B0",-.18,.88,.1);const b=P(.14,.14,.14,"#6FF0C3",-.18,1.08,.1);b.material.emissive=new THREE.Color("#1E6B52")}
+  else if(h==="wizard"){const m=new THREE.Mesh(new THREE.ConeGeometry(.3,.6,8),C("#5B3FA8"));m.position.set(0,1.02,0);m.castShadow=true;g.add(m);P(.72,.05,.72,"#5B3FA8",0,.72,0);P(.08,.08,.08,"#F4D24B",.08,1.1,-.12)}
+  else if(h==="crown"){P(.56,.1,.56,"#E5B42A",0,.74,0);[[-.22,-.22],[.22,-.22],[-.22,.22],[.22,.22],[0,-.22],[0,.22]].forEach(([x,z])=>P(.1,.16,.1,"#E5B42A",x,.86,z));P(.08,.08,.06,"#E8643C",0,.79,-.29)}
+}
+function trailFx(x,y){if(!R3||reduce||META.eq.trail==="none"||(W&&W.sim))return;const k=META.eq.trail;
+  const col=k==="sparkle"?"#FFE680":k==="leaf"?"#4E9A3F":k==="bubble"?"#9FDCF5":`hsl(${(performance.now()/6)%360},90%,62%)`;
+  for(let i=0;i<(k==="rainbow"?8:5);i++){const m=new THREE.Mesh(R3.G.spark,new THREE.MeshBasicMaterial({color:col,transparent:true}));const a=Math.random()*Math.PI*2;
+    m.position.set(x+Math.cos(a)*.25,.15+Math.random()*.2,y+Math.sin(a)*.25);m.scale.setScalar(k==="bubble"?1.8:1.3);
+    m.userData={vx:Math.cos(a)*.01,vy:k==="leaf"?.005:.03+Math.random()*.02,vz:Math.sin(a)*.01,l:.9};R3.scene.add(m);R3.sparks.push(m)}}
+/* daily challenge */
+function rngOf(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let q=a;q=Math.imul(q^q>>>15,q|1);q^=q+Math.imul(q^q>>>7,q|61);return((q^q>>>14)>>>0)/4294967296}}
+const dayKey=(off=0)=>{const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+function genDaily(key){
+  let h=2166136261;for(const c of key){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}
+  for(let at=0;at<60;at++){
+    const R=rngOf(h+at*7919),N=9,g=Array.from({length:N},()=>Array(N).fill("S"));
+    let x=1+Math.floor(R()*7),y=1+Math.floor(R()*7),d=Math.floor(R()*4);const sx=x,sy=y,sd=d;
+    const vis=new Set([x+","+y]),acts=[],cells=[[x,y]];
+    const inner=(a,b)=>a>=1&&b>=1&&a<=N-2&&b<=N-2;
+    const free=(a,b,px,py)=>inner(a,b)&&!vis.has(a+","+b)&&[0,1,2,3].every(q=>{const a2=a+DX[q],b2=b+DY[q];return(a2===px&&b2===py)||!vis.has(a2+","+b2)});
+    let guard=0;
+    while(cells.length<15&&guard++<90){const nx=x+DX[d],ny=y+DY[d];
+      if(free(nx,ny,x,y)&&R()<.7){x=nx;y=ny;vis.add(x+","+y);cells.push([x,y]);acts.push("f");continue}
+      const opts=[1,3].filter(q=>{const dd=(d+q)%4;return free(x+DX[dd],y+DY[dd],x,y)});
+      if(!opts.length){if(free(nx,ny,x,y)){x=nx;y=ny;vis.add(x+","+y);cells.push([x,y]);acts.push("f");continue}break}
+      const q=opts[Math.floor(R()*opts.length)];d=(d+q)%4;acts.push(q===1?"r":"l");x+=DX[d];y+=DY[d];vis.add(x+","+y);cells.push([x,y]);acts.push("f")}
+    if(cells.length<11)continue;
+    cells.forEach(([a,b])=>g[b][a]=".");
+    const mid=cells.slice(2,-1),obst={};const nObs=2+Math.floor(R()*2);
+    for(let k=0;k<nObs&&mid.length;k++){const j=Math.floor(R()*mid.length);const [a,b]=mid.splice(j,1)[0];obst[a+","+b]=R()<.5?"W":"T";g[b][a]=obst[a+","+b]}
+    const last=cells[cells.length-1];g[last[1]][last[0]]="G";if(mid.length){const j=Math.floor(R()*mid.length);const [a,b]=mid[j];g[b][a]="G"}
+    g[sy][sx]="R";
+    const sol=[];let px=sx,py=sy,pd=sd;
+    for(const a of acts){if(a==="l"){pd=(pd+3)%4;sol.push("left");continue}if(a==="r"){pd=(pd+1)%4;sol.push("right");continue}
+      const nx=px+DX[pd],ny=py+DY[pd],o=obst[nx+","+ny];if(o==="W")sol.push("place");if(o==="T")sol.push("dig");sol.push("forward");px=nx;py=ny}
+    const spec=[];for(let i=0;i<sol.length;){let j=i;while(j<sol.length&&sol[j]===sol[i])j++;let n=j-i;
+      if(sol[i]==="forward"&&n>=3){while(n>0){const m=Math.min(n,10);if(m>=3)spec.push(E("repeat",{n:m},[E("forward")]));else for(let k=0;k<m;k++)spec.push(E("forward"));n-=m}}
+      else for(let k=0;k<n;k++)spec.push(E(sol[i]));i=j}
+    return{map:g.map(r=>r.join("")),dir:sd,solution:spec,optimal:countSpec(spec)}}
+  return{map:["TTTTTTT","TR...GT","TTTTTTT"],dir:1,solution:[E("repeat",{n:4},[E("forward")])],optimal:2}
+}
+const DAILY_LV=LEVELS.findIndex(L=>L.daily);
+function dailyPrep(){const L=LEVELS[DAILY_LV],k=dayKey();if(L.dkey===k)return;const d=genDaily(k);Object.assign(L,{dkey:k,map:d.map,dir:d.dir,solution:d.solution,optimal:d.optimal})}
+function dailyWin(n,help){
+  const k=dayKey(),first=!META.daily.done[k];
+  const best=Math.min(META.daily.done[k]||99,n);
+  let reward=0,streakTxt="";
+  if(first){META.daily.done[k]=n;if(!help){META.daily.streak=META.daily.last===dayKey(-1)?META.daily.streak+1:1;META.daily.last=k;reward=5+Math.min(5,META.daily.streak-1)}}
+  else META.daily.done[k]=best;
+  metaSave();if(reward)earn(reward);achCheck();
+  return{first,reward,streak:META.daily.streak,best};
+}
+
+/* ---------- text mode: Python → blocks ---------- */
+function pyText(){const keep=S.tab;S.tab="py";renderCode();const txt=[...$("src").querySelectorAll(".ln")].map(l=>l.textContent.replace(/ /g," ").replace(/\s+$/,"")).join("\n");S.tab=keep;if(keep!=="py")renderCode();return txt.replace(/^\s+$/gm,"")}
+function parsePy(src){
+  const L=LEVELS[S.lv],pal=L.palette||[],errs=[];
+  const lines=[];src.replace(/\t/g,"    ").split("\n").forEach((raw,i)=>{
+    if(/#\s*(預設值|default)\s*$/.test(raw))return;
+    const code=raw.replace(/#.*$/,"").replace(/\s+$/,"");if(!code.trim())return;
+    lines.push({no:i+1,ind:code.match(/^ */)[0].length,txt:code.trim()})});
+  const fail=(ln,key,x)=>{throw{msg:t("tx_line",ln.no,t(key,x))}};
+  const strip=s=>s.replace(/^robot\./,"");
+  const VARS_OK=varList();
+  const need=(ln,type)=>{if(!pal.includes(type))fail(ln,"tx_notAllowed",blockInner(type).replace(/<[^>]+>/g,"").trim())};
+  const varOk=(ln,v)=>{if(!VARS_OK.includes(v))fail(ln,"tx_badVar",v)};
+  const numOrV=(ln,x)=>{if(/^\d+$/.test(x))return +x;varOk(ln,x);return x};
+  function condOf(ln,e,neg){e=e.trim();let m;
+    if(neg){if(/^(robot\.)?gems_left\(\)\s*>\s*0$/.test(e))return"done";
+      if((m=e.match(/^not\s+(robot\.)?blocked\((FORWARD|RIGHT|LEFT)\)$/)))return{FORWARD:"blocked",RIGHT:"rblocked",LEFT:"lblocked"}[m[2]];
+      if((m=e.match(/^(robot\.)?inspect\(FORWARD\)\s*!=\s*(TREE|WATER)$/)))return m[2]==="TREE"?"tree":"water";}
+    else{if((m=e.match(/^(robot\.)?blocked\((FORWARD|RIGHT|LEFT)\)$/)))return{FORWARD:"blocked",RIGHT:"rblocked",LEFT:"lblocked"}[m[2]];
+      if((m=e.match(/^(robot\.)?inspect\(FORWARD\)\s*==\s*(TREE|WATER)$/)))return m[2]==="TREE"?"tree":"water";}
+    fail(ln,"tx_badCond",e)}
+  const ACT={"forward()":"forward","turn(LEFT)":"left","turn_left()":"left","turn(RIGHT)":"right","turn_right()":"right","place(FORWARD)":"place","place()":"place","dig(FORWARD)":"dig","dig()":"dig","up()":"up","down()":"down"};
+  function simple(ln,st){st=st.trim();let m;const s2=strip(st).replace(/\s+/g,"");
+    if(ACT[s2]){let ty=ACT[s2];if(ty==="dig"&&!pal.includes("dig")&&pal.includes("digAt"))return{type:"digAt",dir:"forward"};need(ln,ty);return{type:ty}}
+    if((m=s2.match(/^forward\((\w+)\)$/))){need(ln,"forwardV");varOk(ln,m[1]);return{type:"forwardV",v:m[1]}}
+    if((m=s2.match(/^place\((DOWN|FORWARD),(\w+)\)$/))){need(ln,"build");const mat=Object.keys(MATCODE).find(k=>MATCODE[k]===m[2]);if(!mat)fail(ln,"tx_badMat",m[2]);return{type:"build",dir:m[1]==="DOWN"?"down":"forward",mat}}
+    if((m=s2.match(/^dig\(DOWN\)$/))){need(ln,"digAt");return{type:"digAt",dir:"down"}}
+    if((m=st.match(/^(\w+)\s*=\s*(\d+)$/))){need(ln,"setVar");varOk(ln,m[1]);return{type:"setVar",v:m[1],n:+m[2]}}
+    if((m=st.match(/^(\w+)\s*=\s*(\w+)\s*([+\-*])\s*(\d+)$/))){need(ln,"calc");varOk(ln,m[1]);varOk(ln,m[2]);return{type:"calc",v:m[1],v2:m[2],op:m[3],n:+m[4]}}
+    if((m=st.match(/^(\w+)\s*(\+|-)=\s*(\d+)$/))){need(ln,"changeVar");varOk(ln,m[1]);return{type:"changeVar",v:m[1],n:m[2]==="-"?-m[3]:+m[3]}}
+    if((m=s2.match(/^action_([ab])\(\)$/))){need(ln,"call");return{type:"call",name:m[1].toUpperCase()}}
+    if((m=s2.match(/^action_([ab])\((\w+)\)$/))){need(ln,"callP");return{type:"callP",name:m[1].toUpperCase(),arg:numOrV(ln,m[2])}}
+    fail(ln,"tx_unknown",st)}
+  let i=0;
+  function block(ind){const out=[];
+    while(i<lines.length){const ln=lines[i];if(ln.ind<ind)break;if(ln.ind>ind)fail(ln,"tx_indent");
+      const x=ln.txt;let m;i++;
+      if(/^(global\s|pass$)/.test(x))continue;
+      const body=()=>{if(i>=lines.length||lines[i].ind<=ind)fail(ln,"tx_emptyBody");return block(lines[i].ind)};
+      if((m=x.match(/^for\s+\w+\s+in\s+range\((\w+)\)\s*:$/))){need(ln,"repeat");const n=numOrV(ln,m[1]);if(typeof n==="number"&&(n<1||n>10))fail(ln,"tx_range");out.push({type:"repeat",n,body:body()});continue}
+      if((m=x.match(/^while\s+(.+):$/))){need(ln,"until");out.push({type:"until",cond:condOf(ln,m[1],true),body:body()});continue}
+      if((m=x.match(/^def\s+action_([ab])\((n?)\)\s*:$/))){need(ln,"func");out.push({type:"func",name:m[1].toUpperCase(),body:body()});continue}
+      if((m=x.match(/^if\s+(.+):$/))){const e=m[1].trim();let cm=e.match(/^(\w+)\s*(>|<|==)\s*(\d+)$/);const b=body();
+        const hasElse=i<lines.length&&lines[i].ind===ind&&/^else\s*:$/.test(lines[i].txt);let eb=null;if(hasElse){const el=lines[i];i++;if(i>=lines.length||lines[i].ind<=ind)fail(el,"tx_emptyBody");eb=block(lines[i].ind)}
+        if(cm){need(ln,"ifVar");varOk(ln,cm[1]);out.push({type:"ifVar",v:cm[1],op:cm[2]==="=="?"=":cm[2],n:+cm[3],body:b,elseBody:eb||[]});continue}
+        const c=condOf(ln,e,false);if((c==="rblocked"||c==="lblocked")&&!senseOn())fail(ln,"tx_noSense");
+        if(eb){need(ln,"ifElse");out.push({type:"ifElse",cond:c,body:b,elseBody:eb})}else{need(ln,"if");out.push({type:"if",cond:c,body:b})}continue}
+      if(/^else\s*:$/.test(x))fail(ln,"tx_lonelyElse");
+      const parts=x.split(";").map(p=>p.trim()).filter(Boolean);const acts=parts.map(p=>simple(ln,p));
+      const CMB=["forward","left","right","place","dig"];
+      if(acts.length===2&&CMB.includes(acts[0].type)&&CMB.includes(acts[1].type)&&pal.includes("combo"))out.push({type:"combo",a:acts[0].type,b:acts[1].type});
+      else out.push(...acts)}
+    return out}
+  const spec=block(lines.length?lines[0].ind:0);
+  if(i<lines.length)fail(lines[i],"tx_indent");
+  return spec;
+}
+function txtShow(){$("txtArea").value=pyText();$("txtMsg").textContent="";$("txtMsg").className="tx-msg"}
+function txtApply(){
+  if(S.running)stop();
+  try{const spec=parsePy($("txtArea").value);stop();S.progs[S.lv]=fromSpec(spec);S.target=null;S.textLv=S.lv;renderProgram();loadWorld();$("result").hidden=true;
+    $("txtMsg").textContent=t("tx_ok",count(prog()));$("txtMsg").className="tx-msg good";$("txtArea").value=pyText();status(t("tx_ok",count(prog())),"good");
+    META.stats.text++;metaSave();achCheck()}
+  catch(e){$("txtMsg").textContent=e.msg||String(e);$("txtMsg").className="tx-msg bad"}
 }
 
 /* ---------- events ---------- */
@@ -1778,6 +2096,14 @@ document.addEventListener("click",e=>{
   if(t.dataset.advclose){ADV.talk=null;$("result").hidden=true;advSave();renderAdv();return}
   if(t.dataset.advreset){if(!ED.advReset){ED.advReset=true;renderAdv();return}ED.advReset=false;ADV=advNew();advSave();setMode();loadWorld();renderAdv();status(tr("adv_restarted"));return}
   if(t.dataset.modalclose){closeModal();return}
+  if(t.dataset.bshare){showBuildShare();return}
+  if(t.dataset.binstant){instantBuild();return}
+  if(t.dataset.bload){showBuildLoad();return}
+  if(t.dataset.bcopy){const ta=$("bsCode");try{navigator.clipboard.writeText(ta.value).then(()=>{t.textContent=tr("ed_copied")},()=>{ta.select()})}catch(e){ta.select()}return}
+  if(t.dataset.bapply){const spec=buildFromCode($("bsCode").value);if(!spec){status(tr("bs_bad"),"bad");$("bsCode").classList.add("bad");return}
+    closeModal();stop();S.progs[BUILD_LV]=fromSpec(spec);S.pendingEx=null;renderProgram();loadWorld();$("result").hidden=true;status(tr("bs_loaded",count(prog())),"good");return}
+  if(t.dataset.buy){const [c,id]=t.dataset.buy.split(":");buyLook(c,id);return}
+  if(t.dataset.equip){const [c,id]=t.dataset.equip.split(":");equipLook(c,id);return}
   if(t.dataset.showhint){askHelp("hint");return}
   if(t.dataset.showsol){askHelp("sol");return}
   if(t.dataset.helpok){markHinted();t.dataset.helpok==="sol"?showSol():showHint();return}
@@ -1796,7 +2122,8 @@ document.addEventListener("click",e=>{
     if(S.running)stop();
     if(prog().length&&S.pendingEx!==k){S.pendingEx=k;renderLesson();return}
     S.pendingEx=null;S.progs[S.lv]=k==="blank"?[]:fromSpec(EXAMPLES[k]);S.target=null;
-    renderLesson();renderProgram();loadWorld();status(k==="blank"?tr("cleared"):tr("exLoaded",tr("ex_"+k)));return}
+    if(EX_BIG.includes(k)&&S.speed<2)S.speed=2;setRunUI();
+    renderLesson();renderProgram();loadWorld();status(k==="blank"?tr("cleared"):EX_BIG.includes(k)?tr("exLoaded",tr("ex_"+k))+" "+tr("exd_"+k):tr("exLoaded",tr("ex_"+k)));return}
   if(S.running&&!t.matches("#runBtn,#speedBtn,.tab"))return;
   if(t.dataset.add){
     const b=mk(t.dataset.add);
@@ -1813,7 +2140,7 @@ document.addEventListener("click",e=>{
 document.addEventListener("change",e=>{
   const t=e.target;
   if(t.dataset.n){find(prog(),+t.dataset.n).n=isNaN(+t.value)?t.value:+t.value;renderCode()}
-  if(t.dataset.set){const b=find(prog(),+t.dataset.set);b[t.dataset.field]=t.dataset.field==="n"?+t.value:t.value;renderCode()}
+  if(t.dataset.set){const b=find(prog(),+t.dataset.set),fd=t.dataset.field;b[fd]=fd==="n"?+t.value:fd==="arg"?(isNaN(+t.value)?t.value:+t.value):t.value;renderCode()}
   if(t.dataset.c){find(prog(),+t.dataset.c).cond=t.value;renderCode()}
 });
 $("runBtn").onclick=run;
@@ -1823,6 +2150,8 @@ const maxSpeed=()=>LEVELS[S.lv]&&LEVELS[S.lv].adv&&perk("bolt")?4:3;
 $("speedBtn").onclick=()=>{S.speed=(S.speed+1)%maxSpeed();setRunUI()};
 $("tab-js").onclick=()=>{S.tab="js";renderCode()};
 $("tab-py").onclick=()=>{S.tab="py";renderCode()};
+$("tab-txt").onclick=()=>{S.tab="txt";renderCode();txtShow()};
+$("txtApply").onclick=txtApply;$("txtReset").onclick=txtShow;
 
 /* ---------- 3D rendering (Three.js) ---------- */
 const cv=$("world");
@@ -1927,7 +2256,9 @@ function initThree(){
   };
   M.gem.emissive.set("#138C96");
   M.mats={plank:M.plank,stone:L(stoneBrick),brick:L(brick),plaster:L(plaster),roof:L(roof),gold:L(gold),log:M.log,leaves:M.leaves,
-    glass:new THREE.MeshLambertMaterial({map:glass,transparent:true,depthWrite:false})};
+    glass:new THREE.MeshLambertMaterial({map:glass,transparent:true,depthWrite:false}),sandstone:M.sandstone,
+    obsidian:L(tex(g=>{speckle(g,"#2A2238",[[0,.18,"#1C1628"],[.88,1,"#4A3D63"]],81);g.fillStyle="rgba(150,120,220,.5)";[[3,4],[4,5],[11,9],[12,10]].forEach(([x,y])=>g.fillRect(x,y,1,1))},.8)),
+    lamp:new THREE.MeshLambertMaterial({map:tex(g=>{g.fillStyle="#FFE58A";g.fillRect(0,0,16,16);g.fillStyle="#C9A13B";g.fillRect(0,0,16,2);g.fillRect(0,14,16,2);g.fillRect(0,0,2,16);g.fillRect(14,0,2,16);g.fillStyle="#FFF6CF";g.fillRect(5,5,6,6)}),emissive:"#B88A10"})};
   const G={box:new THREE.BoxGeometry(1,1,1),liquid:new THREE.BoxGeometry(1,.82,1),slab:new THREE.BoxGeometry(1,.2,1),
     trunk:new THREE.BoxGeometry(.34,.8,.34),leaf:new THREE.BoxGeometry(.92,.8,.92),gem:new THREE.OctahedronGeometry(.27),
     spark:new THREE.BoxGeometry(.07,.07,.07),crown:new THREE.BoxGeometry(.62,.42,.62),
@@ -1948,11 +2279,12 @@ function initThree(){
   part(new THREE.BoxGeometry(.16,.22,.66),C("#38434E"),.36,.13,0);
   part(new THREE.BoxGeometry(.04,.22,.04),C("#56636F"),0,.8,.12);
   const tip=part(new THREE.BoxGeometry(.1,.1,.1),new THREE.MeshLambertMaterial({color:"#F2B33D",emissive:"#7A4E00"}),0,.94,.12);
+  const hatG=new THREE.Group();body.add(hatG);
   scene.add(robot);
   const clouds=new THREE.Group();
 
   const terrain=new THREE.Group(),gems=new THREE.Group(),voxels=new THREE.Group(),ghosts=new THREE.Group(),objs=new THREE.Group();scene.add(terrain,gems,voxels,ghosts,objs);
-  const MATCOL={plank:"#B07D43",stone:"#8D9298",brick:"#A9452F",plaster:"#E7E1D3",glass:"#BEE6FA",roof:"#3F6E8C",log:"#6A4524",leaves:"#2F6E2C",gold:"#E5B42A"};
+  const MATCOL={plank:"#B07D43",stone:"#8D9298",brick:"#A9452F",plaster:"#E7E1D3",glass:"#BEE6FA",roof:"#3F6E8C",log:"#6A4524",leaves:"#2F6E2C",gold:"#E5B42A",sandstone:"#C99B62",obsidian:"#2A2238",lamp:"#FFE58A"};
   M.ghost={};M.ghostEdge={};for(const k in MATCOL){M.ghost[k]=new THREE.MeshBasicMaterial({color:MATCOL[k],transparent:true,opacity:.32,depthWrite:false});M.ghostEdge[k]=new THREE.LineBasicMaterial({color:MATCOL[k]})}
   G.ghost=new THREE.BoxGeometry(.9,.9,.9);G.ghostEdge=new THREE.EdgesGeometry(G.ghost);
 
@@ -1963,7 +2295,7 @@ function initThree(){
     if(e.pointerType==="mouse")view.el=Math.min(1.4,Math.max(.32,view.el+dy*.006))});
   const up=()=>{dragX=null};cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
 
-  R3={shellMat:shell.material,renderer,scene,camera,sun,M,G,robot,body,eyeMat,eyes,tip,clouds,terrain,objs,gems,voxels,voxMeshes:new Map(),ghosts,ghostMeshes:new Map(),water,lava,sparks:[],last:performance.now()};
+  R3={hatG,shellMat:shell.material,renderer,scene,camera,sun,M,G,robot,body,eyeMat,eyes,tip,clouds,terrain,objs,gems,voxels,voxMeshes:new Map(),ghosts,ghostMeshes:new Map(),water,lava,sparks:[],last:performance.now()};
 }
 
 function add(group,geo,mat,x,y,z,cast){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.receiveShadow=true;if(cast)m.castShadow=true;group.add(m);return m}
@@ -2033,9 +2365,9 @@ function buildScene(){
   if(W.target)W.target.forEach((mat,k)=>{const[x,h,z]=k.split(",").map(Number);const g=new THREE.Group();g.position.set(x,h+.5,z);
     g.add(new THREE.Mesh(G.ghost,M.ghost[mat]),new THREE.LineSegments(G.ghostEdge,M.ghostEdge[mat]));R3.ghosts.add(g);R3.ghostMeshes.set(k,g);
     W.maxH=Math.max(W.maxH,h+1)});
-  R3.voxels.clear();R3.voxMeshes.clear();W.vox.forEach((mat,k)=>{W.vox.delete(k);voxSet(k,mat)});
+  R3.voxels.clear();R3.voxMeshes.clear();[...W.vox].forEach(([k,mat])=>{W.vox.delete(k);voxSet(k,mat)});
   W.dirty=false;
-  R3.shellMat.color.set(LEVELS[S.lv]&&LEVELS[S.lv].adv&&perk("gold")?"#E8C24A":"#D8DFE4");
+  applyLook();
   sizeCanvas();
 }
 function npcMarked(id){const f=ADV.flags;
@@ -2057,7 +2389,8 @@ function buildObj(o){
     if(npcMarked(o.id)){const m=new THREE.Mesh(new THREE.BoxGeometry(.1,.26,.1),M.mark);m.position.set(o.x,1.62,o.y);m.userData.mark=1;objs.add(m);const d=new THREE.Mesh(new THREE.BoxGeometry(.1,.1,.1),M.mark);d.position.set(o.x,1.42,o.y);d.userData.mark=1;objs.add(d)}}
   else if(o.type==="term"){const ok=ADV.solved[o.id];B(.66,1.05,.66,M.mats.stone,o.x,.52,o.y);B(.74,.12,.74,M.mats.stone,o.x,1.1,o.y);
     [[0,-.34,0],[0,.34,0],[-.34,0,Math.PI/2],[.34,0,Math.PI/2]].forEach(([dx,dz,r])=>{const m=B(.44,.3,.02,ok?M.screenOk:M.screen,o.x+dx,.72,o.y+dz,false);m.rotation.y=r});
-    const top=B(.18,.18,.18,ok?M.screenOk:M.screen,o.x,1.32,o.y,false);top.userData.spin=1}
+    const top=B(.18,.18,.18,ok?M.screenOk:M.screen,o.x,1.32,o.y,false);top.userData.spin=1;
+    if(o.boss){B(.5,.08,.5,M.mats.gold,o.x,1.2,o.y);[[-.18,-.18],[.18,-.18],[-.18,.18],[.18,.18]].forEach(([dx,dz])=>B(.08,.16,.08,M.mats.gold,o.x+dx,1.3,o.y+dz))}}
   else if(o.type==="chest"){const open=ADV.flags["chest_"+o.id];B(.72,.42,.56,M.plank,o.x,.21,o.y);const lid=B(.74,.14,.58,M.plank,o.x,open?.6:.49,o.y+(open?.22:0));if(open)lid.rotation.x=-1.1;B(.1,.14,.04,M.mats.gold,o.x,.38,o.y-.29)}
   else if(o.type==="house"){const wall=M.mats.plaster,roof=C(o.c),n0=objs.children.length;
     for(let y=o.y;y<o.y+o.h;y++)for(let x=o.x;x<o.x+o.w;x++){B(1,1,1,wall,x,.5,y);B(1,1,1,wall,x,1.5,y);B(1.08,.5,1.08,roof,x,2.25,y)}
@@ -2302,7 +2635,7 @@ const XP_LV=[0,50,120,220,350,500,650,800,1000,1200,1450,1750,2100];
 const PERKS=[[2,"guard"],[3,"walk1"],[4,"radar"],[5,"walk2"],[6,"gemxp"],[7,"warp"],[8,"bolt"],[9,"walk3"],[10,"gold"],[11,"sage"],[12,"magnet"],[13,"legend"]];
 const perk=k=>!!ADV&&advLv()>=PERKS.find(p=>p[1]===k)[0];
 const walkDelay=()=>perk("walk3")?85:perk("walk2")?110:perk("walk1")?135:160;
-const ITEM_BLOCKS={gloves:["place","combo"],pickaxe:["dig"],compass:["if","ifElse","until"],book:["func","call"],tape:["setVar","changeVar","forwardV"]};
+const ITEM_BLOCKS={gloves:["place","combo"],pickaxe:["dig"],compass:["if","ifElse","until"],book:["func","call"],tape:["setVar","changeVar","forwardV"],scroll:["ifVar","calc","callP"]};
 const AX=(zh,en)=>({zh,en});
 const tx=o=>o?(o[LANG]||o.zh):"";
 function mkGrid(w,h,ch){return Array.from({length:h},()=>Array(w).fill(ch))}
@@ -2320,7 +2653,7 @@ const AREG={
      {type:"npc",id:"chief",x:13,y:9,dir:2,c:"#B8387E",hat:"#E5B42A"},{type:"npc",id:"kid",x:8,y:8,dir:2,c:"#2F6FD6",hat:"#F29A3E"},
      {type:"npc",id:"farmer",x:10,y:15,dir:3,c:"#8A6A2E",hat:"#E8D27A"},
      {type:"term",id:"p1",x:21,y:9},{type:"exit",x:27,y:10,to:"forest",tx:1,ty:10,tdir:1},{type:"sign",x:21,y:11},
-     {type:"exit",x:0,y:10,to:"coast",tx:26,ty:10,tdir:3,flag:"done"}],unlocks:[{flag:"done",tiles:[[0,10,"p"]]}]},
+     {type:"exit",x:0,y:10,to:"coast",tx:26,ty:10,tdir:3,flag:"done"},{type:"term",id:"b1",x:10,y:12,boss:true,flag:"done3"}],unlocks:[{flag:"done",tiles:[[0,10,"p"]]}]},
  forest:{name:AX("迷霧森林","Misty Forest"),build(){const g=mkGrid(28,20,".");sprinkle(g,"T",41,.42,".");border(g,"T");
    F(g,24,9,26,9,"T");F(g,0,10,24,10,"p");g[10][25]="K";F(g,26,10,27,10,"p");F(g,14,0,14,10,"p");
    F(g,3,5,8,8,".");F(g,5,9,5,9,".");F(g,8,3,10,4,".");F(g,11,3,13,3,".");F(g,18,3,23,6,".");F(g,20,7,20,9,"p");g[1][15]=".";
@@ -2354,7 +2687,7 @@ const AREG={
    objs:[{type:"npc",id:"shipwright",x:20,y:4,dir:2,c:"#3F6E8C",hat:"#E8D27A"},{type:"npc",id:"captain",x:8,y:12,dir:2,c:"#2B3A5A",hat:"#F2F2F2"},
      {type:"npc",id:"tidegirl",x:22,y:12,dir:3,c:"#E8643C",hat:"#7FDDF5"},
      {type:"term",id:"c1",x:17,y:8},{type:"term",id:"c2",x:6,y:8},{type:"term",id:"c3",x:11,y:13},
-     {type:"chest",id:"pearl",x:12,y:18},{type:"sign",x:13,y:2,text:"sign_cave"},
+     {type:"chest",id:"pearl",x:12,y:18},{type:"term",id:"b2",x:24,y:8,boss:true,flag:"done3"},{type:"sign",x:13,y:2,text:"sign_cave"},
      {type:"exit",x:27,y:10,to:"village",tx:1,ty:10,tdir:1},{type:"exit",x:14,y:0,to:"mine",tx:14,ty:18,tdir:0,item:"pearl"}]},
  mine:{name:AX("深岩礦坑","Deepstone Mine"),ch:3,base:"m",build(){const g=mkGrid(28,20,"S");
    F(g,14,1,14,19,"m");F(g,3,3,10,8,"m");F(g,10,5,13,5,"m");F(g,18,3,25,8,"m");F(g,15,5,17,5,"m");
@@ -2364,14 +2697,14 @@ const AREG={
    gems:[[3,8],[25,3],[3,16],[25,16],[14,9]],
    objs:[{type:"npc",id:"minechief",x:5,y:4,dir:2,c:"#6B4A2C",hat:"#E5B42A"},{type:"npc",id:"geologist",x:22,y:4,dir:2,c:"#5A6672",hat:"#C8D6E0"},
      {type:"npc",id:"cartkid",x:6,y:14,dir:1,c:"#C2553D",hat:"#3B3F48"},
-     {type:"term",id:"m1",x:9,y:8},{type:"term",id:"m2",x:24,y:7},{type:"term",id:"m3",x:20,y:16},{type:"sign",x:15,y:2,text:"sign_temple"},
+     {type:"term",id:"m1",x:9,y:8},{type:"term",id:"m2",x:24,y:7},{type:"term",id:"m3",x:20,y:16},{type:"term",id:"b3",x:10,y:16,boss:true,flag:"done3"},{type:"sign",x:15,y:2,text:"sign_temple"},
      {type:"exit",x:14,y:19,to:"coast",tx:14,ty:1,tdir:2},{type:"exit",x:14,y:0,to:"temple",tx:14,ty:18,tdir:0,item:"core"}]},
  temple:{name:AX("星光神殿","Starlight Temple"),ch:4,base:"q",build(){const g=mkGrid(28,20,"q");border(g,"S");g[19][14]="q";
    [[5,4],[9,4],[18,4],[22,4],[5,15],[9,15],[18,15],[22,15]].forEach(([x,y])=>g[y][x]="S");
    F(g,3,8,6,10,"W");F(g,21,8,24,10,"W");F(g,11,11,16,12,"I");return g},
    gems:[[2,2],[25,2],[2,17],[25,17],[14,9]],
    objs:[{type:"npc",id:"warden",x:13,y:16,dir:2,c:"#4B3A8C",hat:"#F4D24B"},{type:"npc",id:"astronomer",x:4,y:12,dir:1,c:"#2E8F7A",hat:"#9D8CF2"},
-     {type:"term",id:"t1",x:8,y:7},{type:"term",id:"t2",x:20,y:7},{type:"term",id:"t3",x:14,y:5},{type:"altar",x:14,y:2},
+     {type:"term",id:"t1",x:8,y:7},{type:"term",id:"t2",x:20,y:7},{type:"term",id:"t3",x:14,y:5},{type:"term",id:"b4",x:24,y:13,boss:true,flag:"done3"},{type:"altar",x:14,y:2},
      {type:"exit",x:14,y:19,to:"mine",tx:14,ty:1,tdir:2},{type:"exit",x:27,y:10,to:"canyon",tx:1,ty:10,tdir:1,flag:"done2"}],unlocks:[{flag:"done2",tiles:[[27,10,"q"]]}]},
  canyon:{name:AX("回音峽谷","Echo Canyon"),ch:5,base:"s",build(){const g=mkGrid(28,20,"S");
    F(g,0,10,26,10,"s");F(g,3,3,9,7,"s");F(g,6,8,6,9,"s");F(g,17,3,24,7,"s");F(g,20,8,20,9,"s");
@@ -2380,7 +2713,7 @@ const AREG={
    gems:[[3,7],[24,3],[4,17],[24,13],[26,10]],
    objs:[{type:"npc",id:"echokeeper",x:5,y:4,dir:2,c:"#B5864F",hat:"#7A4E2A"},{type:"npc",id:"nomad",x:22,y:4,dir:2,c:"#C2553D",hat:"#E7E1D3"},
      {type:"npc",id:"sandy",x:9,y:15,dir:3,c:"#E5B42A",hat:"#2F6FD6"},
-     {type:"term",id:"e1",x:8,y:6},{type:"term",id:"e2",x:23,y:6},{type:"term",id:"e3",x:17,y:14},{type:"sign",x:15,y:2,text:"sign_sky"},
+     {type:"term",id:"e1",x:8,y:6},{type:"term",id:"e2",x:23,y:6},{type:"term",id:"e3",x:17,y:14},{type:"term",id:"b5",x:5,y:16,boss:true,flag:"done3"},{type:"sign",x:15,y:2,text:"sign_sky"},
      {type:"exit",x:0,y:10,to:"temple",tx:26,ty:10,tdir:3},{type:"exit",x:14,y:0,to:"sky",tx:14,ty:18,tdir:0,item:"echo"}]},
  sky:{name:AX("雲上天空城","Sky Citadel"),ch:6,base:"q",build(){const g=mkGrid(28,20,"W");
    F(g,3,2,24,17,"q");F(g,14,18,14,19,"q");
@@ -2388,7 +2721,7 @@ const AREG={
    [[4,9],[23,9],[9,16],[19,16]].forEach(([x,y])=>g[y][x]="T");return g},
    gems:[[4,3],[23,3],[4,16],[23,16],[14,12]],
    objs:[{type:"npc",id:"skylord",x:14,y:7,dir:2,c:"#3F6E8C",hat:"#F4D24B"},{type:"npc",id:"engineer",x:8,y:12,dir:1,c:"#6B4A2C",hat:"#9AA0A6"},
-     {type:"term",id:"s1",x:6,y:8},{type:"term",id:"s2",x:21,y:8},{type:"term",id:"s3",x:14,y:4},{type:"altar",x:14,y:2,lit:"sky"},
+     {type:"term",id:"s1",x:6,y:8},{type:"term",id:"s2",x:21,y:8},{type:"term",id:"s3",x:14,y:4},{type:"term",id:"b6",x:14,y:14,boss:true,flag:"done3"},{type:"altar",x:14,y:2,lit:"sky"},
      {type:"exit",x:14,y:19,to:"canyon",tx:14,ty:1,tdir:2}]}
 
 };
@@ -2523,6 +2856,52 @@ const PUZ={
  });
 }
 
+{const f=E("forward"),l=E("left"),r=E("right"),dg=E("dig"),Rp=(n,b)=>E("repeat",{n},b),U=(c,b)=>E("until",{cond:c},b);
+ const IFE=(c,a,b)=>Object.assign(E("ifElse",{cond:c},a),{elseBody:b}),IFV=(v,o,n,a,b)=>Object.assign(E("ifVar",{v,op:o,n},a),{elseBody:b||[]});
+ const SC=n=>E("setVar",{v:"count",n}),CC=n=>E("changeVar",{v:"count",n}),FV=E("forwardV",{v:"steps"}),CP=n=>E("callP",{name:"A",arg:n});
+ const RH=()=>U("done",[IFE("rblocked",[IFE("blocked",[l],[f])],[r,f])]);
+ const q=m=>m.replace(/\./g,"q").split(",");
+ const RHN=[[1,"ifElse","右邊有路就右轉並前進（否則的部分）。","If the right is open, turn right and move (the else part)."],[2,"ifElse","右邊是牆時，前面也是牆就左轉，否則前進。","If the right is a wall: left if ahead is a wall too, otherwise move."]];
+ const TEACH=AX("頭目石碑會用到「程式訓練 → 進階挑戰」學過的積木：側邊感測器、比較、運算和參數。卡住的話，先回去練習那一章！","Boss stones use the blocks from Training → Advanced: side sensors, comparisons, math and parameters. If you're stuck, practise that chapter first!");
+ Object.assign(PUZ,{
+ b1:{boss:true,name:AX("👑 森林迷宮王","👑 Forest Maze King"),req:["goggles","compass"],region:"village",dir:1,maxBlocks:8,must:["sense"],
+   map:"TTTTTTTTTTT,TR....T...T,TTTTT.TTT.T,T...T.....T,T.T.TTTTT.T,T.T.T.....T,T.T.T.TTTTT,T.T.T...T.T,T.TTTTT.T.T,T........GT,TTTTTTTTTTT".split(","),
+   goal:AX("用右手法則走出 11×11 的大迷宮，最多 8 塊積木","Escape the 11×11 maze with the right-hand rule in at most 8 blocks"),
+   explain:AX("迷宮很大、死路很多。只要規則正確，路再長也不怕。","The maze is big with many dead ends. With the right rule, length doesn't matter."),
+   teach:{title:AX("頭目石碑","Boss stones"),text:TEACH},sols:[{spec:[RH()],notes:RHN}]},
+ b2:{boss:true,name:AX("👑 潮汐大王","👑 Tide Lord"),req:["scroll","compass","tape","shell"],region:"coast",dir:1,maxBlocks:10,must:["ifVar"],
+   maps:["SSSSSSSSS,SSSSSSSsS,SSSSSSSsS,SRssssssS,SSSSSSSsS,SSSSSSSGS,SSSSSSSSS","SSSSSSSSS,SSSSGSSSS,SSSSsSSSS,SRsssSSSS,SSSSsSSSS,SSSSsSSSS,SSSSSSSSS"].map(m=>m.split(",")),
+   goal:AX("走廊長的時候寶石在右邊，短的時候在左邊。同一個程式通過兩張地圖","When the corridor is long the gem is to the right; when it's short, to the left. One program must pass both maps"),
+   explain:AX("先數走廊有幾格，再用「如果 次數 > 4」決定往哪邊轉。","Count the corridor first, then use “if count > 4” to decide which way to turn."),
+   teach:{title:AX("頭目石碑","Boss stones"),text:TEACH},
+   sols:[{spec:[SC(0),U("blocked",[f,CC(1)]),IFV("count",">",4,[r],[l]),U("done",[f])],notes:[[1,"until","一路走到底，邊走邊數。","Walk to the end, counting."],[4,"ifVar","超過 4 格就右轉，不然就左轉。","More than 4 tiles: turn right; otherwise turn left."],[7,"until","轉彎後一路走到寶石。","After turning, walk on to the gem."]]}]},
+ b3:{boss:true,name:AX("👑 礦坑巨人","👑 Mine Giant"),req:["scroll","book","pickaxe"],region:"mine",dir:1,maxBlocks:8,must:["callP"],
+   map:["SSSSSSSSS","SSSSSRSSS","SSSSSSSSS","SSSSSSSSS","SSSGSSSGS","SSSSSSSSS"],
+   goal:AX("挖出 2、3、4 格長的隧道，每挖完一段就右轉，最多 8 塊積木","Dig tunnels 2, 3 and 4 long, turning right after each, in at most 8 blocks"),
+   explain:AX("三段隧道只差在長度，把長度當成參數交給函式。","The three tunnels differ only in length, so pass the length to a function as a parameter."),
+   teach:{title:AX("頭目石碑","Boss stones"),text:TEACH},
+   sols:[{spec:[E("func",{name:"A"},[Rp("n",[dg,f]),r]),CP(2),CP(3),CP(4)],notes:[[0,"func","函式 A：挖 n 格隧道，再右轉。","Function A: dig an n-long tunnel, then turn right."],[5,"callP","依序交給 A：2、3、4。","Pass 2, 3 and 4 to A in turn."]]}]},
+ b4:{boss:true,name:AX("👑 除錯魔王","👑 Bug Overlord"),req:["goggles","compass"],region:"temple",dir:1,
+   map:q("SSSSSSSSS,SRS.....S,S.SSS.S.S,S...S.S.S,SSS.S.S.S,S...S.S.S,S.SSS.S.S,S.....SGS,SSSSSSSSS"),
+   starter:[U("done",[IFE("rblocked",[IFE("tree",[l],[f])],[r])])],
+   goal:AX("這段右手法則程式有 2 個錯誤。修好它，走出迷宮","This right-hand rule program has 2 bugs. Fix it and escape the maze"),
+   explain:AX("先執行，看比維在哪裡出錯。注意牆是石頭，還有轉彎之後要做什麼。","Run it first and watch where Bitwick goes wrong. The walls are stone, and think about what should happen after a turn."),
+   teach:{title:AX("頭目石碑","Boss stones"),text:TEACH},
+   sols:[{spec:[RH()],notes:[[2,"ifElse","錯誤 1：條件原本是「樹木」，但牆是石頭，要改成「前方有障礙物」。","Bug 1: the condition was “tree”, but the walls are stone; use “obstacle ahead”."],[6,"forward","錯誤 2：右轉之後少了「前進」，比維會在原地打轉。","Bug 2: “move” was missing after turning right, so Bitwick spun in place."]]}]},
+ b5:{boss:true,name:AX("👑 回音巨龍","👑 Echo Dragon"),req:["scroll","tape","shell","compass"],region:"canyon",dir:1,maxBlocks:11,must:["calc"],
+   maps:["SSSSSSSSSS,SSGSSSSSSS,SssssRsssS,SSSSSSSSSS","SSSSSSSSSS,SSSSGSSSSS,SsssssRssS,SSSSSSSSSS"].map(m=>m.split(",")),
+   goal:AX("往東走到底，再往回走「兩倍遠」，然後往北拿寶石。兩張地圖都要過","Walk east to the end, come back twice as far, then go north for the gem. Pass both maps"),
+   explain:AX("回程的距離＝去程的 2 倍。用「設定 步數 為 次數 × 2」算出來。","The way back is twice the way out. Work it out with “set steps to count × 2”."),
+   teach:{title:AX("頭目石碑","Boss stones"),text:TEACH},
+   sols:[{spec:[SC(0),U("blocked",[f,CC(1)]),r,r,E("calc",{v:"steps",v2:"count",op:"*",n:2}),FV,r,f],notes:[[1,"until","數一數往東走了幾格。","Count how far east you walk."],[6,"calc","回程要走 2 倍：步數＝次數 × 2。","The way back is double: steps = count × 2."],[8,"right","面向西時右轉就是朝北。","Facing west, a right turn faces north."]]}]},
+ b6:{boss:true,name:AX("👑 天空之王","👑 Sky Sovereign"),req:["goggles","compass"],region:"sky",dir:1,maxBlocks:8,must:["sense"],
+   maps:[q("SSSSSSSSS,SRS.....S,S.S.SSS.S,S.S...S.S,S.S.S.S.S,S.S.S.S.S,S.SSS.S.S,S.....SGS,SSSSSSSSS"),q("SSSSSSSSSSS,SRS.....S.S,S.SSS.S.S.S,S...S.S...S,SSS.S.SSS.S,S.S.S...S.S,S.S.SSS.S.S,S.......SGS,SSSSSSSSSSS")],
+   goal:AX("最終頭目：同一個程式走出兩座不同的迷宮，最多 8 塊積木","Final boss: one program must escape two different mazes in at most 8 blocks"),
+   explain:AX("你已經知道答案的規則了。這次要證明它是通用的。","You already know the rule. This time, prove it works everywhere."),
+   teach:{title:AX("頭目石碑","Boss stones"),text:TEACH},sols:[{spec:[RH()],notes:RHN}]}
+ });
+}
+const BOSSES=["b1","b2","b3","b4","b5","b6"];
 let pzMap=0,pzCont=false;
 /* ---------- reference solutions with footnotes ---------- */
 {const f=E("forward"),l=E("left"),r=E("right"),pl=E("place"),dg=E("dig"),R=(n,b)=>E("repeat",{n},b),IF=(c,b)=>E("if",{cond:c},b);
@@ -2536,7 +2915,26 @@ let pzMap=0,pzCont=false;
  S0[23][0].body[0].elseBody=[f];
  Object.entries(S0).forEach(([i,s])=>{LEVELS[i].solution=s});
 }
+{const f=E("forward"),l=E("left"),r=E("right"),pl=E("place"),dg=E("dig"),Rp=(n,b)=>E("repeat",{n},b),U=(c,b)=>E("until",{cond:c},b);
+ const IFE=(c,a,b)=>Object.assign(E("ifElse",{cond:c},a),{elseBody:b}),IFV=(v,o,n,a,b)=>Object.assign(E("ifVar",{v,op:o,n},a),{elseBody:b||[]});
+ const CP=n=>E("callP",{name:"A",arg:n}),IF=(c,b)=>E("if",{cond:c},b);
+ const ADV0=LEVELS.findIndex(L=>L.key==="rside");
+ [[U("done",[IFE("rblocked",[f],[r,f])])],
+  [U("done",[IFE("rblocked",[IFE("blocked",[l],[f])],[r,f])])],
+  [E("setVar",{v:"count",n:0}),U("done",[E("changeVar",{v:"count",n:1}),IFV("count",">",3,[pl]),f])],
+  [E("setVar",{v:"steps",n:1}),Rp(3,[E("forwardV",{v:"steps"}),r,E("calc",{v:"steps",v2:"steps",op:"*",n:2})])],
+  [E("func",{name:"A"},[Rp("n",[pl,f]),f]),CP(1),CP(2),CP(3)],
+  [E("func",{name:"A"},[Rp("n",[f]),r,Rp("n",[f]),l]),CP(1),CP(2),CP(3)],
+  [Rp(9,[IF("tree",[dg]),IF("water",[pl]),f])]].forEach((sp,i)=>{LEVELS[ADV0+i].solution=sp});
+}
 const SOLNOTE={
+ 32:[[1,"ifElse","每走一步都先看右邊：右邊是牆就繼續往前。","Check the right before every step: if it's a wall, keep going."],[3,"right","右邊打開了，就轉過去再走一步，這樣就不會走進前面的死路。","When the right opens, turn and step into it, so you never walk into the dead end ahead."]],
+ 33:[[1,"ifElse","先看右邊：右邊有路就右轉（否則的部分）。","Check the right first: if it's open, turn right (the else part)."],[2,"ifElse","右邊是牆時，再看前面：前面也是牆就左轉，否則前進。","If the right is a wall, check ahead: if that's a wall too, turn left, otherwise move."],[5,"right","右轉之後一定要前進一步，不然會在原地一直轉圈。","After turning right, always step forward, or you'd spin in place."]],
+ 34:[[0,"setVar","計數器歸零。","Reset the counter."],[2,"changeVar","每走一步之前先加 1。","Add 1 before each step."],[3,"ifVar","數到 3 以後，前面就是河，先搭橋再走。","After 3, the river begins: bridge before stepping."]],
+ 35:[[0,"setVar","第一段走 1 格。","The first leg is 1 tile."],[4,"calc","每轉一次彎，步數就變成原來的 2 倍：1 → 2 → 4。","After each turn, steps doubles: 1 → 2 → 4."]],
+ 36:[[0,"func","函式 A 搭 n 格寬的橋，再走上對岸。","Function A bridges n tiles, then steps onto the far bank."],[1,"repeat","重複 n 次：n 是呼叫時交進來的數字。","Repeat n times: n is the number passed in when called."],[5,"callP","第一道缺口寬 1，所以 n = 1。","The first gap is 1 wide, so n = 1."]],
+ 37:[[0,"func","函式 A 走一階：前進 n、右轉、前進 n、左轉。","Function A walks one stair: forward n, right, forward n, left."],[7,"callP","三次呼叫只差在 n：1、2、3。","The three calls differ only in n: 1, 2, 3."]],
+ 38:[[0,"repeat","打字時，for i in range(9): 就是「重複 9 次」。","When typing, for i in range(9): means “repeat 9 times”."],[1,"if","縮排 4 格的指令在迴圈裡面；再縮 4 格的在 if 裡面。","Lines indented 4 spaces are inside the loop; 8 spaces, inside the if."]],
  0:[[0,"forward","每塊「前進」走 1 格。寶石在正前方 3 格，所以放 3 塊。","Each “move forward” goes 1 tile. The gem is 3 tiles ahead, so use 3 blocks."]],
  1:[[2,"right","走到轉角後向右轉，改成面向南（畫面下方）。轉向只改變方向，不會移動。","At the corner, turn right to face south. Turning changes direction only; Bitwick doesn't move."],
     [5,"left","再向左轉，又變回面向東，走最後兩格。","Turn left to face east again, then walk the last two tiles."]],
@@ -2677,16 +3075,17 @@ function solHTML(spec,notes){
 }
 function solBlock(){const s=solFor();return s?`<button class="btn" data-showsol="1">${t("sol_title")}</button>`:""}
 let modalBack=null;
-function openModal(title,html){modalBack=document.activeElement;$("modalTitle").innerHTML=title;$("modalBody").innerHTML=html;$("modal").hidden=false;$("modal").querySelector(".modal-x").focus()}
+function openModal(title,html){modalBack=document.activeElement;$("modalTitle").innerHTML=title;$("modalBody").innerHTML=html;$("modalBody").scrollTop=0;$("modal").hidden=false;$("modal").querySelector(".modal-x").focus()}
 function closeModal(){if($("modal").hidden)return;$("modal").hidden=true;$("modalBody").innerHTML="";if(modalBack&&modalBack.focus)try{modalBack.focus()}catch(e){}}
 function needWarn(){const L=LEVELS[S.lv];
   if(L.adv)return ADV.mode==="puzzle"&&!ADV.solved[ADV.pz]&&!ADV.hinted[ADV.pz];
+  if(L.daily)return !META.daily.done[dayKey()]&&!META.daily.hinted[dayKey()];
   return !medalLv(S.lv)&&!hintedLv(S.lv)}
-function markHinted(){const L=LEVELS[S.lv];if(L.adv){ADV.hinted[ADV.pz]=1;advSave()}else{progress["h"+S.lv]=1;save();renderLevels()}}
+function markHinted(){const L=LEVELS[S.lv];if(L.daily){META.daily.hinted[dayKey()]=1;metaSave();return}if(L.adv){ADV.hinted[ADV.pz]=1;advSave()}else{progress["h"+S.lv]=1;save();renderLevels()}}
 function askHelp(kind){if(!needWarn())return kind==="sol"?showSol():showHint();
   openModal(t("rw_askTitle"),`<p>${t(LEVELS[S.lv].adv?"rw_askAdv":"rw_ask")}</p><div class="ed-row"><button class="btn primary" data-modalclose="1">${t("rw_think")}</button><button class="btn" data-helpok="${kind}">${t("rw_peek")}</button></div>`)}
 function showSol(){const s=solFor();if(s)openModal(t("sol_title"),solHTML(s.spec,s.notes))}
-function showHint(){const L=LT(S.lv);openModal("💡 "+t("hint"),`<p>${L.hint}</p><p style="color:var(--muted)">${t("codeTip")}${L.code}</p>`)}
+function showHint(){const L=LT(S.lv);openModal("💡 "+t("hint"),`${/\n/.test(L.hint)?`<pre class="hint-code">${L.hint}</pre>`:`<p>${L.hint}</p>`}<p style="color:var(--muted)">${t("codeTip")}${L.code}</p>`)}
 function showTeach(id){const te=PUZ[id]&&PUZ[id].teach;if(te)openModal(`📘 ${tr("adv_newIdea")}${tx(te.title)}`,teachBody(te))}
 let ADV=null;
 function advNew(){return{v:2,hinted:{},region:"village",x:10,y:10,dir:1,xp:0,items:[],flags:{},solved:{},taken:{},crystals:[],mode:"explore",pz:null,progs:{},talk:null,visited:{village:1}}}
@@ -2701,12 +3100,12 @@ function advXP(n){const before=advLv();ADV.xp+=n;if(W&&W.adv)hud();const now=adv
   if(now>before){status(tr("adv_lvup",now),"good");confetti();sfx("lvup");
     const got=PERKS.filter(([l])=>l>before&&l<=now);
     if(got.length)setTimeout(()=>openModal(`⭐ ${tr("adv_lvup",now)}`,`<p>${tr("pk_new")}</p><ul class="perk-list">${got.map(([l,k])=>`<li><b>Lv ${l}</b><span><strong>${tr("pk_"+k)}</strong><br>${tr("pkd_"+k)}</span></li>`).join("")}</ul>`),350);
-    if(W&&W.adv)W.dirty=true}}
+    if(W&&W.adv)W.dirty=true;achCheck()}}
 function showPerks(){const lv=advLv();openModal(`⭐ ${tr("pk_title")}`,`<p>${tr("pk_intro",lv)}</p><ul class="perk-list">${PERKS.map(([l,k])=>`<li class="${lv>=l?"":"off"}"><b>${lv>=l?"✓":"🔒"} Lv ${l}</b><span><strong>${tr("pk_"+k)}</strong><br>${tr("pkd_"+k)}</span></li>`).join("")}</ul>`)}
 function advSpawn(rk){if(rk==="village")return{to:"village",tx:10,ty:10,tdir:1};for(const r of Object.values(AREG)){const e=r.objs.find(o=>o.type==="exit"&&o.to===rk);if(e)return e}return null}
 function showWarp(){openModal(`🗺 ${tr("adv_warp")}`,`<p>${tr("adv_warpTip")}</p><div class="warp-list">${Object.keys(AREG).filter(k=>ADV.visited[k]).map(k=>`<button class="btn${k===ADV.region?" primary":""}" data-warp="${k}">${tx(AREG[k].name)}</button>`).join("")}</div>`)}
 function advWarp(rk){const e=advSpawn(rk);if(!e||!perk("warp"))return;advTravel({to:rk,tx:e.tx,ty:e.ty,tdir:e.tdir});fx("click",e.tx,e.ty)}
-function pickGem(x,y){const k=x+","+y;if(!W.gems.has(k))return;W.gems.delete(k);(ADV.taken[ADV.region]=ADV.taken[ADV.region]||[]).push(k);burst(x,y);W.dirty=true;const g=perk("gemxp")?8:5;advXP(g);status(tr("adv_gem",g),"good");renderAdv()}
+function pickGem(x,y){const k=x+","+y;if(!W.gems.has(k))return;W.gems.delete(k);(ADV.taken[ADV.region]=ADV.taken[ADV.region]||[]).push(k);burst(x,y);W.dirty=true;const g=perk("gemxp")?8:5;advXP(g);status(tr("adv_gem",g),"good");META.stats.advGems++;earn(1);renderAdv()}
 function advObjs(){
   const R_=AREG[ADV.region];return R_.objs.map(o=>{
     if(o.id==="guard"&&advLv()>=2)return{...o,x:15,y:1,dir:3};
@@ -2725,7 +3124,7 @@ function makeAdvWorld(){
   const grid=advGrid(),gems=new Set();const taken=ADV.taken[ADV.region]||[];
   AREG[ADV.region].gems.forEach(([x,y])=>{const k=x+","+y;if(!taken.includes(k)){gems.add(k);if(grid[y][x]==="T"||grid[y][x]==="S")grid[y][x]=advGnd()}});
   const objs=advObjs();objs.forEach(o=>{if(o.type!=="exit"&&o.type!=="house"&&o.type!=="sign"&&grid[o.y]&&!advWalk(grid[o.y][o.x]))grid[o.y][o.x]=advGnd()});
-  return{adv:true,grid,orig:grid.map(r=>r.slice()),inv:null,gems,total:gems.size,got:0,steps:0,wood:0,vars:{steps:0,count:0},build:false,vox:new Map(),maxH:0,objs,
+  return{adv:true,grid,orig:grid.map(r=>r.slice()),inv:null,gems,total:gems.size,got:0,steps:0,wood:0,vars:{steps:0,count:0,n:0},build:false,vox:new Map(),maxH:0,objs,
     r:{x:ADV.x,y:ADV.y,dir:ADV.dir,h:0},disp:{x:ADV.x,y:ADV.y,a:ADV.dir*90,h:0},ta:ADV.dir*90,fail:false,shake:0,sparks:[]};
 }
 const advExplore=()=>LEVELS[S.lv]&&LEVELS[S.lv].adv&&ADV.mode==="explore";
@@ -2742,7 +3141,7 @@ function advMove(d){
   if(o&&o.type!=="exit"){advSave();return}
   if(c==="K"){if(has("key")){ADV.flags.gate=1;advXP(10);W.grid[ny][nx]="p";W.dirty=true;fx("click",nx,ny);status(tr("adv_gateOpen"),"good");advSave();renderAdv()}else status(tr("adv_needKey"),"bad");return}
   if(!advWalk(c)){const lk=(AREG[ADV.region].locks||[]).find(k=>k.x===nx&&k.y===ny);if(lk&&!has(lk.item))status(tr(lk.msg),"bad");W.shake=.4;return}
-  W.r.x=nx;W.r.y=ny;ADV.x=nx;ADV.y=ny;fx("dust",nx,ny);
+  W.r.x=nx;W.r.y=ny;ADV.x=nx;ADV.y=ny;fx("dust",nx,ny);trailFx(nx,ny);
   pickGem(nx,ny);
   if(perk("magnet"))for(let q=0;q<4;q++)pickGem(nx+DX[q],ny+DY[q]);
   const ex=W.objs.find(e=>e.type==="exit"&&e.x===nx&&e.y===ny);
@@ -2807,7 +3206,7 @@ function npcTalk(id){
   if(id==="echokeeper"){if(!has("shell")){ADV.items.push("shell");advXP(10);return tr("t_ek0")}return tr("t_ek1")}
   if(id==="nomad")return tr(ADV.solved.e2?"t_nomad1":"t_nomad0");
   if(id==="sandy")return tr("t_sandy");
-  if(id==="skylord"){f.lord=1;if(has("sky")&&!f.done3){f.done3=1;advXP(150);setTimeout(()=>{loadWorld();confetti();advFinale3()},200);return tr("t_lordEnd")}if(f.done3)return tr("t_lordAfter");return tr("t_lord0")}
+  if(id==="skylord"){f.lord=1;if(has("sky")&&!f.done3){f.done3=1;["goggles","scroll"].forEach(k=>{if(!has(k))ADV.items.push(k)});advXP(150);setTimeout(()=>{loadWorld();confetti();advFinale3()},200);return tr("t_lordEnd")}if(f.done3)return tr("t_lordAfter");return tr("t_lord0")}
   if(id==="engineer")return tr(ADV.solved.s1?"t_eng1":"t_eng0");
   if(id==="astronomer")return tr(ADV.solved.t1?"t_astro1":"t_astro0");
   if(id==="woodcutter")return tr(has("key")?"t_wood1":"t_wood0");
@@ -2842,7 +3241,7 @@ function advPuzzleWin(){
   ADV.progs[id]=toSpec(prog());
   let gain=0,msg=[];
   const help=!!ADV.hinted[id];
-  if(first){ADV.solved[id]=1;if(!help){const bonus=perk("sage")?40:20;gain+=30+bonus;msg.push(`🏅 ${tr("adv_selfBonus",bonus)}`)}else msg.push(tr("adv_helpNoXP"));
+  if(first){ADV.solved[id]=1;if(!help){const bonus=perk("sage")?40:20;gain+=30+bonus+(p.boss?70:0);msg.push(`🏅 ${tr("adv_selfBonus",bonus)}`);setTimeout(()=>earn(p.boss?15:2),600)}else msg.push(tr("adv_helpNoXP"));
     if(p.crystal){ADV.crystals.push(p.crystal);if(!help)gain+=50;msg.push(tr("adv_gotCrystal",tr("cr_"+p.crystal)))}if(p.effect)msg.push(tr("adv_effect_"+id));if(p.token&&!has(p.token)){ADV.items.push(p.token);if(!help)gain+=50;msg.push(tr("adv_gotToken",tr("it_"+p.token)))}}
   if(gain)advXP(gain);advSave();confetti();
   $("result").innerHTML=`<div class="result-card" role="dialog" aria-label="${t("passAria")}"><h3>${tr("adv_solved")}</h3>
@@ -2906,6 +3305,7 @@ function advQuests(){
   if(sv("s1","s2")===2&&!has("sky"))q.push([tr("q_s3"),0]);
   if(has("sky")&&!f.done3)q.push([tr("q_lord"),0]);
   if(f.done3)q.push([tr("q_all6"),1]);
+  if(f.done3){const n=BOSSES.filter(i=>ADV.solved[i]).length;q.push([tr("q_boss",n),n>=6])}
   return q;
 }
 function renderAdv(){
@@ -2962,11 +3362,11 @@ $("langBtn").onclick=()=>{LANG=LANG==="en"?"zh":"en";try{localStorage.setItem("b
 let startLv=0;try{const v=+localStorage.getItem(KEY+"-lv");if(v>=0&&v<LEVELS.length)startLv=v}catch(e){}
 goLevel(startLv);
 buildScene();
-window.blockMiner={SOLNOTE,closeModal,countSpec,audio:{AUD,compose,tone,hit,THEMES},get adv(){return ADV},advMove,advInteract,openPuzzle,PUZ,AREG,advExitPuzzle,makeAdvWorld,get W(){return W},hostOf,levels:LEVELS,state:S,mk,goLevel,renderProgram,run,examples:EXAMPLES,fromSpec,exportCode,importCode,get cust(){return CUST}};
+window.blockMiner={instantBuild,genDaily,simRun:spec=>{const keep=W;W=makeWorld(LEVELS[S.lv]);W.sim=true;let ok=false;try{const g=exec(fromSpec(spec));while(!g.next().done);ok=won()}catch(e){}W=keep;return ok},get META(){return META},SOLNOTE,closeModal,parsePy,pyText,toSpec,get ADV_LV(){return ADV_LV},countSpec,audio:{AUD,compose,tone,hit,THEMES},get adv(){return ADV},advMove,advInteract,openPuzzle,PUZ,AREG,advExitPuzzle,makeAdvWorld,get W(){return W},hostOf,levels:LEVELS,state:S,mk,goLevel,renderProgram,run,examples:EXAMPLES,fromSpec,exportCode,importCode,get cust(){return CUST}};
 status(t("example"));
 if(startLv!==0)status("");
 addEventListener("resize",()=>{if(W)sizeCanvas()});
-$("musicBtn").onclick=()=>setMusic(!AUD.music);$("sfxBtn").onclick=()=>setSound(!AUD.sound);
+$("musicBtn").onclick=()=>setMusic(!AUD.music);$("achBtn").onclick=()=>{achCheck();showAch()};$("shopBtn").onclick=showShop;gemUI();$("sfxBtn").onclick=()=>setSound(!AUD.sound);
 document.addEventListener("pointerdown",function first(){document.removeEventListener("pointerdown",first,true);if(AUD.music)setMusic(true);if(AUD.sound&&audInit())AUD.ctx.resume()},true);
 audUI();
 $("rotL").onclick=()=>rotateView(1);$("rotR").onclick=()=>rotateView(-1);
